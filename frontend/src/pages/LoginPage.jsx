@@ -53,7 +53,6 @@ export default function LoginPage() {
             <input
               type="text"
               name="username"
-              defaultValue="Vazgen1"
               placeholder="Օգտանուն"
               required
               className="w-full pl-10 pr-3 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-gray-400 transition"
@@ -65,7 +64,6 @@ export default function LoginPage() {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              defaultValue="Davtyan1"
               placeholder="Գաղտնաբառ"
               required
               className="w-full pl-10 pr-10 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-gray-400 transition"
