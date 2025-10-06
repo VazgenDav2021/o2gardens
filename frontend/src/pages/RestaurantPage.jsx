@@ -1,17 +1,14 @@
 import { useState } from "react";
-import axios from "axios";
 import TableGrid from "../components/TableGrid";
+import axiosInstance from "../api/axiosInstance"; // <- сюда
 
 export default function RestaurantPage() {
   const [alert, setAlert] = useState(null);
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "http://localhost:5000/api/auth/logout",
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/auth/logout");
+
       setAlert({
         type: "success",
         message: "Դու հաջողությամբ դուրս եկար համակարգից",
