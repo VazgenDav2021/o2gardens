@@ -22,8 +22,11 @@ export default function LoginPage() {
     try {
       setLoading(true);
 
-      await axiosInstance.post("/auth/login", { username, password });
-
+      await axiosInstance.post(
+        "/auth/login",
+        { username, password },
+        { withCredentials: true }
+      );
       toast.success("Մուտքը հաջողությամբ կատարվեց!");
       navigate("/");
     } catch (err) {
