@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { date } from "zod";
 
 export type EventType = {
   id: string;
@@ -27,7 +27,6 @@ export interface TableType {
   status: "available" | "reserved";
 }
 
-
 export const reservationSchema = z.object({
   name: z.string().min(1),
   phone: z.string().min(1),
@@ -36,7 +35,8 @@ export const reservationSchema = z.object({
   children4to10: z.number().min(0),
   childrenUnder4: z.number().min(0),
   menu: z.array(z.string()).optional(),
+  date: z.string().min(1),
+  time: z.string().min(1),
 });
-
 
 export type ReservationData = z.infer<typeof reservationSchema>;

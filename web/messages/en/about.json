@@ -1,0 +1,24 @@
+{
+    "about": {
+        "TITLE": "About Us",
+        "DESCRIPTION": "O₂ Cafe & Restaurant – a premium venue for unforgettable events",
+        "history": {
+            "TITLE": "Our History",
+            "TEXT": "O₂ Cafe & Restaurant is a modern complex for hosting events of any scale. We have created a space where every detail is designed for your comfort and enjoyment. Our halls are equipped with modern facilities, and our professional team is always ready to help organize the perfect event."
+        },
+        "advantages": {
+            "TITLE": "Our Advantages",
+            "LIST": [
+                "Three spacious halls with different capacities",
+                "Modern sound and lighting equipment",
+                "Exquisite cuisine and professional service",
+                "Convenient online booking system",
+                "Regular cultural events and concerts"
+            ]
+        },
+        "mission": {
+            "TITLE": "Our Mission",
+            "TEXT": "We strive to create unforgettable experiences for our guests by providing high-quality service and a comfortable atmosphere. Every event at O₂ Cafe & Restaurant is a unique experience, created with love and attention to detail."
+        }
+    }
+}

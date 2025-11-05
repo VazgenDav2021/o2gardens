@@ -6,12 +6,14 @@ import { Button } from "@/ui/button";
 import { MapPin, Users, Music } from "lucide-react";
 import Link from "next/link";
 import { EventType } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface EventCardProps {
   event: EventType;
 }
 
 export const EventCard = ({ event }: EventCardProps) => {
+  const t = useTranslations("events");
   return (
     <Card className="overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
       <div className="grid md:grid-cols-2">
@@ -21,9 +23,6 @@ export const EventCard = ({ event }: EventCardProps) => {
             alt={event.title}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />
-          {event.status === "available" && (
-            <Badge className="absolute top-4 left-4 bg-primary">Доступно</Badge>
-          )}
         </div>
 
         <CardContent className="p-6 space-y-4">
@@ -46,7 +45,7 @@ export const EventCard = ({ event }: EventCardProps) => {
 
           <div className="pt-4 border-t border-border">
             <p className="text-sm text-muted-foreground mb-2">
-              Депозит на человека:
+              {t("DEPOSIT")}:
             </p>
             <p className="text-2xl font-bold text-primary">
               {event.deposit.toLocaleString()} AMD
@@ -55,8 +54,8 @@ export const EventCard = ({ event }: EventCardProps) => {
 
           <Button asChild className="w-full">
             <Link
-              href={`/hall-map/${event.hallId}/${event.id}?eventDeposit=${event.deposit}&eventDate=${event.dateISO}`}>
-              Забронировать
+              href={`/hall-map/${event.hallId}/${event.id}?eventDeposit=${event.deposit}&eventDate=${event.dateISO}&eventTimeStart=${event.timeStart}`}>
+              {t("BOOK")}
             </Link>
           </Button>
         </CardContent>

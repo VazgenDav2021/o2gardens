@@ -1,0 +1,43 @@
+{
+  "contact": {
+    "HEADER": "Свяжитесь с нами",
+    "DESCRIPTION": "Готовы ответить на все ваши вопросы и помочь организовать незабываемое мероприятие",
+    "FORM": {
+      "TITLE": "Напишите нам",
+      "DESCRIPTION": "Заполните форму и мы свяжемся с вами в ближайшее время",
+      "FIELDS": {
+        "NAME": "Имя *",
+        "EMAIL": "Email *",
+        "PHONE": "Телефон *",
+        "MESSAGE": "Сообщение *",
+        "NAME_PLACEHOLDER": "Ваше имя",
+        "EMAIL_PLACEHOLDER": "your@email.com",
+        "PHONE_PLACEHOLDER": "+374 XX XXX XXX",
+        "MESSAGE_PLACEHOLDER": "Расскажите о вашем мероприятии..."
+      },
+      "BUTTON_SEND": "Отправить сообщение"
+    },
+    "LOCATION": {
+      "TITLE": "Наше расположение",
+      "DESCRIPTION": "Найдите нас на карте Еревана"
+    },
+    "CONTACT_ITEMS": {
+      "ADDRESS": {
+        "TITLE": "Адрес",
+        "INFO": "Ереван, Армения\nул. Абовяна 10"
+      },
+      "PHONE": {
+        "TITLE": "Телефон",
+        "INFO": "+374 XX XXX XXX\n+374 YY YYY YYY"
+      },
+      "EMAIL": {
+        "TITLE": "Email",
+        "INFO": "info@o2gardens.am\nbooking@o2gardens.am"
+      },
+      "WORK_HOURS": {
+        "TITLE": "Режим работы",
+        "INFO": "Пн-Вс: 10:00 - 02:00\nБронирование: 24/7"
+      }
+    }
+  }
+}

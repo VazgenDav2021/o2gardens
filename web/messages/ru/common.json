@@ -1,0 +1,153 @@
+{
+  "common": {
+    "header": {
+      "NAV": {
+        "HOME": "Главная",
+        "HALLS": "Залы",
+        "EVENTS": "Мероприятия",
+        "ABOUT": "О нас",
+        "CONTACT": "Контакты",
+        "O2GARDENS": "O₂ Gardens"
+      },
+      "LOGO": "O₂ Cafe & Restaurant"
+    },
+    "footer": {
+      "ABOUT_TITLE": "O₂ Gardens Cafe",
+      "ABOUT_DESCRIPTION": "Премиальное место для незабываемых мероприятий и торжеств в сердце Армении.",
+      "VISIT_BUTTON": "Посетить O₂ Gardens",
+      "QUICK_LINKS_TITLE": "Быстрые ссылки",
+      "CONTACT_TITLE": "Контакты",
+      "ADDRESS": "Армения, Ереван",
+      "PHONE": "+374 XX XXX XXX",
+      "EMAIL": "info@o2gardens.am",
+      "SOCIAL_TITLE": "Мы в соцсетях",
+      "COPYRIGHT": "Все права защищены."
+    },
+    "halls": {
+      "TITLE": "Наши залы",
+      "DESCRIPTION": "Окунитесь в атмосферу роскоши и элегантности",
+      "BUTTON": "Выбрать зал",
+      "CAPACITY": "До {capacity} человек",
+      "LIST": [
+        {
+          "NAME": "Зелёный зал",
+          "DESCRIPTION": "Элегантный зал для частных мероприятий",
+          "IMAGE": "/hall-1.jpg",
+          "CAPACITY": "50",
+          "ID": "green-hall"
+        },
+        {
+          "NAME": "Белый зал",
+          "DESCRIPTION": "Просторный зал для больших торжеств",
+          "IMAGE": "/hall-2.jpg",
+          "CAPACITY": "100",
+          "ID": "white-hall"
+        },
+        {
+          "NAME": "Серебряный зал",
+          "DESCRIPTION": "Современный и универсальный зал",
+          "IMAGE": "/terrace.jpg",
+          "CAPACITY": "150",
+          "ID": "silver-hall"
+        }
+      ],
+      "BOOKING_TITLE": "Бронирование столика",
+      "BOOKING_DESCRIPTION": "Выберите тип бронирования и дату",
+      "ERROR_LOADING_EVENTS": "Не удалось загрузить мероприятия. Попробуйте позже.",
+      "NO_EVENTS": "Нет доступных мероприятий.",
+      "BOOKING_TYPE_TITLE": "Тип бронирования",
+      "BOOKING_TYPE_DESCRIPTION": "Выберите обычное бронирование или на мероприятие",
+      "CALENDAR_TITLE": "Календарь",
+      "CALENDAR_DESCRIPTION_EVENT": "Выберите дату с мероприятием",
+      "CALENDAR_DESCRIPTION_REGULAR": "Выберите любую доступную дату",
+      "NO_EVENT_SELECTED": "Выберите дату в календаре\nчтобы увидеть детали мероприятия",
+      "NO_REGULAR_SELECTED": "Выберите дату в календаре\nчтобы забронировать",
+      "CONFIRMATION_TITLE": "Подтверждение бронирования",
+      "SUMMARY_BOOKING_DETAILS": "Детали бронирования",
+      "SUMMARY_CONTACT_DETAILS": "Контактные данные",
+      "TABLE": "Стол",
+      "TYPE": "Тип",
+      "REGULAR_DAY": "Обычный день",
+      "EVENT": "Мероприятие",
+      "DATE": "Дата",
+      "TIME": "Время",
+      "ADULTS": "Взрослые",
+      "CHILDREN_4_10": "Дети 4-10 лет",
+      "CHILDREN_UNDER_4": "Дети до 4 лет",
+      "TOTAL_GUESTS": "Всего гостей",
+      "NAME": "Имя",
+      "PHONE": "Телефон",
+      "EMAIL": "Email",
+      "TO_PAY": "К оплате",
+      "BOOKING_NO_PAYMENT_TITLE": "Бронирование без оплаты",
+      "BOOKING_NO_PAYMENT_DESCRIPTION": "Подтвердите бронирование, оплата не требуется",
+      "NEXT": "Далее",
+      "BACK": "Назад",
+      "CONFIRM_BOOKING": "Перейти к оплате",
+      "BOOKING_SUCCESS_TITLE": "Резервация успешна",
+      "BOOKING_SUCCESS_DESCRIPTION": "Ваша резервация подтверждена. Мы ждем вас!",
+      "BOOKING_FAILURE_TITLE": "Резервация не удалась",
+      "BOOKING_FAILURE_DESCRIPTION": "При подтверждении вашей резервации возникла проблема. Пожалуйста, попробуйте позже."
+    },
+    "bookingType": {
+      "REGULAR": "Обычный день",
+      "REGULAR_DESC": "Забронировать столик на любой доступный день",
+      "EVENT": "Мероприятие",
+      "EVENT_DESC": "Забронировать на специальное мероприятие (5 дат в ноябре)"
+    },
+    "regularBooking": {
+      "TITLE": "Обычное бронирование",
+      "DESCRIPTION": "Вы выбрали обычное бронирование. Продолжите, чтобы выбрать столик и указать количество гостей.",
+      "BUTTON": "Выбрать столик"
+    },
+    "hallMap": {
+      "TITLE": "Схема зала",
+      "DESCRIPTION": "Выберите свободный столик",
+      "LOADING": "Загрузка...",
+      "LEGEND_TITLE": "Подсказка по столикам",
+      "SELECTED_TABLE_TITLE": "Выбранный столик",
+      "HINT": "Легенда",
+      "FREE": "Свободно",
+      "SELECTED": "Выбрано",
+      "OCCUPIED": "Занято",
+      "CONTINUE_BOOKING": "Продолжить бронирование",
+      "SEAT": "Места"
+    },
+    "stepper": {
+      "STEP1": "Детали",
+      "STEP2": "Контакты",
+      "STEP3": "Մենյու",
+      "STEP4": "Հաստատում"
+    },
+    "step1Details": {
+      "GUESTS_TITLE": "Количество гостей",
+      "ADULTS": "Взрослые",
+      "CHILDREN_4_10": "Дети 4–10 лет (скидка 50%)",
+      "CHILDREN_UNDER_4": "Дети до 4 лет (бесплатно)",
+      "SELECT_GUESTS_PLACEHOLDER": "Выберите количество",
+      "DATE": "Дата",
+      "SELECT_DATE_PLACEHOLDER": "Выберите дату",
+      "TIME": "Время",
+      "SELECT_TIME_PLACEHOLDER": "Выберите время",
+      "DEPOSIT_PER_ADULT": "Депозит на взрослого",
+      "DEPOSIT_CHILD_4_10": "Дети 4–10 лет ({count}):",
+      "DEPOSIT_CHILD_UNDER_4": "Дети до 4 ({count}):",
+      "TOTAL_GUESTS": "Всего гостей: {count}",
+      "TOTAL_AMOUNT": "Итого: {amount} AMD"
+    },
+    "step3Menu": {
+      "TITLE": "Выберите блюда из меню",
+      "TOTAL": "Итого:"
+    },
+    "errors": {
+      "FILL_ALL_FIELDS": "Заполните все поля",
+      "MISSING_DATE_TIME_GUESTS": "Выберите дату, время и гостей",
+      "MISSING_CONTACT_INFO": "Введите имя, телефон и email",
+      "VALIDATION_ERROR_TITLE": "Ошибка валидации",
+      "VALIDATION_ERROR_DESC": "Проверьте поля",
+      "SUCCESS_TITLE": "Успешно!",
+      "SUCCESS_REGULAR": "Бронирование подтверждено!",
+      "SUCCESS_EVENT": "Переход к оплате на сумму {amount}"
+    }
+  }
+}

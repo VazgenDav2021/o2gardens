@@ -1,0 +1,153 @@
+{
+  "common": {
+    "header": {
+      "NAV": {
+        "HOME": "Home",
+        "HALLS": "Halls",
+        "EVENTS": "Events",
+        "ABOUT": "About",
+        "CONTACT": "Contact",
+        "O2GARDENS": "O₂ Gardens"
+      },
+      "LOGO": "O₂ Cafe & Restaurant"
+    },
+    "footer": {
+      "ABOUT_TITLE": "O₂ Gardens Cafe",
+      "ABOUT_DESCRIPTION": "Premium venue for unforgettable events and celebrations in the heart of Armenia.",
+      "VISIT_BUTTON": "Visit O₂ Gardens",
+      "QUICK_LINKS_TITLE": "Quick Links",
+      "CONTACT_TITLE": "Contact",
+      "ADDRESS": "Armenia, Yerevan",
+      "PHONE": "+374 XX XXX XXX",
+      "EMAIL": "info@o2gardens.am",
+      "SOCIAL_TITLE": "Follow us on social media",
+      "COPYRIGHT": "All rights reserved."
+    },
+    "halls": {
+      "TITLE": "Our Halls",
+      "DESCRIPTION": "Discover an atmosphere of luxury and elegance",
+      "BUTTON": "Choose a Place",
+      "CAPACITY": "Up to {capacity} people",
+      "LIST": [
+        {
+          "NAME": "Green Hall",
+          "DESCRIPTION": "An elegant hall for private events",
+          "IMAGE": "/hall-1.jpg",
+          "CAPACITY": "50",
+          "ID": "green-hall"
+        },
+        {
+          "NAME": "White Hall",
+          "DESCRIPTION": "A spacious hall for large celebrations",
+          "IMAGE": "/hall-2.jpg",
+          "CAPACITY": "100",
+          "ID": "white-hall"
+        },
+        {
+          "NAME": "Silver Hall",
+          "DESCRIPTION": "A modern and versatile hall",
+          "IMAGE": "/terrace.jpg",
+          "CAPACITY": "150",
+          "ID": "silver-hall"
+        }
+      ],
+      "BOOKING_TITLE": "Table Booking",
+      "BOOKING_DESCRIPTION": "Select booking type and date",
+      "ERROR_LOADING_EVENTS": "Failed to load events. Please try again later.",
+      "NO_EVENTS": "No events available.",
+      "BOOKING_TYPE_TITLE": "Booking Type",
+      "BOOKING_TYPE_DESCRIPTION": "Choose whether to book for a regular day or an event",
+      "CALENDAR_TITLE": "Calendar",
+      "CALENDAR_DESCRIPTION_EVENT": "Select a date with an event",
+      "CALENDAR_DESCRIPTION_REGULAR": "Select any available date",
+      "NO_EVENT_SELECTED": "Select a date in the calendar\nto see event details",
+      "NO_REGULAR_SELECTED": "Select a date in the calendar\nto make a booking",
+      "CONFIRMATION_TITLE": "Booking Confirmation",
+      "SUMMARY_BOOKING_DETAILS": "Booking Details",
+      "SUMMARY_CONTACT_DETAILS": "Contact Details",
+      "TABLE": "Table",
+      "TYPE": "Type",
+      "REGULAR_DAY": "Regular Day",
+      "EVENT": "Event",
+      "DATE": "Date",
+      "TIME": "Time",
+      "ADULTS": "Adults",
+      "CHILDREN_4_10": "Children 4-10 years",
+      "CHILDREN_UNDER_4": "Children under 4",
+      "TOTAL_GUESTS": "Total Guests",
+      "NAME": "Name",
+      "PHONE": "Phone",
+      "EMAIL": "Email",
+      "TO_PAY": "To Pay",
+      "BOOKING_NO_PAYMENT_TITLE": "Booking Without Payment",
+      "BOOKING_NO_PAYMENT_DESCRIPTION": "Confirm your booking, no payment required",
+      "NEXT": "Next",
+      "BACK": "Back",
+      "CONFIRM_BOOKING": "Proceed to payment",
+      "BOOKING_SUCCESS_TITLE": "Booking Successful",
+      "BOOKING_SUCCESS_DESCRIPTION": "Your booking has been confirmed. We look forward to welcoming you!",
+      "BOOKING_FAILURE_TITLE": "Booking Failed",
+      "BOOKING_FAILURE_DESCRIPTION": "There was an issue confirming your booking. Please try again later."
+    },
+    "bookingType": {
+      "REGULAR": "Regular Day",
+      "REGULAR_DESC": "Book a table on any available day",
+      "EVENT": "Event",
+      "EVENT_DESC": "Book for a special event (5 dates in November)"
+    },
+    "regularBooking": {
+      "TITLE": "Regular Booking",
+      "DESCRIPTION": "You have chosen a regular booking. Continue to select a table and specify the number of guests.",
+      "BUTTON": "Choose Table"
+    },
+    "hallMap": {
+      "TITLE": "Hall Map",
+      "DESCRIPTION": "Select an available table",
+      "LOADING": "Loading...",
+      "LEGEND_TITLE": "Table Legend",
+      "SELECTED_TABLE_TITLE": "Selected Table",
+      "HINT": "Legend",
+      "FREE": "Available",
+      "SELECTED": "Selected",
+      "OCCUPIED": "Occupied",
+      "CONTINUE_BOOKING": "Continue Booking",
+      "SEAT": "Seats"
+    },
+    "stepper": {
+      "STEP1": "Details",
+      "STEP2": "Contact",
+      "STEP3": "Menu",
+      "STEP4": "Confirmation"
+    },
+    "step1Details": {
+      "GUESTS_TITLE": "Number of Guests",
+      "ADULTS": "Adults",
+      "CHILDREN_4_10": "Children 4–10 years (50% discount)",
+      "CHILDREN_UNDER_4": "Children under 4 (free)",
+      "SELECT_GUESTS_PLACEHOLDER": "Select number",
+      "DATE": "Date",
+      "SELECT_DATE_PLACEHOLDER": "Select a date",
+      "TIME": "Time",
+      "SELECT_TIME_PLACEHOLDER": "Select time",
+      "DEPOSIT_PER_ADULT": "Deposit per adult",
+      "DEPOSIT_CHILD_4_10": "Children 4–10 years ({count}):",
+      "DEPOSIT_CHILD_UNDER_4": "Children under 4 ({count}):",
+      "TOTAL_GUESTS": "Total Guests: {count}",
+      "TOTAL_AMOUNT": "Total Amount: {amount} AMD"
+    },
+    "step3Menu": {
+      "TITLE": "Menu Selection",
+      "TOTAL": "Total:"
+    },
+    "errors": {
+      "FILL_ALL_FIELDS": "Fill in all required fields",
+      "MISSING_DATE_TIME_GUESTS": "Please select date, time, and guests",
+      "MISSING_CONTACT_INFO": "Enter your name, phone number, and email",
+      "VALIDATION_ERROR_TITLE": "Validation error",
+      "VALIDATION_ERROR_DESC": "Please check the fields",
+      "SUCCESS_TITLE": "Success!",
+      "SUCCESS_REGULAR": "Your booking has been confirmed!",
+      "SUCCESS_EVENT": "Proceed to payment of {amount}"
+    }
+  }
+}

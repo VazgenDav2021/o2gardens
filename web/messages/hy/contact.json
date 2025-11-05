@@ -1,0 +1,43 @@
+{
+  "contact": {
+    "HEADER": "Կապվեք մեզ հետ",
+    "DESCRIPTION": "Մենք պատրաստ ենք պատասխանել ձեր բոլոր հարցերին և օգնել կազմակերպել անմոռանալի միջոցառում",
+    "FORM": {
+      "TITLE": "Գրեք մեզ",
+      "DESCRIPTION": "Լրացրեք ձևը և մենք շուտով կկապվենք ձեզ հետ",
+      "FIELDS": {
+        "NAME": "Անուն *",
+        "EMAIL": "Էլ.փոստ *",
+        "PHONE": "Հեռախոս *",
+        "MESSAGE": "Հաղորդագրություն *",
+        "NAME_PLACEHOLDER": "Ձեր անունը",
+        "EMAIL_PLACEHOLDER": "your@email.com",
+        "PHONE_PLACEHOLDER": "+374 XX XXX XXX",
+        "MESSAGE_PLACEHOLDER": "Պատմեք ձեր միջոցառման մասին..."
+      },
+      "BUTTON_SEND": "Ուղարկել հաղորդագրություն"
+    },
+    "LOCATION": {
+      "TITLE": "Մեր գտնվելու վայրը",
+      "DESCRIPTION": "Գտեք մեզ Երևանի քարտեզում"
+    },
+    "CONTACT_ITEMS": {
+      "ADDRESS": {
+        "TITLE": "Հասցե",
+        "INFO": "Երևան, Հայաստան\nԱբովյան 10"
+      },
+      "PHONE": {
+        "TITLE": "Հեռախոս",
+        "INFO": "+374 XX XXX XXX\n+374 YY YYY YYY"
+      },
+      "EMAIL": {
+        "TITLE": "Էլ.փոստ",
+        "INFO": "info@o2gardens.am\nbooking@o2gardens.am"
+      },
+      "WORK_HOURS": {
+        "TITLE": "Աշխատանքային ժամանակը",
+        "INFO": "Երկ-Կիր: 10:00 - 02:00\nՊատվիրում: 24/7"
+      }
+    }
+  }
+}

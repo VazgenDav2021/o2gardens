@@ -1,0 +1,153 @@
+{
+  "common": {
+    "header": {
+      "NAV": {
+        "HOME": "Գլխավոր",
+        "HALLS": "Սրահներ",
+        "EVENTS": "Միջոցառումներ",
+        "ABOUT": "Մեր մասին",
+        "CONTACT": "Կապ",
+        "O2GARDENS": "O₂ Gardens"
+      },
+      "LOGO": "O₂ Cafe & Restaurant"
+    },
+    "footer": {
+      "ABOUT_TITLE": "O₂ Gardens Cafe",
+      "ABOUT_DESCRIPTION": "Պրեմիում վայր անմոռանալի միջոցառումների և տոնակատարությունների համար Հայաստանում:",
+      "VISIT_BUTTON": "Այցելել O₂ Gardens",
+      "QUICK_LINKS_TITLE": "Արագ հղումներ",
+      "CONTACT_TITLE": "Կապ",
+      "ADDRESS": "Հայաստան, Երևան",
+      "PHONE": "+374 XX XXX XXX",
+      "EMAIL": "info@o2gardens.am",
+      "SOCIAL_TITLE": "Կապ մեր սոցիալական ցանցերում",
+      "COPYRIGHT": "Բոլոր իրավունքները պաշտպանված են։"
+    },
+    "halls": {
+      "TITLE": "Մեր սրահները",
+      "DESCRIPTION": "Բացահայտեք լյուքս և էլեգանտություն",
+      "BUTTON": "Ընտրել սրահը",
+      "CAPACITY": "Մինչեւ {capacity} մարդ",
+      "LIST": [
+        {
+          "NAME": "Կանաչ սրահ",
+          "DESCRIPTION": "Էլեգանտ սրահ մասնավոր միջոցառումների համար",
+          "IMAGE": "/hall-1.jpg",
+          "CAPACITY": "50",
+          "ID": "green-hall"
+        },
+        {
+          "NAME": "Սպիտակ սրահ",
+          "DESCRIPTION": "Շատ տարածք մեծ տոնակատարությունների համար",
+          "IMAGE": "/hall-2.jpg",
+          "CAPACITY": "100",
+          "ID": "white-hall"
+        },
+        {
+          "NAME": "Արծաթե սրահ",
+          "DESCRIPTION": "Ժամանակակից և բազմակողմանի սրահ",
+          "IMAGE": "/terrace.jpg",
+          "CAPACITY": "150",
+          "ID": "silver-hall"
+        }
+      ],
+      "BOOKING_TITLE": "Ամրագրում սեղանի",
+      "BOOKING_DESCRIPTION": "Ընտրեք ամրագրման տեսակն ու ամսաթիվը",
+      "ERROR_LOADING_EVENTS": "Չհաջողվեց բեռնել միջոցառումները։ Փորձեք ավելի ուշ։",
+      "NO_EVENTS": "Առկա միջոցառումներ չկան։",
+      "BOOKING_TYPE_TITLE": "Ամրագրման տեսակ",
+      "BOOKING_TYPE_DESCRIPTION": "Ընտրեք սովորական օր կամ միջոցառում",
+      "CALENDAR_TITLE": "Օրացույց",
+      "CALENDAR_DESCRIPTION_EVENT": "Ընտրեք ամսաթիվ միջոցառմամբ",
+      "CALENDAR_DESCRIPTION_REGULAR": "Ընտրեք ցանկացած ազատ ամսաթիվ",
+      "NO_EVENT_SELECTED": "Ընտրեք ամսաթիվ օրացույցում\\nորպեսզի տեսնեք միջոցառման մանրամասները",
+      "NO_REGULAR_SELECTED": "Ընտրեք ամսաթիվ օրացույցում\\nորպեսզի ամրագրեք",
+      "CONFIRMATION_TITLE": "Ամրագրման հաստատում",
+      "SUMMARY_BOOKING_DETAILS": "Ամրագրման մանրամասները",
+      "SUMMARY_CONTACT_DETAILS": "Կապի տվյալներ",
+      "TABLE": "Սեղան",
+      "TYPE": "Տեսակ",
+      "REGULAR_DAY": "Սովորական օր",
+      "EVENT": "Միջոցառում",
+      "DATE": "Ամսաթիվ",
+      "TIME": "Ժամանակ",
+      "ADULTS": "Տղամարդիկ",
+      "CHILDREN_4_10": "Երեխաներ 4-10 տարեկան",
+      "CHILDREN_UNDER_4": "Երեխաներ մինչև 4 տարեկան",
+      "TOTAL_GUESTS": "Ընդամենը հյուրեր",
+      "NAME": "Անուն",
+      "PHONE": "Հեռախոս",
+      "EMAIL": "Էլ. փոստ",
+      "TO_PAY": "Վճարման ենթակա",
+      "BOOKING_NO_PAYMENT_TITLE": "Ամրագրում առանց վճարման",
+      "BOOKING_NO_PAYMENT_DESCRIPTION": "Հաստատեք ամրագրումը, վճարումը պարտադիր չէ",
+      "NEXT": "Հաջորդ",
+      "BACK": "Հետ",
+      "CONFIRM_BOOKING": "Շարունակել վճարումը",
+      "BOOKING_SUCCESS_TITLE": "Ամրագրումը հաջողվել է",
+      "BOOKING_SUCCESS_DESCRIPTION": "Ձեր ամրագրումը հաստատվել է։ Մենք սպասում ենք ձեզ!",
+      "BOOKING_FAILURE_TITLE": "Ամրագրումը ձախողվել է",
+      "BOOKING_FAILURE_DESCRIPTION": "Ամրագրումը հաստատելու ժամանակ խնդիր է առաջացել։ Խնդրում ենք փորձել ավելի ուշ։"
+    },
+    "bookingType": {
+      "REGULAR": "Սովորական օր",
+      "REGULAR_DESC": "Ամրագրեք սեղան ցանկացած ազատ օրը",
+      "EVENT": "Միջոցառում",
+      "EVENT_DESC": "Ամրագրեք հատուկ միջոցառման համար (5 ամսաթիվ նոյեմբերին)"
+    },
+    "regularBooking": {
+      "TITLE": "Սովորական ամրագրում",
+      "DESCRIPTION": "Դուք ընտրել եք սովորական ամրագրում։ Շարունակեք ընտրել սեղանը և նշեք հյուրերի թիվը։",
+      "BUTTON": "Ընտրել սեղանը"
+    },
+    "hallMap": {
+      "TITLE": "Սրահի քարտեզ",
+      "DESCRIPTION": "Ընտրեք ազատ սեղանը",
+      "LOADING": "Բեռնում...",
+      "LEGEND_TITLE": "Սեղանի նշաններ",
+      "SELECTED_TABLE_TITLE": "Ընտրված սեղան",
+      "HINT": "Նշումներ",
+      "FREE": "Ազատ",
+      "SELECTED": "Ընտրված",
+      "OCCUPIED": "Վարձված",
+      "CONTINUE_BOOKING": "Շարունակել ամրագրումը",
+      "SEAT": "Մեկնարկներ"
+    },
+    "stepper": {
+      "STEP1": "Դետալներ",
+      "STEP2": "Կապ",
+      "STEP3": "Մենյու",
+      "STEP4": "Հաստատում"
+    },
+    "step1Details": {
+      "GUESTS_TITLE": "Հյուրերի քանակ",
+      "ADULTS": "Տղամարդիկ",
+      "CHILDREN_4_10": "Երեխաներ 4-10 տարեկան (50% զեղչ)",
+      "CHILDREN_UNDER_4": "Երեխաներ մինչև 4 տարեկան (անսպասելի)",
+      "SELECT_GUESTS_PLACEHOLDER": "Ընտրեք քանակը",
+      "DATE": "Ամսաթիվ",
+      "SELECT_DATE_PLACEHOLDER": "Ընտրեք ամսաթիվը",
+      "TIME": "Ժամանակ",
+      "SELECT_TIME_PLACEHOLDER": "Ընտրեք ժամը",
+      "DEPOSIT_PER_ADULT": "Ավանդ տղամարդկանց համար",
+      "DEPOSIT_CHILD_4_10": "Երեխաներ 4-10 տարեկան ({count}):",
+      "DEPOSIT_CHILD_UNDER_4": "Երեխաներ մինչև 4 ({count}):",
+      "TOTAL_GUESTS": "Ընդամենը հյուրեր: {count}",
+      "TOTAL_AMOUNT": "Ընդհանուր գումարը: {amount} AMD"
+    },
+    "step3Menu": {
+      "TITLE": "Ընտրեք ուտեստներ ցանկից",
+      "TOTAL": "Ընդամենը:"
+    },
+    "errors": {
+      "FILL_ALL_FIELDS": "Լրացրեք բոլոր պարտադիր դաշտերը",
+      "MISSING_DATE_TIME_GUESTS": "Խնդրում ենք ընտրել ամսաթիվը, ժամը և հյուրերի քանակը",
+      "MISSING_CONTACT_INFO": "Մուտքագրեք ձեր անունը, հեռախոսահամարը և էլ. փոստը",
+      "VALIDATION_ERROR_TITLE": "Ստուգման սխալ",
+      "VALIDATION_ERROR_DESC": "Խնդրում ենք ստուգել դաշտերը",
+      "SUCCESS_TITLE": "Հաջողությամբ!",
+      "SUCCESS_REGULAR": "Ձեր ամրագրման հայտը հաստատվել է!",
+      "SUCCESS_EVENT": "Շարունակեք վճարումը՝ {amount}-ի չափով"
+    }
+  }
+}

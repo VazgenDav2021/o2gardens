@@ -2,29 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/ui/select";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
-const navItems = [
-  { path: "/", label: "Главная" },
-  { path: "/halls", label: "Залы" },
-  { path: "/events", label: "Мероприятия" },
-  { path: "/about", label: "О нас" },
-  { path: "/contact", label: "Контакты" },
-  { path: "https://o2gardens.am", label: "O₂ Gardens", external: true },
+const navItemsConfig = [
+  { path: "/", key: "HOME" },
+  { path: "/halls", key: "HALLS" },
+  { path: "/events", key: "EVENTS" },
+  { path: "/about", key: "ABOUT" },
+  { path: "/contact", key: "CONTACT" },
+  { path: "https://o2gardens.am", key: "O2GARDENS", external: true },
 ];
 
 const Header = () => {
+  const t = useTranslations("common.header");
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState("ru");
 
   const isActive = (path: string) => pathname === path;
 
@@ -33,14 +28,12 @@ const Header = () => {
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="text-2xl font-bold text-primary">
-              O₂ Cafe & Restaurant
-            </div>
+            <div className="text-2xl font-bold text-primary">{t("LOGO")}</div>
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
             <nav className="flex items-center gap-8">
-              {navItems.map((item) =>
+              {navItemsConfig.map((item) =>
                 item.external ? (
                   <a
                     key={item.path}
@@ -48,7 +41,7 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="relative py-2 text-sm font-bold text-accent hover:text-accent/80 transition-colors px-4 bg-accent/10 rounded-md">
-                    {item.label}
+                    {t(`NAV.${item.key}`)}
                   </a>
                 ) : (
                   <Link
@@ -59,7 +52,7 @@ const Header = () => {
                         ? "text-primary"
                         : "text-muted-foreground"
                     }`}>
-                    {item.label}
+                    {t(`NAV.${item.key}`)}
                     {isActive(item.path) && (
                       <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary animate-scale-in" />
                     )}
@@ -67,18 +60,7 @@ const Header = () => {
                 )
               )}
             </nav>
-
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="w-[120px] bg-background border-border">
-                <Globe className="mr-2 h-4 w-4" />
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-background border-border">
-                <SelectItem value="ru">Русский</SelectItem>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="hy">Հայերեն</SelectItem>
-              </SelectContent>
-            </Select>
+            <LanguageSwitcher />
           </div>
 
           <button
@@ -91,7 +73,7 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 animate-slide-in-up">
             <nav className="space-y-1">
-              {navItems.map((item) =>
+              {navItemsConfig.map((item) =>
                 item.external ? (
                   <a
                     key={item.path}
@@ -100,7 +82,7 @@ const Header = () => {
                     rel="noopener noreferrer"
                     onClick={() => setIsMenuOpen(false)}
                     className="block py-3 text-sm font-bold text-accent hover:text-accent/80 transition-colors px-4 bg-accent/10 rounded-md">
-                    {item.label}
+                    {t(`NAV.${item.key}`)}
                   </a>
                 ) : (
                   <Link
@@ -112,25 +94,13 @@ const Header = () => {
                         ? "text-primary"
                         : "text-muted-foreground"
                     }`}>
-                    {item.label}
+                    {t(`NAV.${item.key}`)}
                   </Link>
                 )
               )}
             </nav>
 
-            <div className="mt-4 pt-4 border-t border-border">
-              <Select value={language} onValueChange={setLanguage}>
-                <SelectTrigger className="w-full bg-background border-border">
-                  <Globe className="mr-2 h-4 w-4" />
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-background border-border">
-                  <SelectItem value="ru">Русский</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="hy">Հայերեն</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <LanguageSwitcher />
           </div>
         )}
       </div>

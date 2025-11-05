@@ -1,0 +1,43 @@
+{
+  "contact": {
+    "HEADER": "Contact Us",
+    "DESCRIPTION": "We are ready to answer all your questions and help organize an unforgettable event",
+    "FORM": {
+      "TITLE": "Write to Us",
+      "DESCRIPTION": "Fill out the form and we will contact you shortly",
+      "FIELDS": {
+        "NAME": "Name *",
+        "EMAIL": "Email *",
+        "PHONE": "Phone *",
+        "MESSAGE": "Message *",
+        "NAME_PLACEHOLDER": "Your name",
+        "EMAIL_PLACEHOLDER": "your@email.com",
+        "PHONE_PLACEHOLDER": "+374 XX XXX XXX",
+        "MESSAGE_PLACEHOLDER": "Tell us about your event..."
+      },
+      "BUTTON_SEND": "Send Message"
+    },
+    "LOCATION": {
+      "TITLE": "Our Location",
+      "DESCRIPTION": "Find us on the map of Yerevan"
+    },
+    "CONTACT_ITEMS": {
+      "ADDRESS": {
+        "TITLE": "Address",
+        "INFO": "Yerevan, Armenia\nAbovyan St 10"
+      },
+      "PHONE": {
+        "TITLE": "Phone",
+        "INFO": "+374 XX XXX XXX\n+374 YY YYY YYY"
+      },
+      "EMAIL": {
+        "TITLE": "Email",
+        "INFO": "info@o2gardens.am\nbooking@o2gardens.am"
+      },
+      "WORK_HOURS": {
+        "TITLE": "Working Hours",
+        "INFO": "Mon-Sun: 10:00 - 02:00\nBooking: 24/7"
+      }
+    }
+  }
+}

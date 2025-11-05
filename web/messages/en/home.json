@@ -1,0 +1,73 @@
+{
+  "home": {
+    "hero": {
+      "TITLE": "O₂ Cafe & Restaurant",
+      "DESCRIPTION": "A premium place for unforgettable events and celebrations",
+      "BUTTON": "Book a Hall"
+    },
+    "whyUs": {
+      "TITLE": "Why Choose Us",
+      "ITEMS": [
+        {
+          "TITLE": "Flexible Booking",
+          "DESCRIPTION": "Choose a convenient date and time for your event"
+        },
+        {
+          "TITLE": "3 Spacious Halls",
+          "DESCRIPTION": "Pick the perfect hall for your occasion"
+        },
+        {
+          "TITLE": "Personalized Approach",
+          "DESCRIPTION": "Professional service and attention to detail"
+        }
+      ]
+    },
+    "events": {
+      "TITLE": "Our Events",
+      "DESCRIPTION": "We create a festive atmosphere every day",
+      "LIST": [
+        {
+          "TITLE": "Weddings and Celebrations",
+          "DESCRIPTION": "Organization and hosting of weddings, anniversaries, and banquets"
+        },
+        {
+          "TITLE": "Live Music",
+          "DESCRIPTION": "Regular performances by local artists"
+        },
+        {
+          "TITLE": "Signature Cuisine",
+          "DESCRIPTION": "Dishes by our chef with unique presentation"
+        }
+      ]
+    },
+    "about": {
+      "TITLE": "About Us",
+      "PARAGRAPHS": [
+        "O₂ Cafe & Restaurant is a place where style, taste, and atmosphere unite to create perfect moments. We take pride in our service, cuisine, and personalized approach to every guest.",
+        "Our halls are suitable for all kinds of events – from intimate gatherings to grand celebrations. Entrust your special day to us, and we’ll make it unforgettable."
+      ]
+    },
+    "services": {
+      "TITLE": "Our Services",
+      "DESCRIPTION": "We offer everything to make your evening perfect",
+      "LIST": [
+        {
+          "TITLE": "Bar & Cocktails",
+          "DESCRIPTION": "A wide selection of wines and signature drinks"
+        },
+        {
+          "TITLE": "Coffee House",
+          "DESCRIPTION": "Aromatic coffee and handmade desserts"
+        },
+        {
+          "TITLE": "Catering",
+          "DESCRIPTION": "Full service for your special event"
+        },
+        {
+          "TITLE": "Service",
+          "DESCRIPTION": "Attentive staff and high service standards"
+        }
+      ]
+    }
+  }
+}

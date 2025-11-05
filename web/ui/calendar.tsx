@@ -4,7 +4,7 @@ import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/cn";
 import { buttonVariants } from "@/ui/button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
@@ -35,7 +35,7 @@ function Calendar({
         head_row: "",
         head_cell:
           "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem] text-center",
-        row: "", // убираем flex — это главная проблема
+        row: "",
         cell: cn(
           "text-center text-sm p-0 relative w-9 h-9",
           "[&:has([aria-selected].day-range-end)]:rounded-r-md",
