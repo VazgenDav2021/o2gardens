@@ -11,6 +11,7 @@ import Step3Menu from "./Step3Menu";
 import Step4Confirmation from "./Step4Confirmation";
 import Stepper from "./Stepper";
 import { useTranslations } from "next-intl";
+import FormNavigation from "./FormNavigation";
 
 interface ReservationFormProps {
   tableId: string;
@@ -61,11 +62,6 @@ export default function ReservationForm({
       Number(methods.getValues("children4to10")) * (depositPerPerson * 0.5);
     return adultsTotal + children4to10Total;
   };
-
-  const totalGuests =
-    Number(methods.getValues("adults")) +
-    Number(methods.getValues("children4to10")) +
-    Number(methods.getValues("childrenUnder4"));
 
   const handleNext = () => {
     if (currentStep === 1) {
@@ -138,46 +134,15 @@ export default function ReservationForm({
         )}
 
         {currentStep === 4 && (
-          <Step4Confirmation
-            formData={methods.getValues()}
-            bookingType={bookingType}
-            tableId={tableId}
-            totalAmount={calculateTotal()}
-            totalGuests={totalGuests}
-          />
+          <Step4Confirmation bookingType={bookingType} tableId={tableId} />
         )}
 
-        <div className="flex gap-4 mt-8">
-          {currentStep > 1 && (
-            <button
-              type="button"
-              className="flex-1 h-12 border rounded-md"
-              onClick={handleBack}>
-              <span className="mr-2">◀</span> {t("BACK")}
-            </button>
-          )}
-
-          {currentStep < 4 ? (
-            <button
-              type="button"
-              onClick={handleNext}
-              className="flex-1 h-12 bg-primary text-white rounded-md">
-              {t("NEXT")} <span className="ml-2">▶</span>
-            </button>
-          ) : bookingType === "event" ? (
-            <button
-              type="submit"
-              className="flex-1 h-12 bg-primary text-white rounded-md">
-              {t("CONFIRM_BOOKING")}
-            </button>
-          ) : (
-            <button
-              type="submit"
-              className="flex-1 h-12 bg-primary text-white rounded-md">
-              Подтвердить
-            </button>
-          )}
-        </div>
+        <FormNavigation
+          currentStep={currentStep}
+          bookingType={bookingType}
+          onBack={handleBack}
+          onNext={handleNext}
+        />
       </form>
     </FormProvider>
   );

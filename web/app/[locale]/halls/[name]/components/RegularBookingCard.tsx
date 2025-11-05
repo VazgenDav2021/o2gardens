@@ -42,7 +42,9 @@ export const RegularBookingCard = ({
         <p className="text-sm text-muted-foreground">{t("DESCRIPTION")}</p>
       </CardContent>
       <CardFooter>
-        <Link href={`/hall-map/${hallId}/regular-day`} className="w-full">
+        <Link
+          href={`/hall-map/${hallId}/regular-day?eventDate=${format(selectedDate, "yyyy-MM-dd", { locale: ru })}`}
+          className="w-full">
           <Button className="w-full group">{t("BUTTON")}</Button>
         </Link>
       </CardFooter>
