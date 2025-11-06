@@ -9,13 +9,17 @@
         "NAME": "Անուն *",
         "EMAIL": "Էլ.փոստ *",
         "PHONE": "Հեռախոս *",
-        "MESSAGE": "Հաղորդագրություն *",
-        "NAME_PLACEHOLDER": "Ձեր անունը",
-        "EMAIL_PLACEHOLDER": "your@email.com",
-        "PHONE_PLACEHOLDER": "+374 XX XXX XXX",
-        "MESSAGE_PLACEHOLDER": "Պատմեք ձեր միջոցառման մասին..."
+        "MESSAGE": "Հաղորդագրություն *"
       },
-      "BUTTON_SEND": "Ուղարկել հաղորդագրություն"
+      "PLACEHOLDERS": {
+        "NAME": "Ձեր անունը",
+        "EMAIL": "your@email.com",
+        "PHONE": "+374 XX XXX XXX",
+        "MESSAGE": "Պատմեք ձեր միջոցառման մասին..."
+      },
+      "BUTTON_SEND": "Ուղարկել հաղորդագրություն",
+      "TOAST_TITLE": "Հաղորդագրությունը ուղարկված է",
+      "TOAST_DESC": "Շնորհակալություն! Մենք շուտով կկապվենք ձեզ հետ։"
     },
     "LOCATION": {
       "TITLE": "Մեր գտնվելու վայրը",

@@ -111,7 +111,7 @@
       "SELECTED": "Ընտրված",
       "OCCUPIED": "Վարձված",
       "CONTINUE_BOOKING": "Շարունակել ամրագրումը",
-      "SEAT": "Մեկնարկներ"
+      "SEAT": "Մարդ"
     },
     "stepper": {
       "STEP1": "Դետալներ",
@@ -134,6 +134,10 @@
       "DEPOSIT_CHILD_UNDER_4": "Երեխաներ մինչև 4 ({count}):",
       "TOTAL_GUESTS": "Ընդամենը հյուրեր: {count}",
       "TOTAL_AMOUNT": "Ընդհանուր գումարը: {amount} AMD"
+    },
+    "reservations": {
+      "errorTitle": "Ինչ-որ բան այն չէ",
+      "errorMessage": "Չհաջողվեց բեռնել ամրագրման էջը։ Խնդրում ենք փորձել ավելի ուշ։"
     },
     "step3Menu": {
       "TITLE": "Ընտրեք ուտեստներ ցանկից",

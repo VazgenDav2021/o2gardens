@@ -9,13 +9,17 @@
         "NAME": "Name *",
         "EMAIL": "Email *",
         "PHONE": "Phone *",
-        "MESSAGE": "Message *",
-        "NAME_PLACEHOLDER": "Your name",
-        "EMAIL_PLACEHOLDER": "your@email.com",
-        "PHONE_PLACEHOLDER": "+374 XX XXX XXX",
-        "MESSAGE_PLACEHOLDER": "Tell us about your event..."
+        "MESSAGE": "Message *"
       },
-      "BUTTON_SEND": "Send Message"
+      "PLACEHOLDERS": {
+        "NAME": "Your name",
+        "EMAIL": "your@email.com",
+        "PHONE": "+374 XX XXX XXX",
+        "MESSAGE": "Tell us about your event..."
+      },
+      "BUTTON_SEND": "Send Message",
+      "TOAST_TITLE": "Message Sent",
+      "TOAST_DESC": "Thank you! We will contact you shortly."
     },
     "LOCATION": {
       "TITLE": "Our Location",

@@ -54,7 +54,7 @@ export const EventCard = ({ event }: EventCardProps) => {
 
           <Button asChild className="w-full">
             <Link
-              href={`/hall-map/${event.hallId}/${event.id}?eventDeposit=${event.deposit}&eventDate=${event.dateISO}&eventTimeStart=${event.timeStart}`}>
+              href={`/hall-map/${event.hallId}/${event.id}`}>
               {t("BOOK")}
             </Link>
           </Button>

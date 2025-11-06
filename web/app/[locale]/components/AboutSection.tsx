@@ -14,7 +14,7 @@ const AboutSection = async ({ messages }: AboutSectionProps) => {
     <section className="py-20 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
         <img
-          src="/about-us.jpg"
+          src="/hero-image.png"
           alt={t("home.about.TITLE")}
           className="rounded-xl shadow-lg hover:scale-105 transition-transform duration-500"
         />

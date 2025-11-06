@@ -1,9 +1,9 @@
 import z, { date } from "zod";
 
-export type EventType = {
+export interface EventType {
   id: string;
   title: string;
-  date: string;
+  date: number;
   dateISO: string;
   time: string;
   hall: string;
@@ -13,10 +13,10 @@ export type EventType = {
   artists: string[];
   deposit: number;
   image: string;
-  status: "available" | "sold-out";
+  status: string;
   timeStart: string;
   timeEnd: string;
-};
+}
 
 export interface TableType {
   id: string;
@@ -35,7 +35,7 @@ export const reservationSchema = z.object({
   children4to10: z.number().min(0),
   childrenUnder4: z.number().min(0),
   menu: z.array(z.string()).optional(),
-  date: z.string().min(1),
+  date: z.number().min(1),
   time: z.string().min(1),
 });
 

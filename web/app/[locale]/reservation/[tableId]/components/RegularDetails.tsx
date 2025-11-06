@@ -18,6 +18,7 @@ import {
 } from "@/ui/select";
 import { cn } from "@/lib/cn";
 import { useTranslations } from "next-intl";
+import { formatDate } from "@/lib/formatDate";
 
 interface Props {
   bookingType: string;
@@ -92,7 +93,7 @@ export default function RegularDetails({ eventTimeStart }: Props) {
                         !selected && "text-muted-foreground"
                       )}>
                       {selected
-                        ? format(selected, "d MMMM yyyy", { locale: ru })
+                        ? formatDate(selected)
                         : t("SELECT_DATE_PLACEHOLDER")}
                     </Button>
                   </PopoverTrigger>
@@ -101,7 +102,7 @@ export default function RegularDetails({ eventTimeStart }: Props) {
                       mode="single"
                       selected={selected}
                       onSelect={(date) =>
-                        field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                        field.onChange(date ? formatDate(date) : "")
                       }
                       disabled={(date) =>
                         date < new Date(new Date().setHours(0, 0, 0, 0))

@@ -116,8 +116,8 @@
     "stepper": {
       "STEP1": "Детали",
       "STEP2": "Контакты",
-      "STEP3": "Մենյու",
-      "STEP4": "Հաստատում"
+      "STEP3": "Меню",
+      "STEP4": "Подтверждение"
     },
     "step1Details": {
       "GUESTS_TITLE": "Количество гостей",
@@ -134,6 +134,10 @@
       "DEPOSIT_CHILD_UNDER_4": "Дети до 4 ({count}):",
       "TOTAL_GUESTS": "Всего гостей: {count}",
       "TOTAL_AMOUNT": "Итого: {amount} AMD"
+    },
+    "reservations": {
+      "errorTitle": "Что-то пошло не так",
+      "errorMessage": "Не удалось загрузить страницу бронирования. Пожалуйста, попробуйте позже."
     },
     "step3Menu": {
       "TITLE": "Выберите блюда из меню",

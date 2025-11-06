@@ -1,23 +1,41 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/ui/button";
-import { getTranslations } from "next-intl/server";
-import { AbstractIntlMessages } from "next-intl";
+import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
-interface HeroSectionProps {
-  messages: AbstractIntlMessages;
-}
+const images = ["/hero-image.png", "/hero-image2.jpg", "/hero-image3.jpg"];
 
-const HeroSection = async ({ messages }: HeroSectionProps) => {
-  const t = await getTranslations(messages);
+const HeroSection = () => {
+  const t = useTranslations();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section
-      className="pt-32 pb-20 overflow-hidden relative min-h-[600px] md:min-h-[700px] flex items-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(/hero-image.png)` }}>
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+    <section className="pt-32 pb-20 overflow-hidden relative min-h-[600px] md:min-h-[700px] flex items-center">
+      {images.map((img, index) => (
+        <div
+          key={img}
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000`}
+          style={{
+            backgroundImage: `url(${img})`,
+            opacity: index === currentIndex ? 1 : 0,
+            zIndex: 0,
+          }}
+        />
+      ))}
 
-      <div className="container mx-auto text-center relative z-10">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] z-10"></div>
+
+      <div className="container mx-auto text-center relative z-20">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-2xl hover:scale-105 transition-transform duration-300 cursor-default">
           {t("home.hero.TITLE")}
         </h1>

@@ -5,7 +5,7 @@
         "DEPOSIT": "Deposit per person",
         "BOOK": "Book",
         "LIST": {
-            "HEADER": "{count} events",
+            "HEADER": "Total Events: {count}",
             "TITLE": "All Events",
             "DESCRIPTION": "Select an event and book your spot"
         }

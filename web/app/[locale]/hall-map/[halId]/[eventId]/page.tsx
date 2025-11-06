@@ -8,10 +8,13 @@ import { getTranslations } from "next-intl/server";
 
 interface HallMapPageProps {
   messages: AbstractIntlMessages;
+  params: {
+    halId: string;
+    eventId: string;
+  };
 }
 
-
-export default async function HallMapPage({ messages }: HallMapPageProps) {
+export default async function HallMapPage({ messages, params }: HallMapPageProps) {
   const t = await getTranslations({ messages, namespace: "common.hallMap" });
 
   return (
@@ -40,7 +43,7 @@ export default async function HallMapPage({ messages }: HallMapPageProps) {
             <TableLegend />
             <h2 className="font-semibold">{t("SELECTED_TABLE_TITLE")}</h2>
             <Suspense fallback={null}>
-              <SelectedTableCard />
+              <SelectedTableCard eventId={params.eventId} />
             </Suspense>
           </div>
         </div>

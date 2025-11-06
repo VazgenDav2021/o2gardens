@@ -15,21 +15,20 @@ import FormNavigation from "./FormNavigation";
 
 interface ReservationFormProps {
   tableId: string;
-  eventDeposit: string | null;
-  eventDate: string | null;
-  eventTimeStart: string | null;
+  deposit: number;
+  date: number;
+  eventTimeStart: string;
 }
 
 export default function ReservationForm({
   tableId,
-  eventDeposit,
-  eventDate,
+  deposit,
+  date,
   eventTimeStart,
 }: ReservationFormProps) {
   const { toast } = useToast();
-  const bookingType = eventDeposit ? "event" : "regular";
-  const depositPerPerson = eventDeposit ? parseInt(eventDeposit) : 15000;
-  const t = useTranslations("common.halls");
+  const bookingType = deposit ? "event" : "regular";
+  const depositPerPerson = deposit ? deposit : 15000;
   const te = useTranslations("common.errors");
 
   const methods = useForm({
@@ -40,8 +39,8 @@ export default function ReservationForm({
       adults: 1,
       children4to10: 0,
       childrenUnder4: 0,
-      date: eventDate || "",
-      time: "",
+      date: date,
+      time: eventTimeStart,
       menu: [] as string[],
     },
     resolver: zodResolver(reservationSchema),
@@ -49,12 +48,6 @@ export default function ReservationForm({
   });
 
   const [currentStep, setCurrentStep] = useState(1);
-
-  useEffect(() => {
-    if (eventDate) {
-      methods.setValue("date", eventDate);
-    }
-  }, [eventDate]);
 
   const calculateTotal = () => {
     const adultsTotal = Number(methods.getValues("adults")) * depositPerPerson;

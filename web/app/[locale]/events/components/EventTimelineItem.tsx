@@ -1,4 +1,5 @@
 import { EventCard } from "@/components/client/EventCard";
+import { formatDate } from "@/lib/formatDate";
 import { EventType } from "@/types";
 
 interface EventTimelineItemProps {
@@ -51,7 +52,7 @@ const TimelineDate = ({
       className={`text-muted-foreground font-medium ${
         align === "left" ? "" : "text-right"
       }`}>
-      <span className="block text-lg">{event.date}</span>
+      <span className="block text-lg">{formatDate(event.date)}</span>
       <span className="block text-sm">{event.time}</span>
     </div>
   </div>

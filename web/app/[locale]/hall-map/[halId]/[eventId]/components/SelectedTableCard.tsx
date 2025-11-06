@@ -9,7 +9,7 @@ import {
 } from "@/ui/card";
 import { Button } from "@/ui/button";
 import { Users } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSelectedTableStore } from "@/hooks/useSelectedTableStore";
 import { useTranslations } from "next-intl";
 
@@ -22,27 +22,16 @@ const tables = [
   { id: "table-6", capacity: 8 },
 ];
 
-export default function SelectedTableCard() {
+export default function SelectedTableCard({ eventId }: { eventId: string }) {
   const t = useTranslations("common.hallMap");
   const { selectedTable } = useSelectedTableStore();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   if (!selectedTable) return null;
-
-  const eventDeposit = searchParams.get("eventDeposit");
-  const eventDate = searchParams.get("eventDate");
-  const eventTimeStart = searchParams.get("eventTimeStart");
   const capacity = tables.find((t) => t.id === selectedTable)?.capacity || 0;
 
   const handleContinue = () => {
-    const params = new URLSearchParams();
-    if (eventDeposit) params.append("deposit", eventDeposit);
-    if (eventDate) params.append("eventDate", eventDate);
-    if (eventTimeStart) params.append("eventTimeStart", eventTimeStart);
-    const url = params.toString()
-      ? `/reservation/${selectedTable}?${params.toString()}`
-      : `/reservation/${selectedTable}`;
+    const url = `/reservation/${selectedTable}?eventId=${eventId}`;
     router.push(url);
   };
 

@@ -9,13 +9,17 @@
         "NAME": "Имя *",
         "EMAIL": "Email *",
         "PHONE": "Телефон *",
-        "MESSAGE": "Сообщение *",
-        "NAME_PLACEHOLDER": "Ваше имя",
-        "EMAIL_PLACEHOLDER": "your@email.com",
-        "PHONE_PLACEHOLDER": "+374 XX XXX XXX",
-        "MESSAGE_PLACEHOLDER": "Расскажите о вашем мероприятии..."
+        "MESSAGE": "Сообщение *"
       },
-      "BUTTON_SEND": "Отправить сообщение"
+      "PLACEHOLDERS": {
+        "NAME": "Ваше имя",
+        "EMAIL": "your@email.com",
+        "PHONE": "+374 XX XXX XXX",
+        "MESSAGE": "Расскажите о вашем мероприятии..."
+      },
+      "BUTTON_SEND": "Отправить сообщение",
+      "TOAST_TITLE": "Сообщение отправлено",
+      "TOAST_DESC": "Спасибо! Мы свяжемся с вами в ближайшее время."
     },
     "LOCATION": {
       "TITLE": "Наше расположение",

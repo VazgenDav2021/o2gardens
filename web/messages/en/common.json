@@ -135,6 +135,10 @@
       "TOTAL_GUESTS": "Total Guests: {count}",
       "TOTAL_AMOUNT": "Total Amount: {amount} AMD"
     },
+    "reservations": {
+      "errorTitle": "Something went wrong",
+      "errorMessage": "Unable to load the reservation page. Please try again later."
+    },
     "step3Menu": {
       "TITLE": "Menu Selection",
       "TOTAL": "Total:"

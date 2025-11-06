@@ -11,9 +11,9 @@ import {
 import { Button } from "@/ui/button";
 import Link from "next/link";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { useTranslations } from "next-intl";
+import { formatDate } from "@/lib/formatDate";
 
 interface RegularBookingCardProps {
   hallId: string;
@@ -30,20 +30,18 @@ export const RegularBookingCard = ({
     <Card className="animate-scale-in">
       <CardHeader>
         <CardTitle>{t("TITLE")}</CardTitle>
-        <CardDescription>
-          {format(selectedDate, "d MMMM yyyy", { locale: ru })}
-        </CardDescription>
+        <CardDescription>{formatDate(selectedDate)}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center gap-2 text-sm">
           <CalendarIcon size={16} className="text-primary" />
-          <span>{format(selectedDate, "d MMMM yyyy", { locale: ru })}</span>
+          <span>{formatDate(selectedDate)}</span>
         </div>
         <p className="text-sm text-muted-foreground">{t("DESCRIPTION")}</p>
       </CardContent>
       <CardFooter>
         <Link
-          href={`/hall-map/${hallId}/regular-day?eventDate=${format(selectedDate, "yyyy-MM-dd", { locale: ru })}`}
+          href={`/hall-map/${hallId}/regular-day?eventDate=${formatDate(selectedDate)}`}
           className="w-full">
           <Button className="w-full group">{t("BUTTON")}</Button>
         </Link>

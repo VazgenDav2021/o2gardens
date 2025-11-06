@@ -17,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from "next-intl";
 
 export const ContactForm = () => {
-  const t = useTranslations("contact.FORM"); // namespace для формы
+  const t = useTranslations("contact.FORM");
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",

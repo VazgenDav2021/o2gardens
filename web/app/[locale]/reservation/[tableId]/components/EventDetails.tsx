@@ -18,6 +18,7 @@ import {
 } from "@/ui/select";
 import { cn } from "@/lib/cn";
 import { useTranslations } from "next-intl";
+import { formatDate } from "@/lib/formatDate";
 
 interface Props {
   bookingType: string;
@@ -134,7 +135,7 @@ export default function EventDetails({
             name="date"
             control={control}
             render={({ field }) => {
-              const selected = field.value ? new Date(field.value) : undefined;
+              const selected = field.value ? field.value : undefined;
               return (
                 <Popover>
                   <PopoverTrigger asChild>
@@ -146,7 +147,7 @@ export default function EventDetails({
                         !selected && "text-muted-foreground"
                       )}>
                       {selected
-                        ? format(selected, "d MMMM yyyy", { locale: ru })
+                        ? formatDate(selected)
                         : t("SELECT_DATE_PLACEHOLDER")}
                     </Button>
                   </PopoverTrigger>
@@ -155,7 +156,7 @@ export default function EventDetails({
                       mode="single"
                       selected={selected}
                       onSelect={(date) =>
-                        field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                        field.onChange(date ? formatDate(date) : "")
                       }
                       disabled={(date) =>
                         date < new Date(new Date().setHours(0, 0, 0, 0))

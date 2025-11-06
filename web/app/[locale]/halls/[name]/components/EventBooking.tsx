@@ -15,7 +15,8 @@ import { EventCard } from "@/components/client/EventCard";
 import { RegularBookingCard } from "./RegularBookingCard";
 import BookingTypeSelector from "./BookingTypeSelector";
 import { EventType } from "@/types";
-import { useTranslations } from "next-intl"; // <-- подключение переводов
+import { useTranslations } from "next-intl";
+import { formatDate } from "@/lib/formatDate";
 
 interface EventBookingProps {
   allEvents: EventType[];
@@ -30,9 +31,7 @@ export default function EventBooking({ allEvents, hallId }: EventBookingProps) {
   const t = useTranslations("common.halls");
 
   const eventDates = allEvents.map((e) => new Date(e.dateISO));
-  const selectedDateStr = selectedDate
-    ? format(selectedDate, "yyyy-MM-dd")
-    : null;
+  const selectedDateStr = selectedDate ? formatDate(selectedDate) : null;
   const selectedEvent = selectedDateStr
     ? allEvents.find((e) => e.dateISO === selectedDateStr)
     : null;

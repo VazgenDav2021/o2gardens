@@ -16,7 +16,7 @@ export default async function HomePage({ params }: PageProps) {
 
   return (
     <>
-      <HeroSection messages={messages} />
+      <HeroSection />
       <WhyUsSection messages={messages} />
       <HallsSection messages={messages} />
       <EventsSection messages={messages} />
