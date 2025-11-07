@@ -3,19 +3,18 @@ import { Card, CardContent } from "@/ui/card";
 import HallSVGClient from "./components/HallSVGClient";
 import TableLegend from "./components/TableLegend";
 import SelectedTableCard from "./components/SelectedTableCard";
-import { AbstractIntlMessages, useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
-interface HallMapPageProps {
-  messages: AbstractIntlMessages;
-  params: {
-    halId: string;
-    eventId: string;
-  };
-}
-
-export default async function HallMapPage({ messages, params }: HallMapPageProps) {
-  const t = await getTranslations({ messages, namespace: "common.hallMap" });
+export default async function HallMapPage({
+  params,
+}: {
+  params: { halId: string; eventId: string; locale: string };
+}) {
+  const messages = await import(`../../../../../messages/${params.locale}.json`);
+  const t = await getTranslations({
+    messages: messages.default,
+    namespace: "common.hallMap",
+  });
 
   return (
     <div className="pt-32 pb-20">

@@ -1,20 +1,21 @@
 import { EventType } from "@/types";
 import { getMockEvents } from "@/lib/mock/getEvents";
 import EventBooking from "./components/EventBooking";
-import { AbstractIntlMessages, useTranslations } from "next-intl";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Locale } from "@/navigation";
 
-interface EventPageProps {
-  params: { name: string };
-  messages: AbstractIntlMessages;
-}
-
 export default async function EventPage({
-  params: { name },
-  messages,
-}: EventPageProps) {
-  const t = await getTranslations({ messages, namespace: "common.halls" });
+  params,
+}: {
+  params: { name: string; locale: string };
+}) {
+  // Dynamically import messages
+  const messages = await import(`../../../../messages/${params.locale}.json`);
+  const t = await getTranslations({
+    messages: messages.default,
+    namespace: "common.halls",
+  });
+
   const locale = await getLocale();
 
   let allEvents: EventType[] = [];
@@ -51,7 +52,7 @@ export default async function EventPage({
         <p className="text-xl text-muted-foreground text-center mb-8 animate-fade-in">
           {t("BOOKING_DESCRIPTION")}
         </p>
-        <EventBooking allEvents={allEvents} hallId={name} />
+        <EventBooking allEvents={allEvents} hallId={params.name} />
       </div>
     </div>
   );

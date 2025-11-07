@@ -9,15 +9,20 @@ interface EventsPageProps {
   messages: AbstractIntlMessages;
 }
 
-const EventsPage = async ({ messages }: EventsPageProps) => {
-  const t = await getTranslations(messages);
-  const locale = await getLocale();
+export default async function EventsPage({
+  params,
+}: {
+  params: { locale: Locale };
+}) {
+  const messages = await import(`../../../messages/${params.locale}.json`);
+
+  const t = await getTranslations({
+    messages: messages.default,
+    namespace: "events",
+  });
 
   try {
-    const allEvents: EventType[] = await getMockEvents(
-      "normal",
-      locale as Locale
-    );
+    const allEvents: EventType[] = await getMockEvents("normal", params.locale);
 
     if (allEvents.length === 0) {
       return (
@@ -38,6 +43,4 @@ const EventsPage = async ({ messages }: EventsPageProps) => {
       </div>
     );
   }
-};
-
-export default EventsPage;
+}

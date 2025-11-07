@@ -10,12 +10,14 @@ import { AbstractIntlMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail } from "lucide-react";
 
-interface ContactPageProps {
-  messages: AbstractIntlMessages;
-}
+export default async function ContactPage({ params }: { params: { locale: string } }) {
+  // Dynamically import the translation JSON for the current locale
+  const messages = await import(`../../../messages/${params.locale}.json`);
 
-const ContactPage = async ({ messages }: ContactPageProps) => {
-  const t = await getTranslations({ messages, namespace: "contact" });
+  const t = await getTranslations({
+    messages: messages.default,
+    namespace: "contact",
+  });
 
   const contactItems = [
     {
@@ -102,6 +104,4 @@ const ContactPage = async ({ messages }: ContactPageProps) => {
       </div>
     </div>
   );
-};
-
-export default ContactPage;
+}

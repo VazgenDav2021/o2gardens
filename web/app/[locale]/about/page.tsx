@@ -1,13 +1,16 @@
 import { Card, CardContent } from "@/ui/card";
-import { AbstractIntlMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
-interface AboutPageProps {
-  messages: AbstractIntlMessages;
-}
-
-const AboutPage = async ({ messages }: AboutPageProps) => {
-  const t = await getTranslations({messages, namespace: "about" });
+export default async function AboutPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const messages = await import(`../../../messages/${params.locale}.json`);
+  const t = await getTranslations({
+    messages: messages.default,
+    namespace: "about",
+  });
   const advantages = t.raw("advantages.LIST") as string[];
 
   return (
@@ -62,6 +65,4 @@ const AboutPage = async ({ messages }: AboutPageProps) => {
       </div>
     </div>
   );
-};
-
-export default AboutPage;
+}

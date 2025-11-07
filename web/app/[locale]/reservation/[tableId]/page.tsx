@@ -2,26 +2,20 @@ import { getEventById } from "@/lib/mock/getEvents";
 import ReservationForm from "./components/ReservationForm";
 import { EventType } from "@/types";
 import { getTranslations } from "next-intl/server";
-import { AbstractIntlMessages } from "next-intl";
-
-interface ReservationPageProps {
-  params: { tableId: string };
-  searchParams: {
-    deposit?: string;
-    eventId?: string;
-  };
-  messages: AbstractIntlMessages;
-}
 
 export default async function ReservationPage({
   params,
   searchParams,
-  messages,
-}: ReservationPageProps) {
+}: {
+  params: { tableId: string; locale: string };
+  searchParams: { deposit?: string; eventId?: string };
+}) {
+  const messages = await import(`../../../../messages/${params.locale}.json`);
   const t = await getTranslations({
-    messages,
+    messages: messages.default,
     namespace: "common.reservations",
   });
+
   try {
     const { tableId } = params;
     const eventId = searchParams?.eventId ?? null;
