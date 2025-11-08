@@ -12,7 +12,10 @@ import { MapPin, Phone, Mail } from "lucide-react";
 
 export default async function ContactPage({ params }: { params: { locale: string } }) {
   // Dynamically import the translation JSON for the current locale
-  const messages = await import(`../../../messages/${params.locale}.json`);
+  const messages = await import(
+    `../../../messages/${params.locale}/contact.json`
+  );
+
 
   const t = await getTranslations({
     messages: messages.default,

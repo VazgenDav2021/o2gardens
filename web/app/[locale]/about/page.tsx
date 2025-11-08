@@ -6,7 +6,8 @@ export default async function AboutPage({
 }: {
   params: { locale: string };
 }) {
-  const messages = await import(`../../../messages/${params.locale}.json`);
+  const messages = await import(`../../../messages/${params.locale}/about.json`);
+  
   const t = await getTranslations({
     messages: messages.default,
     namespace: "about",

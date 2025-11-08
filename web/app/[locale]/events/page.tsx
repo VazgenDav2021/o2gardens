@@ -14,7 +14,9 @@ export default async function EventsPage({
 }: {
   params: { locale: Locale };
 }) {
-  const messages = await import(`../../../messages/${params.locale}.json`);
+  const messages = await import(
+    `../../../messages/${params.locale}/events.json`
+  );
 
   const t = await getTranslations({
     messages: messages.default,

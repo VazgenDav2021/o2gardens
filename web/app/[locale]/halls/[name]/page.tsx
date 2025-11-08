@@ -10,7 +10,9 @@ export default async function EventPage({
   params: { name: string; locale: string };
 }) {
   // Dynamically import messages
-  const messages = await import(`../../../../messages/${params.locale}.json`);
+  const messages = await import(
+    `../../../../messages/${params.locale}/common.json`
+  );
   const t = await getTranslations({
     messages: messages.default,
     namespace: "common.halls",

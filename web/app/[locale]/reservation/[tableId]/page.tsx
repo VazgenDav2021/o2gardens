@@ -10,7 +10,9 @@ export default async function ReservationPage({
   params: { tableId: string; locale: string };
   searchParams: { deposit?: string; eventId?: string };
 }) {
-  const messages = await import(`../../../../messages/${params.locale}.json`);
+  const messages = await import(
+    `../../../../messages/${params.locale}/common.json`
+  );
   const t = await getTranslations({
     messages: messages.default,
     namespace: "common.reservations",

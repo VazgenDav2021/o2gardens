@@ -7,7 +7,10 @@ export default async function Halls({
   params: { locale: string };
 }) {
   // Dynamically import messages for the current locale
-  const messages = await import(`../../../messages/${params.locale}.json`);
+  const messages = await import(
+    `../../../messages/${params.locale}/common.json`
+  );
+
 
   return <HallsSection messages={messages} />;
 }

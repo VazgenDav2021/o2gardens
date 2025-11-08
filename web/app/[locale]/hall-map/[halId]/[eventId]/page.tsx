@@ -10,7 +10,7 @@ export default async function HallMapPage({
 }: {
   params: { halId: string; eventId: string; locale: string };
 }) {
-  const messages = await import(`../../../../../messages/${params.locale}.json`);
+  const messages = await import(`../../../../../messages/${params.locale}/common.json`);
   const t = await getTranslations({
     messages: messages.default,
     namespace: "common.hallMap",
