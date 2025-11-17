@@ -44,7 +44,6 @@ export default function RegularDetails({ eventTimeStart }: Props) {
     <div className="space-y-6 animate-fade-in">
       <h2 className="text-2xl font-bold mb-6">{t("GUESTS_TITLE")}</h2>
 
-      {/* Guests */}
       <div className="space-y-4">
         <Label className="text-base flex items-center gap-2">
           <Users size={18} className="text-primary" /> {t("ADULTS")}
@@ -71,9 +70,7 @@ export default function RegularDetails({ eventTimeStart }: Props) {
         />
       </div>
 
-      {/* Date and time */}
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Date */}
         <div className="space-y-2">
           <Label className="text-base flex items-center gap-2">
             <CalendarIcon size={18} className="text-primary" /> {t("DATE")}
@@ -118,7 +115,6 @@ export default function RegularDetails({ eventTimeStart }: Props) {
           />
         </div>
 
-        {/* Time */}
         <div className="space-y-2">
           <Label className="text-base flex items-center gap-2">
             <Clock size={18} className="text-primary" /> {t("TIME")}

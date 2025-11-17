@@ -19,7 +19,7 @@ export interface EventType {
 }
 
 export interface TableType {
-  id: string;
+  _id: string;
   x: number;
   y: number;
   capacity: number;

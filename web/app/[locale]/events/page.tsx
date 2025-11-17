@@ -1,13 +1,8 @@
 import { getMockEvents } from "@/lib/mock/getEvents";
 import { EventType } from "@/types";
 import EventsList from "./components/EventsList";
-import { getLocale, getTranslations } from "next-intl/server";
-import { AbstractIntlMessages } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Locale } from "@/navigation";
-
-interface EventsPageProps {
-  messages: AbstractIntlMessages;
-}
 
 export default async function EventsPage({
   params,
