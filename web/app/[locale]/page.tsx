@@ -5,7 +5,7 @@ import AboutSection from "./components/AboutSection";
 import ServicesSection from "./components/ServicesSection";
 import EventsSection from "./components/EventsSection";
 import { getMessages } from "next-intl/server";
-import { Locale } from "@/navigation";
+import { Locale } from "@/types";
 
 interface PageProps {
   params: { locale: Locale };

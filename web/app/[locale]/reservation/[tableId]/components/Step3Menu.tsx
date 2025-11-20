@@ -17,7 +17,7 @@ interface MenuItem {
 interface MenuCategory {
   [key: string]: MenuItem[];
 }
-interface Props {
+interface Step3MenuProps {
   currentMenu: MenuCategory;
   onSelectionChange?: (selected: Set<string>, total: number) => void;
 }
@@ -25,7 +25,7 @@ interface Props {
 export default function Step3Menu({
   currentMenu,
   onSelectionChange = () => {},
-}: Props) {
+}: Step3MenuProps) {
   const { control, watch } = useFormContext();
   const menuValue = watch("menu") || [];
   const t = useTranslations("common");

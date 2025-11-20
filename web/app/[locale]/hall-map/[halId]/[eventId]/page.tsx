@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { Card, CardContent } from "@/ui/card";
-import HallSVGClient from "./components/HallSVGClient";
 import TableLegend from "./components/TableLegend";
 import SelectedTableCard from "./components/SelectedTableCard";
 import { getTranslations } from "next-intl/server";
@@ -31,7 +30,7 @@ export default async function HallMapPage({
             <Card className="animate-fade-in">
               <CardContent className="p-8">
                 <Suspense fallback={<div>{t("LOADING")}</div>}>
-                  <HallSVGClient />
+                 123123
                 </Suspense>
               </CardContent>
             </Card>

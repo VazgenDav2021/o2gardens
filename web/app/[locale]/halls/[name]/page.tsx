@@ -2,7 +2,7 @@ import { EventType } from "@/types";
 import { getMockEvents } from "@/lib/mock/getEvents";
 import EventBooking from "./components/EventBooking";
 import { getTranslations, getLocale } from "next-intl/server";
-import { Locale } from "@/navigation";
+import { Locale } from "@/types";
 
 export default async function EventPage({
   params,

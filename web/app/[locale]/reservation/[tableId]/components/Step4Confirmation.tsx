@@ -5,12 +5,12 @@ import { useFormContext } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import SummaryCard from "./SummaryCard";
 
-interface Props {
+interface Step4ConfirmationProps {
   tableId: string;
   bookingType: string;
 }
 
-export default function Step4Confirmation({ tableId, bookingType }: Props) {
+export default function Step4Confirmation({ tableId, bookingType }: Step4ConfirmationProps) {
   const t = useTranslations("common.halls");
   const { watch } = useFormContext();
 

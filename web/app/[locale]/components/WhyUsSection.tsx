@@ -1,14 +1,10 @@
+import { SectionProps } from "@/types";
 import { Calendar as CalendarIcon, MapPin, Users } from "lucide-react";
-import { AbstractIntlMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
-
-interface WhyUsSectionProps {
-  messages: AbstractIntlMessages;
-}
 
 const icons = [CalendarIcon, MapPin, Users];
 
-const WhyUsSection = async ({ messages }: WhyUsSectionProps) => {
+const WhyUsSection = async ({ messages }: SectionProps) => {
   const t = await getTranslations(messages);
   const items = t.raw("home.whyUs.ITEMS") as Array<{
     TITLE: string;

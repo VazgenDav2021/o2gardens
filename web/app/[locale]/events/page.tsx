@@ -2,7 +2,7 @@ import { getMockEvents } from "@/lib/mock/getEvents";
 import { EventType } from "@/types";
 import EventsList from "./components/EventsList";
 import { getTranslations } from "next-intl/server";
-import { Locale } from "@/navigation";
+import { Locale } from "@/types";
 
 export default async function EventsPage({
   params,

@@ -1,4 +1,5 @@
-import z, { date } from "zod";
+import { AbstractIntlMessages } from "next-intl";
+import z from "zod";
 
 export interface EventType {
   id: string;
@@ -27,6 +28,8 @@ export interface TableType {
   status: "available" | "reserved";
 }
 
+export type Slide = { id: number; image: string };
+
 export const reservationSchema = z.object({
   name: z.string().min(1),
   phone: z.string().min(1),
@@ -40,3 +43,13 @@ export const reservationSchema = z.object({
 });
 
 export type ReservationData = z.infer<typeof reservationSchema>;
+
+export type Locale = "en" | "ru" | "hy";
+
+export type TableStatus = "available" | "reserved" | "selected";
+
+export interface SectionProps {
+  messages: AbstractIntlMessages;
+}
+
+export type EventEnum = "regular" | "event";

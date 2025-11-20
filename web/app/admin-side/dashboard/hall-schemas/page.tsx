@@ -24,25 +24,19 @@ import {
   CardDescription,
 } from "@/ui/card";
 
-import { useFabricCanvas } from "@/hooks/useFabricCanvas";
-import { useTables } from "@/hooks/useTables";
 import { TableButtons } from "@/components/admin/TableButtons";
 import { FabricCanvasWrapper } from "@/components/admin/FabricCanvasWrapper";
 
 const halls = ["Зал 1", "Зал 2", "Терраса"];
 
 const HallSchemas = () => {
-  const { canvasRef, fabricCanvasRef } = useFabricCanvas(true);
-  const { tables, addTable, removeTable, setTables } =
-    useTables(fabricCanvasRef);
-
   const [schemas, setSchemas] = useState<any[]>([]);
   const [selectedHall, setSelectedHall] = useState("");
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
   const handleSave = () => {
-    if (!selectedHall || !startDate || !endDate || tables.length === 0) {
+    if (!selectedHall || !startDate || !endDate) {
       toast({ title: "Заполните все поля и добавьте столы" });
       return;
     }
@@ -56,14 +50,13 @@ const HallSchemas = () => {
       hall: selectedHall,
       startDate: format(startDate, "dd.MM.yyyy", { locale: ru }),
       endDate: format(endDate, "dd.MM.yyyy", { locale: ru }),
-      tables: [...tables],
+      tables: [],
     };
 
     setSchemas((prev) => [...prev, newSchema]);
     setSelectedHall("");
     setStartDate(undefined);
     setEndDate(undefined);
-    setTables([]);
     toast({ title: "Схема зала создана" });
   };
 
@@ -159,25 +152,6 @@ const HallSchemas = () => {
               </Popover>
             </div>
           </div>
-
-          <TableButtons addTable={addTable} />
-          <FabricCanvasWrapper canvasRef={canvasRef} />
-
-          {tables.length > 0 && (
-            <div className="flex gap-2 flex-wrap">
-              {tables.map((table) => (
-                <Button
-                  key={table.id}
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => removeTable(table.id)}
-                  className="gap-2">
-                  Стол {table.number} ({table.capacity}м){" "}
-                  <Trash2 className="w-3 h-3" />
-                </Button>
-              ))}
-            </div>
-          )}
 
           <div className="flex gap-2 pt-4">
             <Button onClick={handleSave} className="gap-2">

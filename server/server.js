@@ -6,6 +6,8 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
+import heroRoutes from "./routes/heroRoutes.js";
+
 
 dotenv.config();
 connectDB();
@@ -17,6 +19,7 @@ app.use(cors({ origin: true, credentials: true }));
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/hero", heroRoutes);
 
 app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });

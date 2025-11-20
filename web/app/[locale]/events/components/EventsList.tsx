@@ -1,7 +1,7 @@
 import { Badge } from "@/ui/badge";
 import { EventType } from "@/types";
 import { EventTimelineItem } from "./EventTimelineItem";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { AbstractIntlMessages } from "next-intl";
 
 interface EventsListProps {

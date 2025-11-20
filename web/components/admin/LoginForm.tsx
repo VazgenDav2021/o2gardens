@@ -16,7 +16,7 @@ const LoginForm = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email && password) {
-      // await loginAdmin({ email, password })
+      await loginAdmin({ email, password })
       window.location.href = "/admin-side/dashboard/hero/";
     } else {
       toast({

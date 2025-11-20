@@ -1,11 +1,11 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import "../globals.css";
-import { Locale } from "@/navigation";
 import Footer from "@/components/client/Footer";
 import Header from "@/components/client/Header";
 import { Toaster } from "@/ui/toaster";
 import type { Metadata } from "next";
+import { Locale } from "@/types";
 
 export async function generateMetadata({
   params,

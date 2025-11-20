@@ -1,6 +1,5 @@
-import { EventType } from "@/types";
+import { EventType, Locale } from "@/types";
 
-export type Locale = "en" | "ru" | "hy";
 type Mode = "normal" | "empty" | "error";
 
 /**

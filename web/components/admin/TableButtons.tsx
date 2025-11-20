@@ -1,11 +1,11 @@
 import { Button } from "@/ui/button";
 import { Grid3x3 } from "lucide-react";
 
-interface Props {
+interface TableButtonsProps {
   addTable: (capacity: number) => void;
 }
 
-export const TableButtons = ({ addTable }: Props) => (
+export const TableButtons = ({ addTable }: TableButtonsProps) => (
   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
     {[2, 4, 6, 8].map((n) => (
       <Button

@@ -20,15 +20,14 @@ import { cn } from "@/lib/cn";
 import { useTranslations } from "next-intl";
 import { formatDate } from "@/lib/formatDate";
 
-interface Props {
+interface RegularDetailsProps {
   bookingType: string;
   depositPerPerson: number;
   eventTimeStart: string | null;
 }
 
-export default function RegularDetails({ eventTimeStart }: Props) {
+export default function RegularDetails({ eventTimeStart }: RegularDetailsProps) {
   const { control, watch } = useFormContext();
-  const values = watch();
   const allTimeSlots = Array.from({ length: 24 }, (_, i) => [
     `${i.toString().padStart(2, "0")}:00`,
     `${i.toString().padStart(2, "0")}:30`,

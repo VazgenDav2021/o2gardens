@@ -3,10 +3,11 @@
 import { RadioGroup, RadioGroupItem } from "@/ui/radio-group";
 import { Label } from "@/ui/label";
 import { useTranslations } from "next-intl";
+import { EventEnum } from "@/types";
 
 interface BookingTypeSelectorProps {
-  bookingType: "regular" | "event";
-  onChange: (value: "regular" | "event") => void;
+  bookingType: EventEnum;
+  onChange: (value: EventEnum) => void;
 }
 
 const BookingTypeSelector = ({

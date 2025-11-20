@@ -1,11 +1,8 @@
+import { SectionProps } from "@/types";
 import { AbstractIntlMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
-interface AboutSectionProps {
-  messages: AbstractIntlMessages;
-}
-
-const AboutSection = async ({ messages }: AboutSectionProps) => {
+const AboutSection = async ({ messages }: SectionProps) => {
   const t = await getTranslations({ messages });
 
   const paragraphs = t.raw("home.about.PARAGRAPHS") as string[];

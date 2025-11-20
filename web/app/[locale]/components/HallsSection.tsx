@@ -9,14 +9,10 @@ import {
 } from "@/ui/card";
 import { Button } from "@/ui/button";
 import Link from "next/link";
-import { AbstractIntlMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { SectionProps } from "@/types";
 
-interface HallsSectionProps {
-  messages: AbstractIntlMessages;
-}
-
-const HallsSection = async ({ messages }: HallsSectionProps) => {
+const HallsSection = async ({ messages }: SectionProps) => {
   const t = await getTranslations(messages);
   const halls = t.raw("common.halls.LIST") as Array<{
     NAME: string;
