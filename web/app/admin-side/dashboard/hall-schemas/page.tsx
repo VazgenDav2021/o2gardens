@@ -24,9 +24,6 @@ import {
   CardDescription,
 } from "@/ui/card";
 
-import { TableButtons } from "@/components/admin/TableButtons";
-import { FabricCanvasWrapper } from "@/components/admin/FabricCanvasWrapper";
-
 const halls = ["Зал 1", "Зал 2", "Терраса"];
 
 const HallSchemas = () => {

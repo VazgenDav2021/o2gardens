@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { reservationSchema } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import Step1Details from "./Step1Details";
 import Step2Contacts from "./Step2Contacts";
@@ -12,6 +11,7 @@ import Step4Confirmation from "./Step4Confirmation";
 import Stepper from "./Stepper";
 import { useTranslations } from "next-intl";
 import FormNavigation from "./FormNavigation";
+import z from "zod";
 
 interface ReservationFormProps {
   tableId: string;
@@ -19,6 +19,18 @@ interface ReservationFormProps {
   date: number;
   eventTimeStart: string;
 }
+
+export const reservationSchema = z.object({
+  name: z.string().min(1),
+  phone: z.string().min(1),
+  email: z.string().email(),
+  adults: z.number().min(1),
+  children4to10: z.number().min(0),
+  childrenUnder4: z.number().min(0),
+  menu: z.array(z.string()).optional(),
+  date: z.number().min(1),
+  time: z.string().min(1),
+});
 
 export default function ReservationForm({
   tableId,

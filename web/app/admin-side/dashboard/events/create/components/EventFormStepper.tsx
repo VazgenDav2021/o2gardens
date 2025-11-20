@@ -5,12 +5,7 @@ import { useForm } from "react-hook-form";
 import StepperHeader from "./StepperHeader";
 import EventInfoStep from "./EventInfoStep";
 import HallStep from "./HallStep";
-
-export interface MultilangText {
-  ru: string;
-  en: string;
-  hy: string;
-}
+import { MultilangText } from "@/types";
 
 export interface MenuItem {
   name: MultilangText;
