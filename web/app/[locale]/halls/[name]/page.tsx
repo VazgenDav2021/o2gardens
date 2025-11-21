@@ -1,6 +1,6 @@
 import { EventType } from "@/types";
 import { getMockEvents } from "@/lib/mock/getEvents";
-import EventBooking from "./components/EventBooking";
+import EventBooking from "@/components/client/EventBooking";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Locale } from "@/types";
 
@@ -9,7 +9,6 @@ export default async function EventPage({
 }: {
   params: { name: string; locale: string };
 }) {
-  // Dynamically import messages
   const messages = await import(
     `../../../../messages/${params.locale}/common.json`
   );

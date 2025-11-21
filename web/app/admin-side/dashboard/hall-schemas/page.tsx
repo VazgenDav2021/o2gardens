@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/useToast";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
 import {

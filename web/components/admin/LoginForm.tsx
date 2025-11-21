@@ -5,8 +5,7 @@ import { Lock, User } from "lucide-react";
 import { Label } from "@/ui/label";
 import { Input } from "@/ui/input";
 import { Button } from "@/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { loginAdmin } from "@/lib/authService";
+import { useToast } from "@/hooks/useToast";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +15,7 @@ const LoginForm = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email && password) {
-      await loginAdmin({ email, password })
+      // await loginAdmin({ email, password })
       window.location.href = "/admin-side/dashboard/hero/";
     } else {
       toast({

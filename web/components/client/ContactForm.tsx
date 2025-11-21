@@ -13,7 +13,7 @@ import {
   CardDescription,
 } from "@/ui/card";
 import { MessageSquare, Send } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 import { useTranslations } from "next-intl";
 
 export const ContactForm = () => {

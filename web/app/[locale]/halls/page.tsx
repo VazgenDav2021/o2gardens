@@ -1,4 +1,4 @@
-import HallsSection from "../components/HallsSection";
+import HallsSection from "../../../components/client/HallsSection";
 import { getTranslations } from "next-intl/server";
 
 export default async function Halls({

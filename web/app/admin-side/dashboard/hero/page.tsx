@@ -1,10 +1,9 @@
-import { HeroService } from "@/lib/heroService";
-import HeroContentForm from "./components/HeroContentForm";
+import HeroContentForm from "@/components/admin/HeroContentForm";
 
 const HeroContentPage = async () => {
   try {
-    const slides = await HeroService.getAll();
-    return <HeroContentForm slides={slides} />;
+    // const slides = await HeroService.getAll();
+    return <HeroContentForm slides={[]} />;
   } catch (error) {
     
   }

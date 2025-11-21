@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  Control,
+  useFieldArray,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
@@ -17,7 +19,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/ui/select";
-import { EventFormValues } from "./EventFormStepper";
+import { MenuItem } from "@/types";
 
 const HALLS = [
   { value: "hall1", label: "Зал 1" },
@@ -26,9 +28,10 @@ const HALLS = [
 ];
 
 interface EventInfoStepProps {
-  register: UseFormRegister<EventFormValues>;
-  setValue: UseFormSetValue<EventFormValues>;
-  watch: UseFormWatch<EventFormValues>;
+  register: UseFormRegister<any>;
+  setValue: UseFormSetValue<any>;
+  control: Control<any>;
+  watch: UseFormWatch<any>;
   nextStep: () => void;
 }
 
@@ -37,8 +40,14 @@ export default function EventInfoStep({
   setValue,
   watch,
   nextStep,
+  control,
 }: EventInfoStepProps) {
   const selectedHall = watch("hall");
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "menu",
+  });
 
   return (
     <Card>
@@ -50,15 +59,15 @@ export default function EventInfoStep({
         <div className="grid grid-cols-3 gap-3 items-center">
           <div>
             <Label>Название (рус.)</Label>
-            <Input {...register("title.ru")} />
+            <Input {...register("name.ru")} />
           </div>
           <div>
             <Label>Название (англ.)</Label>
-            <Input {...register("title.en")} />
+            <Input {...register("name.en")} />
           </div>
           <div>
             <Label>Название (арм.)</Label>
-            <Input {...register("title.hy")} />
+            <Input {...register("name.hy")} />
           </div>
         </div>
 
@@ -100,7 +109,7 @@ export default function EventInfoStep({
             <input
               type="checkbox"
               className="h-4 w-4"
-              {...register("adultsOnly")}
+              {...register("isAdult")}
             />
             <Label>Для совершеннолетних</Label>
           </div>
@@ -119,6 +128,82 @@ export default function EventInfoStep({
               </SelectContent>
             </Select>
           </div>
+        </div>
+
+        <div className="space-y-4 flex flex-col">
+          <Label className="font-semibold text-lg">Меню</Label>
+          <div className="overflow-scroll max-h-[500px] flex flex-col gap-4">
+            {fields.map((item, index) => (
+              <Card key={item.id} className="p-4 border border-gray-300">
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <Label>Название (рус.)</Label>
+                    <Input {...register(`menu.${index}.name.ru` as const)} />
+                  </div>
+                  <div>
+                    <Label>Название (англ.)</Label>
+                    <Input {...register(`menu.${index}.name.en` as const)} />
+                  </div>
+                  <div>
+                    <Label>Название (арм.)</Label>
+                    <Input {...register(`menu.${index}.name.hy` as const)} />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3 mt-2">
+                  <div>
+                    <Label>Описание (рус.)</Label>
+                    <Textarea
+                      {...register(`menu.${index}.description.ru` as const)}
+                    />
+                  </div>
+                  <div>
+                    <Label>Описание (англ.)</Label>
+                    <Textarea
+                      {...register(`menu.${index}.description.en` as const)}
+                    />
+                  </div>
+                  <div>
+                    <Label>Описание (арм.)</Label>
+                    <Textarea
+                      {...register(`menu.${index}.description.hy` as const)}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 mt-2 items-center">
+                  <div>
+                    <Label>Цена</Label>
+                    <Input
+                      type="text"
+                      {...register(`menu.${index}.price` as const)}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end mt-2">
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => remove(index)}>
+                    Удалить
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <Button
+            type="button"
+            onClick={() =>
+              append({
+                name: { ru: "", en: "", hy: "" },
+                description: { ru: "", en: "", hy: "" },
+                price: "",
+              } as MenuItem)
+            }>
+            Добавить пункт меню
+          </Button>
         </div>
 
         <div className="flex justify-end mt-4">

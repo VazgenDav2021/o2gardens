@@ -28,7 +28,6 @@ export interface TableType {
   status: "available" | "reserved";
 }
 
-
 export type TableStatus = "available" | "reserved" | "selected";
 
 export interface SectionProps {
@@ -41,4 +40,10 @@ export interface MultilangText {
   ru: string;
   en: string;
   hy: string;
+}
+
+export interface MenuItem {
+  name: MultilangText;
+  description: MultilangText;
+  price: string;
 }

@@ -1,5 +1,5 @@
 import { getEventById } from "@/lib/mock/getEvents";
-import ReservationForm from "./components/ReservationForm";
+import ReservationForm from "@/components/client/ReservationForm";
 import { EventType } from "@/types";
 import { getTranslations } from "next-intl/server";
 

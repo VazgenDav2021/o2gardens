@@ -5,7 +5,7 @@ import { Button } from "@/ui/button";
 interface StepperHeaderProps {
   step: number;
   setStep: (step: number) => void;
-  selectedHall: string;
+  selectedHall: string | undefined;
 }
 
 export default function StepperHeader({

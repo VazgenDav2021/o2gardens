@@ -1,4 +1,4 @@
-import { ContactForm } from "./components/ContactForm";
+import { ContactForm } from "@/components/client/ContactForm";
 import {
   Card,
   CardContent,
@@ -6,7 +6,6 @@ import {
   CardTitle,
   CardDescription,
 } from "@/ui/card";
-import { AbstractIntlMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail } from "lucide-react";
 

@@ -8,15 +8,14 @@ import {
 } from "@/ui/card";
 import { X, Save } from "lucide-react";
 import { SlideInput } from "./SlideInput";
-import { HeroImage } from "@/lib/heroService";
 
 interface SlideCardProps {
-  slide: HeroImage;
+  slide: any;
   index: number;
   totalSlides: number;
   onChange: (id: string, value: string | File) => void;
   onRemove: (id: string) => void;
-  onSave: (slide: HeroImage) => void;
+  onSave: (slide: any) => void;
 }
 
 export const SlideCard = ({

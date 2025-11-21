@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Card, CardContent } from "@/ui/card";
-import TableLegend from "./components/TableLegend";
-import SelectedTableCard from "./components/SelectedTableCard";
+import TableLegend from "@/components/client/TableLegend";
+import SelectedTableCard from "@/components/client/SelectedTableCard";
 import { getTranslations } from "next-intl/server";
 
 export default async function HallMapPage({

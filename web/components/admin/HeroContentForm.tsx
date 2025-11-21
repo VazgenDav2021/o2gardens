@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 import { Button } from "@/ui/button";
 import { SlideCard } from "./SlideCard";
-import { HeroImage, HeroService } from "@/lib/heroService";
 
 interface HeroContentFormProps {
-  slides: HeroImage[];
+  slides: any[];
 }
 
 const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
   const { toast } = useToast();
-  const [slides, setSlides] = useState<HeroImage[]>(initialSlides);
+  const [slides, setSlides] = useState<any[]>(initialSlides);
 
   const addSlide = () => setSlides((prev) => [...prev, { imageUrl: "" }]);
 
@@ -32,9 +31,7 @@ const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
 
   const removeSlide = async (id: string) => {
     try {
-      await HeroService.delete(id);
       setSlides((prev) => prev.filter((s) => s._id !== id));
-
       toast({ title: "Удалено", description: "Слайд успешно удалён." });
     } catch (e) {
       toast({
@@ -45,15 +42,15 @@ const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
     }
   };
 
-  const saveSlide = async (slide: HeroImage) => {
+  const saveSlide = async (slide: any) => {
     try {
-      let saved: HeroImage;
+      let saved: any;
 
       if (!slide._id) {
-        saved = await HeroService.create(slide);
+        // saved = await HeroService.create(slide);
         setSlides((prev) => prev.map((s) => (s === slide ? { ...saved } : s)));
       } else {
-        saved = await HeroService.update(slide._id, slide);
+        // saved = await HeroService.update(slide._id, slide);
         setSlides((prev) =>
           prev.map((s) => (s._id === slide._id ? { ...saved } : s))
         );
