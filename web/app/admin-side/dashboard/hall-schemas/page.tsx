@@ -23,11 +23,12 @@ import {
   CardTitle,
   CardDescription,
 } from "@/ui/card";
+import { HallSchema } from "@/types";
 
 const halls = ["Зал 1", "Зал 2", "Терраса"];
 
 const HallSchemas = () => {
-  const [schemas, setSchemas] = useState<any[]>([]);
+  const [schemas, setSchemas] = useState<HallSchema[]>([]);
   const [selectedHall, setSelectedHall] = useState("");
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -43,11 +44,13 @@ const HallSchemas = () => {
     }
 
     const newSchema = {
-      id: Date.now(),
-      hall: selectedHall,
-      startDate: format(startDate, "dd.MM.yyyy", { locale: ru }),
-      endDate: format(endDate, "dd.MM.yyyy", { locale: ru }),
+      hallId: selectedHall,
+      dateRange: {
+        startDate,
+        endDate,
+      },
       tables: [],
+      scenes: [],
     };
 
     setSchemas((prev) => [...prev, newSchema]);
@@ -57,8 +60,8 @@ const HallSchemas = () => {
     toast({ title: "Схема зала создана" });
   };
 
-  const deleteSchema = (id: number) => {
-    setSchemas((prev) => prev.filter((s) => s.id !== id));
+  const deleteSchema = (id: string) => {
+    setSchemas((prev) => prev.filter((s) => s._id !== id));
     toast({ title: "Схема удалена" });
   };
 
@@ -160,18 +163,19 @@ const HallSchemas = () => {
 
       <div className="grid gap-4">
         {schemas.map((schema) => (
-          <Card key={schema.id} className="shadow-md">
+          <Card key={schema._id} className="shadow-md">
             <CardContent className="pt-6 flex justify-between items-start">
               <div>
-                <h3 className="text-xl font-semibold">{schema.hall}</h3>
+                <h3 className="text-xl font-semibold">{schema.hallId}</h3>
                 <p className="text-sm text-muted-foreground">
-                  с {schema.startDate} по {schema.endDate}
+                  с {schema.dateRange.startDate.toISOString()} по{" "}
+                  {schema.dateRange.endDate.toISOString()}
                 </p>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => deleteSchema(schema.id)}>
+                onClick={() => deleteSchema(schema._id!)}>
                 <Trash2 className="w-4 h-4" />
               </Button>
             </CardContent>

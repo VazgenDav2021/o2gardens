@@ -4,16 +4,17 @@ import { useState } from "react";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/ui/button";
 import { SlideCard } from "./SlideCard";
+import { Slide } from "@/types";
 
 interface HeroContentFormProps {
-  slides: any[];
+  slides: Slide[];
 }
 
 const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
   const { toast } = useToast();
-  const [slides, setSlides] = useState<any[]>(initialSlides);
+  const [slides, setSlides] = useState<Slide[]>(initialSlides);
 
-  const addSlide = () => setSlides((prev) => [...prev, { imageUrl: "" }]);
+  const addSlide = () => setSlides((prev) => [...prev, { url: "" }]);
 
   const updateSlideLocal = (id: string, value: string | File) => {
     setSlides((prev) =>
@@ -42,7 +43,7 @@ const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
     }
   };
 
-  const saveSlide = async (slide: any) => {
+  const saveSlide = async (slide: Slide) => {
     try {
       let saved: any;
 

@@ -16,15 +16,16 @@ import { RegularBookingCard } from "./RegularBookingCard";
 import BookingTypeSelector from "./BookingTypeSelector";
 import { useTranslations } from "next-intl";
 import { formatDate } from "@/lib/formatDate";
+import { BookingType, Event } from "@/types";
 
 interface EventBookingProps {
-  allEvents: any[];
+  allEvents: Event<'client'>[];
   hallId: string;
 }
 
 export default function EventBooking({ allEvents, hallId }: EventBookingProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  const [bookingType, setBookingType] = useState<any>("regular");
+  const [bookingType, setBookingType] = useState<BookingType>("regular");
   const t = useTranslations("common.halls");
 
   const eventDates = allEvents.map((e) => new Date(e.dateISO));

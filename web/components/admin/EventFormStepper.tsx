@@ -5,24 +5,25 @@ import { useForm } from "react-hook-form";
 import StepperHeader from "./StepperHeader";
 import EventInfoStep from "./EventInfoStep";
 import HallStep from "./HallStep";
+import { Event } from "@/types";
 
 export default function EventFormStepper() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
-  const { register, control, handleSubmit, setValue, watch } = useForm<any>({
+  const { register, control, handleSubmit, setValue, watch } = useForm<Event>({
     defaultValues: {
       name: { ru: "", en: "", hy: "" },
       description: { ru: "", en: "", hy: "" },
       artists: { ru: "", en: "", hy: "" },
       isAdult: false,
-      hall: "",
+      hallId: "",
       menu: [],
     },
   });
 
-  const selectedHall = watch("hall");
+  const selectedHall = watch("hallId");
 
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async () => {};
 
   return (
     <form

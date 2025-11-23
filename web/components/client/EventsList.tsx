@@ -2,9 +2,10 @@ import { Badge } from "@/ui/badge";
 import { getTranslations } from "next-intl/server";
 import { AbstractIntlMessages } from "next-intl";
 import { EventTimelineItem } from "./EventTimelineItem";
+import { Event } from "@/types";
 
 interface EventsListProps {
-  events: any[];
+  events: Event<'client'>[];
   messages: AbstractIntlMessages;
 }
 
@@ -29,7 +30,7 @@ const EventsList = async ({ events, messages }: EventsListProps) => {
         <div className="relative space-y-12 animate-fade-in">
           <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border hidden md:block" />
           {events.map((event, index) => (
-            <EventTimelineItem key={event.id} event={event} index={index} />
+            <EventTimelineItem key={event._id} event={event} index={index} />
           ))}
         </div>
       </div>

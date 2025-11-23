@@ -1,11 +1,12 @@
 "use client";
 
+import { Scene, Table } from "@/types";
 import React, { useState, useRef, useEffect } from "react";
 
 interface HallProps {
   mode: "client" | "admin";
-  tables: any[];
-  scenes: any[];
+  tables: Table[];
+  scenes: Scene[];
   onAddTable?: (seats: number) => void;
   onAddScene?: () => void;
   onMoveItem?: (
@@ -90,14 +91,15 @@ export function HallEditor({
 
   const endDrag = () => setDragging(null);
 
-  const renderTableShape = (t: any) => {
+  const renderTableShape = (t: Table) => {
     const common = {
       stroke: "#222",
       strokeWidth: 2,
       fill: t.reserved ? "#ff6b6b" : "#4ade80",
       style: { cursor: mode === "admin" ? "grab" : "pointer" },
-      onMouseDown: (e: any) => startDrag(e, t.id, "table", t.x, t.y),
-      onClick: () => mode === "client" && onReserve?.(t.id),
+      onMouseDown: (e: React.MouseEvent<SVGElement, MouseEvent>) =>
+        startDrag(e, t._id!, "table", t.x, t.y),
+      onClick: () => mode === "client" && onReserve?.(t._id!),
     };
 
     switch (t.seats) {
@@ -175,7 +177,7 @@ export function HallEditor({
         onMouseLeave={endDrag}>
         <g transform={`scale(${scale})`}>
           {scenes.map((s) => (
-            <g key={s.id}>
+            <g key={s._id}>
               <rect
                 x={s.x}
                 y={s.y}
@@ -184,7 +186,7 @@ export function HallEditor({
                 fill="#1e40af"
                 rx={8}
                 style={{ cursor: mode === "admin" ? "grab" : "default" }}
-                onMouseDown={(e) => startDrag(e, s.id, "scene", s.x, s.y)}
+                onMouseDown={(e) => startDrag(e, s._id!, "scene", s.x, s.y)}
               />
               {mode === "admin" && (
                 <text
@@ -193,7 +195,7 @@ export function HallEditor({
                   fontSize={16}
                   fill="red"
                   style={{ cursor: "pointer" }}
-                  onClick={() => onDelete?.(s.id, "scene")}>
+                  onClick={() => onDelete?.(s._id!, "scene")}>
                   ✕
                 </text>
               )}
@@ -201,7 +203,7 @@ export function HallEditor({
           ))}
 
           {tables.map((t) => (
-            <g key={t.id}>
+            <g key={t._id}>
               {renderTableShape(t)}
               <text
                 x={t.x}
@@ -220,7 +222,7 @@ export function HallEditor({
                   fontSize={18}
                   fill="red"
                   style={{ cursor: "pointer", fontWeight: "bold" }}
-                  onClick={() => onDelete?.(t.id, "table")}>
+                  onClick={() => onDelete?.(t._id!, "table")}>
                   ✕
                 </text>
               )}

@@ -1,7 +1,7 @@
 import { getMockEvents } from "@/lib/mock/getEvents";
 import EventBooking from "@/components/client/EventBooking";
 import { getMessages, getTranslations } from "next-intl/server";
-import { Locale } from "@/types";
+import { Event, Locale } from "@/types";
 
 export default async function EventPage({
   params,
@@ -14,11 +14,11 @@ export default async function EventPage({
     namespace: "common.halls",
   });
 
-  let allEvents: any[] = [];
+  let allEvents: Event[] = [];
   let error: string | null = null;
 
   try {
-    allEvents = await getMockEvents("normal", params.locale as any);
+    allEvents = await getMockEvents("normal", params.locale as Locale);
   } catch (err) {
     error = t("ERROR_LOADING_EVENTS");
   }

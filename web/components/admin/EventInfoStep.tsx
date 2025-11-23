@@ -19,6 +19,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/ui/select";
+import { Event } from "@/types";
 
 const HALLS = [
   { value: "hall1", label: "Зал 1" },
@@ -27,10 +28,10 @@ const HALLS = [
 ];
 
 interface EventInfoStepProps {
-  register: UseFormRegister<any>;
-  setValue: UseFormSetValue<any>;
-  control: Control<any>;
-  watch: UseFormWatch<any>;
+  register: UseFormRegister<Event>;
+  setValue: UseFormSetValue<Event>;
+  control: Control<Event>;
+  watch: UseFormWatch<Event>;
   nextStep: () => void;
 }
 
@@ -41,7 +42,7 @@ export default function EventInfoStep({
   nextStep,
   control,
 }: EventInfoStepProps) {
-  const selectedHall = watch("hall");
+  const selectedHall = watch("hallId");
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -103,7 +104,7 @@ export default function EventInfoStep({
         </div>
 
         {/* Дополнительно */}
-        <div className="grid grid-cols-2 items-center">
+        <div className="grid grid-cols-2 items-center gap-4">
           <div className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -114,7 +115,7 @@ export default function EventInfoStep({
           </div>
           <div className="space-y-2">
             <Label>Выбор зала</Label>
-            <Select onValueChange={(v) => setValue("hall", v)}>
+            <Select onValueChange={(v) => setValue("hallId", v)}>
               <SelectTrigger>
                 <SelectValue placeholder="Выберите зал" />
               </SelectTrigger>
@@ -129,7 +130,28 @@ export default function EventInfoStep({
           </div>
         </div>
 
-        <div className="space-y-4 flex flex-col">
+        {/* Новые поля: дата, депозит, картинка, время */}
+        <div className="grid grid-cols-4 gap-3 items-center mt-4">
+          <div>
+            <Label>Дата события</Label>
+            <Input type="date" {...register("date")} />
+          </div>
+          <div>
+            <Label>Депозит</Label>
+            <Input type="number" {...register("deposit")} />
+          </div>
+          <div>
+            <Label>Ссылка на изображение</Label>
+            <Input type="url" {...register("image")} />
+          </div>
+          <div>
+            <Label>Время начала</Label>
+            <Input type="time" {...register("timeStart")} />
+          </div>
+        </div>
+
+        {/* Меню */}
+        <div className="space-y-4 flex flex-col mt-4">
           <Label className="font-semibold text-lg">Меню</Label>
           <div className="overflow-scroll max-h-[500px] flex flex-col gap-4">
             {fields.map((item, index) => (
@@ -174,7 +196,7 @@ export default function EventInfoStep({
                   <div>
                     <Label>Цена</Label>
                     <Input
-                      type="text"
+                      type="number"
                       {...register(`menu.${index}.price` as const)}
                     />
                   </div>
@@ -198,8 +220,8 @@ export default function EventInfoStep({
               append({
                 name: { ru: "", en: "", hy: "" },
                 description: { ru: "", en: "", hy: "" },
-                price: "",
-              } as any)
+                price: 0,
+              })
             }>
             Добавить пункт меню
           </Button>

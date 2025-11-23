@@ -8,14 +8,15 @@ import {
 } from "@/ui/card";
 import { X, Save } from "lucide-react";
 import { SlideInput } from "./SlideInput";
+import { Slide } from "@/types";
 
 interface SlideCardProps {
-  slide: any;
+  slide: Slide;
   index: number;
   totalSlides: number;
   onChange: (id: string, value: string | File) => void;
   onRemove: (id: string) => void;
-  onSave: (slide: any) => void;
+  onSave: (slide: Slide) => void;
 }
 
 export const SlideCard = ({
@@ -50,7 +51,7 @@ export const SlideCard = ({
 
       <CardContent className="space-y-6">
         <SlideInput
-          image={slide.imageUrl}
+          image={slide.url}
           onChange={(value) => onChange(slide._id!, value)}
         />
 

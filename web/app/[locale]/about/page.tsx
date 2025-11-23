@@ -1,11 +1,12 @@
 import { Card, CardContent } from "@/ui/card";
 import { getMessages, getTranslations } from "next-intl/server";
+import { Locale } from "@/types";
 
-export default async function AboutPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
+interface AboutPageProps {
+  params: { locale: Locale };
+}
+
+export default async function AboutPage({ params }: AboutPageProps) {
   const messages = await getMessages({ locale: params.locale });
   
   const t = await getTranslations({

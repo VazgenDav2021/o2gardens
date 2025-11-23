@@ -1,9 +1,13 @@
+import { Scene, Table } from "@/types";
 import { useState, useEffect } from "react";
 
 interface UseHallLayoutProps {
-  initialTables?: any[];
-  initialScenes?: any[];
-  setValue?: (name: "tables" | "scenes", value: any) => void;
+  initialTables?: Table[];
+  initialScenes?: Scene[];
+  setValue?: (
+    name: "schema.tables" | "schema.scenes",
+    value: Table[] | Scene[]
+  ) => void;
 }
 
 export const useHallLayout = ({
@@ -11,22 +15,22 @@ export const useHallLayout = ({
   initialScenes = [],
   setValue,
 }: UseHallLayoutProps = {}) => {
-  const [tables, setTables] = useState<any[]>(initialTables);
-  const [scenes, setScenes] = useState<any[]>(initialScenes);
+  const [tables, setTables] = useState<Table[]>(initialTables);
+  const [scenes, setScenes] = useState<Scene[]>(initialScenes);
 
   useEffect(() => {
-    setValue?.("tables", tables);
+    setValue?.("schema.tables", tables);
   }, [tables, setValue]);
 
   useEffect(() => {
-    setValue?.("scenes", scenes);
+    setValue?.("schema.scenes", scenes);
   }, [scenes, setValue]);
 
   const addTable = (seats: number) => {
     const newId = "t" + (tables.length + 1);
     setTables((prev) => [
       ...prev,
-      { id: newId, x: 100 + prev.length * 40, y: 400, seats },
+      { _id: newId, x: 100 + prev.length * 40, y: 400, seats, reserved: false },
     ]);
   };
 
@@ -34,7 +38,13 @@ export const useHallLayout = ({
     const newId = "s" + (scenes.length + 1);
     setScenes((prev) => [
       ...prev,
-      { id: newId, x: 300, y: 100 + prev.length * 100, width: 150, height: 80 },
+      {
+        _id: newId,
+        x: 300,
+        y: 100 + prev.length * 100,
+        width: 150,
+        height: 80,
+      },
     ]);
   };
 
@@ -45,17 +55,17 @@ export const useHallLayout = ({
     y: number
   ) => {
     if (type === "table") {
-      setTables((prev) => prev.map((t) => (t.id === id ? { ...t, x, y } : t)));
+      setTables((prev) => prev.map((t) => (t._id === id ? { ...t, x, y } : t)));
     } else {
-      setScenes((prev) => prev.map((s) => (s.id === id ? { ...s, x, y } : s)));
+      setScenes((prev) => prev.map((s) => (s._id === id ? { ...s, x, y } : s)));
     }
   };
 
   const deleteItem = (id: string, type: "table" | "scene") => {
     if (type === "table") {
-      setTables((prev) => prev.filter((t) => t.id !== id));
+      setTables((prev) => prev.filter((t) => t._id !== id));
     } else {
-      setScenes((prev) => prev.filter((s) => s.id !== id));
+      setScenes((prev) => prev.filter((s) => s._id !== id));
     }
   };
 

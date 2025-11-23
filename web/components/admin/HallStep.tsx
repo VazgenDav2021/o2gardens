@@ -5,12 +5,13 @@ import { Button } from "@/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/ui/card";
 import { useHallLayout } from "@/hooks/useHallLayout";
 import type { UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { Event } from "@/types";
 
 interface HallStepProps {
-  selectedHall: string|undefined;
+  selectedHall: string | undefined;
   prevStep: () => void;
-  setValue: UseFormSetValue<any>;
-  watch: UseFormWatch<any>;
+  setValue: UseFormSetValue<Event>;
+  watch: UseFormWatch<Event>;
 }
 
 export default function HallStep({
@@ -21,8 +22,8 @@ export default function HallStep({
 }: HallStepProps) {
   const { tables, scenes, addTable, addScene, moveItem, deleteItem } =
     useHallLayout({
-      initialTables: watch("tables") || [],
-      initialScenes: watch("scenes") || [],
+      initialTables: watch("schema.tables") || [],
+      initialScenes: watch("schema.scenes") || [],
       setValue,
     });
 

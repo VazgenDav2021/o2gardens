@@ -3,9 +3,13 @@
 import { RadioGroup, RadioGroupItem } from "@/ui/radio-group";
 import { Label } from "@/ui/label";
 import { useTranslations } from "next-intl";
+import { BookingType } from "@/types";
+
+
+
 interface BookingTypeSelectorProps {
-  bookingType: any;
-  onChange: (value: any) => void;
+  bookingType: BookingType;
+  onChange: (value: BookingType) => void;
 }
 
 const BookingTypeSelector = ({

@@ -17,7 +17,7 @@ interface ReservationFormProps {
   tableId: string;
   deposit: number;
   date: number;
-  eventTimeStart: string;
+  eventTimeStart: number;
 }
 
 export const reservationSchema = z.object({
@@ -29,7 +29,7 @@ export const reservationSchema = z.object({
   childrenUnder4: z.number().min(0),
   menu: z.array(z.string()).optional(),
   date: z.number().min(1),
-  time: z.string().min(1),
+  time: z.number().min(1),
 });
 
 export default function ReservationForm({

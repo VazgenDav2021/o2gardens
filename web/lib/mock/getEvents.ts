@@ -1,3 +1,5 @@
+import { Event, Locale } from "@/types";
+
 type Mode = "normal" | "empty" | "error";
 
 /**
@@ -5,8 +7,8 @@ type Mode = "normal" | "empty" | "error";
  */
 export const getMockEvents = async (
   mode: Mode = "normal",
-  lang: any = "ru"
-): Promise<any[]> => {
+  lang: Locale = "ru"
+): Promise<Event[]> => {
   if (mode === "error") {
     throw new Error(
       lang === "ru"
@@ -27,7 +29,7 @@ export const getMockEvents = async (
         en: "Jazz Evening",
         hy: "Ջազային երեկո",
       },
-      dateISO: "2025-11-05",
+      dateISO: "2025-12-05",
       timeStart: "19:00",
       timeEnd: "23:00",
       hall: {
@@ -58,7 +60,7 @@ export const getMockEvents = async (
         en: "Classical Music",
         hy: "Կլասիկական երաժշտություն",
       },
-      dateISO: "2025-11-10",
+      dateISO: "2025-12-10",
       timeStart: "20:00",
       timeEnd: "22:30",
       hall: {
@@ -89,7 +91,7 @@ export const getMockEvents = async (
         en: "Karaoke Night",
         hy: "Կարաոկե երեկո",
       },
-      dateISO: "2025-11-15",
+      dateISO: "2025-12-15",
       timeStart: "18:00",
       timeEnd: "00:00",
       hall: {
@@ -120,7 +122,7 @@ export const getMockEvents = async (
         en: "Rock Concert",
         hy: "Ռոք համերգ",
       },
-      dateISO: "2025-11-20",
+      dateISO: "2025-12-20",
       timeStart: "21:00",
       timeEnd: "02:00",
       hall: {
@@ -151,7 +153,7 @@ export const getMockEvents = async (
         en: "Electronic Music",
         hy: "Էլեկտրոնային երաժշտություն",
       },
-      dateISO: "2025-11-25",
+      dateISO: "2025-12-25",
       timeStart: "22:00",
       timeEnd: "04:00",
       hall: {
@@ -178,7 +180,7 @@ export const getMockEvents = async (
   ];
 
   const events = baseEvents.map((event) => ({
-    id: event.id,
+    _id: event.id,
     title: event.title[lang as keyof typeof event.title],
     date: new Date(event.dateISO).getTime(),
     dateISO: event.dateISO,
@@ -203,8 +205,8 @@ export const getMockEvents = async (
  */
 export const getEventById = async (
   id: string,
-  lang: any = "ru"
-): Promise<any | null> => {
+  lang: Locale = "ru"
+): Promise<Event | null> => {
   const events = await getMockEvents("normal", lang);
-  return events.find((event) => event.id === id) || null;
+  return events.find((event) => event._id === id) || null;
 };

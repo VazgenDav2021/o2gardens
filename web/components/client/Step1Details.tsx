@@ -7,7 +7,7 @@ import EventDetails from "./EventDetails";
 interface Step1DetailsProps {
   bookingType: string;
   depositPerPerson: number;
-  eventTimeStart: string | null;
+  eventTimeStart: number;
 }
 
 export default function Step1Details(props: Step1DetailsProps) {
