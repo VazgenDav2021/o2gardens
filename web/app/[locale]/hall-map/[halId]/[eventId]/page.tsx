@@ -2,16 +2,16 @@ import { Suspense } from "react";
 import { Card, CardContent } from "@/ui/card";
 import TableLegend from "@/components/client/TableLegend";
 import SelectedTableCard from "@/components/client/SelectedTableCard";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 
 export default async function HallMapPage({
   params,
 }: {
   params: { halId: string; eventId: string; locale: string };
 }) {
-  const messages = await import(`../../../../../messages/${params.locale}/common.json`);
+  const messages = await getMessages({ locale: params.locale });
   const t = await getTranslations({
-    messages: messages.default,
+    messages: messages,
     namespace: "common.hallMap",
   });
 

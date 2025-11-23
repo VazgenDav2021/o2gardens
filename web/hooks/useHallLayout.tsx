@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { TableItem, SceneItem } from "@/components/admin/HallEditor";
 
 interface UseHallLayoutProps {
-  initialTables?: TableItem[];
-  initialScenes?: SceneItem[];
+  initialTables?: any[];
+  initialScenes?: any[];
   setValue?: (name: "tables" | "scenes", value: any) => void;
 }
 
@@ -12,8 +11,8 @@ export const useHallLayout = ({
   initialScenes = [],
   setValue,
 }: UseHallLayoutProps = {}) => {
-  const [tables, setTables] = useState<TableItem[]>(initialTables);
-  const [scenes, setScenes] = useState<SceneItem[]>(initialScenes);
+  const [tables, setTables] = useState<any[]>(initialTables);
+  const [scenes, setScenes] = useState<any[]>(initialScenes);
 
   useEffect(() => {
     setValue?.("tables", tables);

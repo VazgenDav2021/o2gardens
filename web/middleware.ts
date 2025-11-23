@@ -8,6 +8,6 @@ export default createMiddleware({
 
 export const config = {
   matcher: [
-    "/((?!_next|.*\\..*|admin-side|admin-page).*)", // исключаем админские пути
+    "/((?!_next|.*\\..*|admin-side|admin-page).*)",
   ],
 };

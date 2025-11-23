@@ -1,20 +1,18 @@
 import { getEventById } from "@/lib/mock/getEvents";
 import ReservationForm from "@/components/client/ReservationForm";
-import { EventType } from "@/types";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
+import { Locale } from "@/types";
 
 export default async function ReservationPage({
   params,
   searchParams,
 }: {
-  params: { tableId: string; locale: string };
+  params: { tableId: string; locale: Locale };
   searchParams: { deposit?: string; eventId?: string };
 }) {
-  const messages = await import(
-    `../../../../messages/${params.locale}/common.json`
-  );
+  const messages = await getMessages({ locale: params.locale });
   const t = await getTranslations({
-    messages: messages.default,
+    messages: messages,
     namespace: "common.reservations",
   });
 
@@ -26,10 +24,10 @@ export default async function ReservationPage({
       throw new Error("Missing table ID");
     }
 
-    let eventData: EventType | null = null;
+    let eventData: any | null = null;
 
     if (eventId) {
-      eventData = await getEventById(eventId);
+      eventData = await getEventById(eventId, params.locale as any);
     }
 
     return (

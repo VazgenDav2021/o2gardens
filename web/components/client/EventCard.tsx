@@ -5,11 +5,10 @@ import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { MapPin, Users, Music } from "lucide-react";
 import Link from "next/link";
-import { EventType } from "@/types";
 import { useTranslations } from "next-intl";
 
 interface EventCardProps {
-  event: EventType;
+  event: any;
 }
 
 export const EventCard = ({ event }: EventCardProps) => {

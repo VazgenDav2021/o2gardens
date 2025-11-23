@@ -5,7 +5,12 @@ import Footer from "@/components/client/Footer";
 import Header from "@/components/client/Header";
 import { Toaster } from "@/ui/toaster";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Locale } from "@/types";
+
+const CanvasSnow = dynamic(() => import("@/components/client/CanvasSnow"), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params,
@@ -26,8 +31,8 @@ export async function generateMetadata({
     en: "Organize unforgettable events in Yerevan with O2 Gardens — weddings, birthdays, corporate parties and more.",
   };
 
-  const title = titles[locale];
-  const description = descriptions[locale];
+  const title = (titles as any)[locale];
+  const description = (descriptions as any)[locale];
 
   return {
     title,
@@ -97,6 +102,8 @@ const RootLayout = async ({
       </head>
       <NextIntlClientProvider locale={params.locale} messages={messages}>
         <body>
+          {/* Анимация снега поверх всего сайта */}
+          <CanvasSnow />
           <Toaster />
           <Header />
           <main>{children}</main>

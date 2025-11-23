@@ -2,26 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react";
 
-export interface TableItem {
-  id: string;
-  x: number;
-  y: number;
-  seats: number;
-  reserved?: boolean;
-}
-
-export interface SceneItem {
-  id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
 interface HallProps {
   mode: "client" | "admin";
-  tables: TableItem[];
-  scenes: SceneItem[];
+  tables: any[];
+  scenes: any[];
   onAddTable?: (seats: number) => void;
   onAddScene?: () => void;
   onMoveItem?: (
@@ -98,7 +82,6 @@ export function HallEditor({
     let newX = p.x - dragging.offsetX;
     let newY = p.y - dragging.offsetY;
 
-    // границы
     newX = clamp(newX, 20, svgWidth - 20);
     newY = clamp(newY, 20, svgHeight - 20);
 
@@ -107,7 +90,7 @@ export function HallEditor({
 
   const endDrag = () => setDragging(null);
 
-  const renderTableShape = (t: TableItem) => {
+  const renderTableShape = (t: any) => {
     const common = {
       stroke: "#222",
       strokeWidth: 2,

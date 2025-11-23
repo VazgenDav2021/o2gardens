@@ -19,7 +19,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/ui/select";
-import { MenuItem } from "@/types";
 
 const HALLS = [
   { value: "hall1", label: "Зал 1" },
@@ -200,7 +199,7 @@ export default function EventInfoStep({
                 name: { ru: "", en: "", hy: "" },
                 description: { ru: "", en: "", hy: "" },
                 price: "",
-              } as MenuItem)
+              } as any)
             }>
             Добавить пункт меню
           </Button>

@@ -1,5 +1,3 @@
-import { EventType, Locale } from "@/types";
-
 type Mode = "normal" | "empty" | "error";
 
 /**
@@ -7,8 +5,8 @@ type Mode = "normal" | "empty" | "error";
  */
 export const getMockEvents = async (
   mode: Mode = "normal",
-  lang: Locale = "ru"
-): Promise<EventType[]> => {
+  lang: any = "ru"
+): Promise<any[]> => {
   if (mode === "error") {
     throw new Error(
       lang === "ru"
@@ -181,15 +179,15 @@ export const getMockEvents = async (
 
   const events = baseEvents.map((event) => ({
     id: event.id,
-    title: event.title[lang],
+    title: event.title[lang as keyof typeof event.title],
     date: new Date(event.dateISO).getTime(),
     dateISO: event.dateISO,
     time: `${event.timeStart} - ${event.timeEnd}`,
-    hall: event.hall[lang],
+    hall: event.hall[lang as keyof typeof event.hall],
     hallId: event.hallId,
     capacity: event.capacity,
-    description: event.description[lang],
-    artists: event.artists[lang],
+    description: event.description[lang as keyof typeof event.description],
+    artists: event.artists[lang as keyof typeof event.artists],
     deposit: event.deposit,
     image: event.image,
     status: event.status,
@@ -205,8 +203,8 @@ export const getMockEvents = async (
  */
 export const getEventById = async (
   id: string,
-  lang: Locale = "ru"
-): Promise<EventType | null> => {
+  lang: any = "ru"
+): Promise<any | null> => {
   const events = await getMockEvents("normal", lang);
   return events.find((event) => event.id === id) || null;
 };

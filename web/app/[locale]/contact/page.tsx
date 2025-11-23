@@ -6,14 +6,11 @@ import {
   CardTitle,
   CardDescription,
 } from "@/ui/card";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail } from "lucide-react";
 
 export default async function ContactPage({ params }: { params: { locale: string } }) {
-  // Dynamically import the translation JSON for the current locale
-  const messages = await import(
-    `../../../messages/${params.locale}/contact.json`
-  );
+  const messages = await getMessages({ locale: params.locale });
 
 
   const t = await getTranslations({

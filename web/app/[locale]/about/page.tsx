@@ -1,12 +1,12 @@
 import { Card, CardContent } from "@/ui/card";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 
 export default async function AboutPage({
   params,
 }: {
   params: { locale: string };
 }) {
-  const messages = await import(`../../../messages/${params.locale}/about.json`);
+  const messages = await getMessages({ locale: params.locale });
   
   const t = await getTranslations({
     messages: messages.default,

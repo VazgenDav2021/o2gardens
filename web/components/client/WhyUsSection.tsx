@@ -1,10 +1,10 @@
-import { SectionProps } from "@/types";
 import { Calendar as CalendarIcon, MapPin, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { AbstractIntlMessages } from "next-intl";
 
 const icons = [CalendarIcon, MapPin, Users];
 
-const WhyUsSection = async ({ messages }: SectionProps) => {
+const WhyUsSection = async ({ messages }: { messages: AbstractIntlMessages }) => {
   const t = await getTranslations(messages);
   const items = t.raw("home.whyUs.ITEMS") as Array<{
     TITLE: string;

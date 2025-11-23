@@ -14,18 +14,17 @@ import {
 import { EventCard } from "@/components/client/EventCard";
 import { RegularBookingCard } from "./RegularBookingCard";
 import BookingTypeSelector from "./BookingTypeSelector";
-import { EventEnum, EventType } from "@/types";
 import { useTranslations } from "next-intl";
 import { formatDate } from "@/lib/formatDate";
 
 interface EventBookingProps {
-  allEvents: EventType[];
+  allEvents: any[];
   hallId: string;
 }
 
 export default function EventBooking({ allEvents, hallId }: EventBookingProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  const [bookingType, setBookingType] = useState<EventEnum>("regular");
+  const [bookingType, setBookingType] = useState<any>("regular");
   const t = useTranslations("common.halls");
 
   const eventDates = allEvents.map((e) => new Date(e.dateISO));

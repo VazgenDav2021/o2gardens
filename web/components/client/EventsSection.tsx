@@ -1,10 +1,10 @@
-import { SectionProps } from "@/types";
 import { CalendarDays, Music, Utensils } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { AbstractIntlMessages } from "next-intl";
 
 const iconMap = [CalendarDays, Music, Utensils];
 
-const EventsSection = async ({ messages }: SectionProps) => {
+const EventsSection = async ({ messages }: { messages: AbstractIntlMessages }) => {
   const t = await getTranslations(messages);
 
   const events = t.raw("home.events.LIST") as Array<{

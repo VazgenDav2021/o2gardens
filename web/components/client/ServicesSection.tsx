@@ -1,8 +1,8 @@
-import { SectionProps } from "@/types";
 import { Wine, Coffee, Cake, ConciergeBell } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { AbstractIntlMessages } from "next-intl";
 
-const ServicesSection = async ({ messages }: SectionProps) => {
+const ServicesSection = async ({ messages }: { messages: AbstractIntlMessages }) => {
   const t = await getTranslations(messages);
 
   const servicesData = t.raw("home.services.LIST") as {

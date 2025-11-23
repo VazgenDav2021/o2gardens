@@ -1,9 +1,8 @@
 import { EventCard } from "@/components/client/EventCard";
 import { formatDate } from "@/lib/formatDate";
-import { EventType } from "@/types";
 
 interface EventTimelineItemProps {
-  event: EventType;
+  event: any;
   index: number;
 }
 
@@ -41,7 +40,7 @@ const TimelineDate = ({
   event,
   align,
 }: {
-  event: EventType;
+  event: any;
   align: "left" | "right";
 }) => (
   <div

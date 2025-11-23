@@ -1,29 +1,24 @@
-import { EventType } from "@/types";
 import { getMockEvents } from "@/lib/mock/getEvents";
 import EventBooking from "@/components/client/EventBooking";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { Locale } from "@/types";
 
 export default async function EventPage({
   params,
 }: {
-  params: { name: string; locale: string };
+  params: { name: string; locale: Locale };
 }) {
-  const messages = await import(
-    `../../../../messages/${params.locale}/common.json`
-  );
+  const messages = await getMessages({ locale: params.locale });
   const t = await getTranslations({
-    messages: messages.default,
+    messages: messages,
     namespace: "common.halls",
   });
 
-  const locale = await getLocale();
-
-  let allEvents: EventType[] = [];
+  let allEvents: any[] = [];
   let error: string | null = null;
 
   try {
-    allEvents = await getMockEvents("normal", locale as Locale);
+    allEvents = await getMockEvents("normal", params.locale as any);
   } catch (err) {
     error = t("ERROR_LOADING_EVENTS");
   }
