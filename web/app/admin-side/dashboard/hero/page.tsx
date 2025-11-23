@@ -1,10 +1,12 @@
 import HeroContentForm from "@/components/admin/HeroContentForm";
+import { getSlides } from "@/lib/services/slideService";
 
 const HeroContentPage = async () => {
   try {
-    return <HeroContentForm slides={[]} />;
+    const response = await getSlides();
+    return <HeroContentForm slides={response.data} />;
   } catch (error) {
-    
+    return <HeroContentForm slides={[]} />;
   }
 };
 

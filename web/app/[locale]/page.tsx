@@ -5,18 +5,26 @@ import AboutSection from "@/components/client/AboutSection";
 import ServicesSection from "@/components/client/ServicesSection";
 import EventsSection from "@/components/client/EventsSection";
 import { getMessages } from "next-intl/server";
-import { Locale } from "@/types";
+import { Locale, Slide } from "@/types";
+import { getSlides } from "@/lib/services";
 
 interface PageProps {
   params: { locale: Locale };
 }
 
+interface SlidesResponse {
+  success: boolean;
+  count: number;
+  data: Slide[];
+}
+
 export default async function HomePage({ params }: PageProps) {
   const messages = await getMessages({ locale: params.locale });
+  const heroSlides = await getSlides();
 
   return (
     <>
-      <HeroSection />
+      {!!heroSlides.data.length && <HeroSection slides={heroSlides.data} />}
       <WhyUsSection messages={messages} />
       <HallsSection messages={messages} />
       <EventsSection messages={messages} />

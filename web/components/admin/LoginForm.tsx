@@ -6,23 +6,53 @@ import { Label } from "@/ui/label";
 import { Input } from "@/ui/input";
 import { Button } from "@/ui/button";
 import { useToast } from "@/hooks/useToast";
+import { login } from "@/lib/services/authService";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
-      // await loginAdmin({ email, password })
-      window.location.href = "/admin-side/dashboard/hero/";
-    } else {
+    
+    if (!email || !password) {
       toast({
         title: "Ошибка входа",
         description:
-          "Пожалуйста, проверьте свои учетные данные и попробуйте снова.",
+          "Пожалуйста, заполните все поля.",
+        variant: "destructive",
       });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      const response = await login({ email, password });
+      
+      if (response.success) {
+        toast({
+          title: "Успешный вход",
+          description: "Добро пожаловать!",
+        });
+        window.location.href = "/admin-side/dashboard/hero/";
+      } else {
+        toast({
+          title: "Ошибка входа",
+          description: "Неверные учетные данные.",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Ошибка входа",
+        description: error?.response?.data?.message || "Не удалось войти. Попробуйте снова.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -56,8 +86,8 @@ const LoginForm = () => {
           />
         </div>
       </div>
-      <Button type="submit" className="w-full">
-        Войти
+      <Button type="submit" className="w-full" disabled={isLoading}>
+        {isLoading ? "Вход..." : "Войти"}
       </Button>
     </form>
   );

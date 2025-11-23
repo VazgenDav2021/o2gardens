@@ -6,6 +6,7 @@ import { MapPin, Users, Music } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Event } from "@/types";
+import { getImageUrl } from "@/lib/getImageUrl";
 
 interface EventCardProps {
   event: Event<'client'>;
@@ -18,7 +19,7 @@ export const EventCard = ({ event }: EventCardProps) => {
       <div className="grid md:grid-cols-2">
         <div className="relative h-64 md:h-full overflow-hidden">
           <img
-            src={event.image}
+            src={getImageUrl(event.image)}
             alt={event.name}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />

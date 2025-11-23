@@ -5,33 +5,42 @@ import Link from "next/link";
 import { Button } from "@/ui/button";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Slide } from "@/types";
+import { getImageUrl } from "@/lib/getImageUrl";
 
-const images = ["/hero-image.png", "/hero-image2.jpg", "/hero-image3.jpg"];
+interface HeroSectionProps {
+  slides: Slide[];
+}
 
-const HeroSection = () => {
+const HeroSection = ({ slides }: HeroSectionProps) => {
   const t = useTranslations();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
+      setCurrentIndex((prev) => (prev + 1) % slides?.length);
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides?.length]);
 
   return (
     <section className="pt-32 pb-20 overflow-hidden relative min-h-[600px] md:min-h-[700px] flex items-center">
-      {images.map((img, index) => (
-        <div
-          key={img}
-          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000`}
-          style={{
-            backgroundImage: `url(${img})`,
-            opacity: index === currentIndex ? 1 : 0,
-            zIndex: 0,
-          }}
-        />
-      ))}
+      {slides?.map((img, index) => {
+        const image = getImageUrl(img.url);
+        console.log({ image });
+
+        return (
+          <div
+            key={img.url}
+            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000`}
+            style={{
+              backgroundImage: `url(${image})`,
+              opacity: index === currentIndex ? 1 : 0,
+              zIndex: 0,
+            }}
+          />
+        );
+      })}
 
       <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] z-10"></div>
 

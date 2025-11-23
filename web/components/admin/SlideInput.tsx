@@ -15,8 +15,7 @@ export const SlideInput = ({ image, onChange }: SlideInputProps) => {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const previewUrl = URL.createObjectURL(file);
-    onChange(previewUrl);
+    onChange(file);
   };
 
   return (

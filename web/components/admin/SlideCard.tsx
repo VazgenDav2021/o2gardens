@@ -36,15 +36,13 @@ export const SlideCard = ({
           </div>
 
           <div className="flex items-center gap-2">
-            {slide._id && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => onRemove(slide._id!)}
-                className="text-destructive hover:bg-destructive/10">
-                <X className="w-4 h-4" />
-              </Button>
-            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onRemove(slide._id || `temp-${index}`)}
+              className="text-destructive hover:bg-destructive/10">
+              <X className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </CardHeader>
@@ -52,7 +50,7 @@ export const SlideCard = ({
       <CardContent className="space-y-6">
         <SlideInput
           image={slide.url}
-          onChange={(value) => onChange(slide._id!, value)}
+          onChange={(value) => onChange(slide._id || `temp-${index}`, value)}
         />
 
         <Button className="w-full gap-2" onClick={() => onSave(slide)}>

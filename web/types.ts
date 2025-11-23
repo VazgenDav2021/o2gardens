@@ -20,6 +20,7 @@ export type Localized<T extends Mode> = T extends "admin"
 export interface Slide {
   _id?: string;
   url: string;
+  order?: number;
 }
 export interface Table {
   _id?: string;
