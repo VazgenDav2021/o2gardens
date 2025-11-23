@@ -3,6 +3,7 @@ import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
 import { Upload } from "lucide-react";
+import { getImageUrl } from "@/lib/getImageUrl";
 
 interface SlideInputProps {
   image: string;
@@ -48,7 +49,7 @@ export const SlideInput = ({ image, onChange }: SlideInputProps) => {
 
       {image && (
         <img
-          src={image}
+          src={getImageUrl(image)}
           alt="Preview"
           className="mt-2 w-full h-48 object-cover rounded-lg"
         />
