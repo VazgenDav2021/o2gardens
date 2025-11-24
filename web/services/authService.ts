@@ -1,4 +1,4 @@
-import api from "../axiosConfig";
+import api from "@/lib/axiosConfig";
 
 export interface LoginCredentials {
   email: string;

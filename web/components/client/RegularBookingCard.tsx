@@ -16,12 +16,12 @@ import { useTranslations } from "next-intl";
 import { formatDate } from "@/lib/formatDate";
 
 interface RegularBookingCardProps {
-  hallId: string;
+  hall: string;
   selectedDate: Date;
 }
 
 export const RegularBookingCard = ({
-  hallId,
+  hall,
   selectedDate,
 }: RegularBookingCardProps) => {
   const t = useTranslations("common.regularBooking");
@@ -41,7 +41,7 @@ export const RegularBookingCard = ({
       </CardContent>
       <CardFooter>
         <Link
-          href={`/hall-map/${hallId}/regular-day?eventDate=${formatDate(selectedDate)}`}
+          href={`/hall-map/${hall}/regular-day?eventDate=${formatDate(selectedDate)}`}
           className="w-full">
           <Button className="w-full group">{t("BUTTON")}</Button>
         </Link>

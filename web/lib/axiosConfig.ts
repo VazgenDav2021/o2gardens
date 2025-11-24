@@ -13,7 +13,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    // Cookies are automatically sent with requests when withCredentials is true
+    config.withCredentials = true;
     return config;
   },
   (error) => {

@@ -1,5 +1,5 @@
 import HeroContentForm from "@/components/admin/HeroContentForm";
-import { getSlides } from "@/lib/services/slideService";
+import { getSlides } from "@/services/slideService";
 
 const HeroContentPage = async () => {
   try {

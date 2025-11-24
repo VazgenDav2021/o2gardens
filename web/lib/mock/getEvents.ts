@@ -37,7 +37,7 @@ export const getMockEvents = async (
         en: "Main Hall",
         hy: "Հիմնական սրահ",
       },
-      hallId: "hall-1",
+      hall: "hall-1",
       capacity: 150,
       description: {
         ru: "Насладитесь живой джазовой музыкой в исполнении лучших артистов города",
@@ -130,7 +130,7 @@ export const getMockEvents = async (
         en: "Main Hall",
         hy: "Հիմնական սրահ",
       },
-      hallId: "hall-1",
+      hall: "hall-1",
       capacity: 150,
       description: {
         ru: "Зажигательный рок-концерт с участием популярных групп",
@@ -161,7 +161,7 @@ export const getMockEvents = async (
         en: "Main Hall",
         hy: "Հիմնական սրահ",
       },
-      hallId: "hall-1",
+      hall: "hall-1",
       capacity: 150,
       description: {
         ru: "Ночь электронной музыки с лучшими диджеями",
@@ -186,7 +186,7 @@ export const getMockEvents = async (
     dateISO: event.dateISO,
     time: `${event.timeStart} - ${event.timeEnd}`,
     hall: event.hall[lang as keyof typeof event.hall],
-    hallId: event.hallId,
+    hall: event.hall,
     capacity: event.capacity,
     description: event.description[lang as keyof typeof event.description],
     artists: event.artists[lang as keyof typeof event.artists],

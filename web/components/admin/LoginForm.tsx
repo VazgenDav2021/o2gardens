@@ -6,7 +6,7 @@ import { Label } from "@/ui/label";
 import { Input } from "@/ui/input";
 import { Button } from "@/ui/button";
 import { useToast } from "@/hooks/useToast";
-import { login } from "@/lib/services/authService";
+import { login } from "@/services/authService";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");

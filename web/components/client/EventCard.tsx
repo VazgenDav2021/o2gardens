@@ -32,7 +32,7 @@ export const EventCard = ({ event }: EventCardProps) => {
           </p>
 
           <div className="space-y-2 pt-2">
-            <InfoItem icon={<MapPin size={16} />} text={event.hallId} />
+            <InfoItem icon={<MapPin size={16} />} text={typeof event.hall === 'object' ? (event.hall.name?.ru || event.hall.name?.en || event.hall._id) : event.hall} />
             <InfoItem
               icon={<Users size={16} />}
               text={`До ${event.capacity} человек`}
@@ -54,7 +54,7 @@ export const EventCard = ({ event }: EventCardProps) => {
 
           <Button asChild className="w-full">
             <Link
-              href={`/hall-map/${event.hallId}/${event._id}`}>
+              href={`/hall-map/${typeof event.hall === 'object' ? event.hall._id : event.hall}/${event._id}`}>
               {t("BOOK")}
             </Link>
           </Button>

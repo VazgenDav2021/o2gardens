@@ -1,4 +1,4 @@
-import api from "../axiosConfig";
+import api from "@/lib/axiosConfig";
 
 export interface ContactInfo {
   name: string;
@@ -16,7 +16,7 @@ export interface Reservation {
   _id?: string;
   eventId?: string;
   tableId: string;
-  hallId: string;
+  hall: string;
   bookingType: "event" | "regular";
   contactInfo: ContactInfo;
   menuItems?: MenuItem[];
@@ -41,8 +41,9 @@ export interface ReservationResponse {
 
 export interface CreateReservationData {
   tableId: string;
-  hallId: string;
+  hall: string;
   eventId?: string;
+  schemaId?: string;
   bookingType: "event" | "regular";
   contactInfo: ContactInfo;
   menuItems?: MenuItem[];

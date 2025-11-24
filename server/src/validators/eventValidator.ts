@@ -10,9 +10,9 @@ export const createEventValidator = [
   body('deposit')
     .isNumeric()
     .withMessage('Deposit must be a number'),
-  body('hallId')
+  body('hall')
     .notEmpty()
-    .withMessage('Hall ID is required'),
+    .withMessage('Hall is required'),
   body('capacity')
     .isInt({ min: 1 })
     .withMessage('Capacity must be a positive integer'),

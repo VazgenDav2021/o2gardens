@@ -1,5 +1,5 @@
 import { MultilingualString, Slide } from "@/types";
-import api from "../axiosConfig";
+import api from "@/lib/axiosConfig";
 
 export interface SlidesResponse {
   success: boolean;
@@ -17,10 +17,18 @@ export interface CreateSlideData {
   order?: number;
 }
 
-// Get all slides
 export const getSlides = async (): Promise<SlidesResponse> => {
-  const response = await api.get<SlidesResponse>("/hero/slides");
-  return response.data;
+  try {
+    const response = await api.get<SlidesResponse>("/hero/slides");
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch slides:", error);
+    return {
+      success: false,
+      count: 0,
+      data: [],
+    };
+  }
 };
 
 // Get single slide

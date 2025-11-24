@@ -34,7 +34,7 @@ export interface IEvent {
   deposit: number;
   image: string;
   isAdult: boolean;
-  hallId: string;
+  hall: Types.ObjectId | string;
   capacity: number;
   menu: IMenuItem[];
   schema: Types.ObjectId | string; // <-- исправлено
@@ -96,8 +96,9 @@ const EventSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
-    hallId: {
-      type: String,
+    hall: {
+      type: Schema.Types.ObjectId,
+      ref: 'Hall',
       required: true,
     },
     capacity: {
@@ -107,7 +108,7 @@ const EventSchema: Schema = new Schema(
     menu: [MenuItemSchema],
     schema: {
       type: Schema.Types.ObjectId,
-      ref: "HallSchema",
+      // Schema ID within a Hall's schemas array
     },
     timeStart: {
       type: String,

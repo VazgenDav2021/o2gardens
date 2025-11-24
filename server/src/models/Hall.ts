@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface ITable {
+  _id?: string;
   x: number;
   y: number;
   seats: number;
@@ -8,6 +9,7 @@ export interface ITable {
 }
 
 export interface IScene {
+  _id?: string;
   x: number;
   y: number;
   width: number;
@@ -19,11 +21,26 @@ export interface IDateRange {
   endDate: Date;
 }
 
-export interface IHallSchema extends Document {
-  hallId: string;
+export interface IHallSchema {
   dateRange: IDateRange;
-  tables: Types.DocumentArray<ITable & Document>;
-  scenes: Types.DocumentArray<IScene & Document>;
+  tables: ITable[];
+  scenes: IScene[];
+}
+
+export interface IHall extends Document {
+  name: {
+    en?: string;
+    ru?: string;
+    hy?: string;
+  };
+  description: {
+    en?: string;
+    ru?: string;
+    hy?: string;
+  };
+  capacity: number;
+  image: string;
+  schemas: Types.DocumentArray<IHallSchema & Document>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -53,17 +70,42 @@ const DateRangeSchema = new Schema<IDateRange>(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
   },
-  { _id: false } // no separate _id for dateRange
+  { _id: false }
 );
 
-const HallSchemaSchema: Schema<IHallSchema> = new Schema(
+const HallSchemaSchema = new Schema<IHallSchema & Document>(
   {
-    hallId: { type: String, required: true },
     dateRange: { type: DateRangeSchema, required: true },
     tables: [TableSchema],
     scenes: [SceneSchema],
   },
+  { _id: true }
+);
+
+const HallSchema: Schema<IHall> = new Schema(
+  {
+    name: {
+      en: String,
+      ru: String,
+      hy: String,
+    },
+    description: {
+      en: String,
+      ru: String,
+      hy: String,
+    },
+    capacity: {
+      type: Number,
+      required: true,
+    },
+    image: {
+      type: String,
+      default: "",
+    },
+    schemas: [HallSchemaSchema],
+  },
   { timestamps: true }
 );
 
-export default mongoose.model<IHallSchema>("HallSchema", HallSchemaSchema);
+export default mongoose.model<IHall>("Hall", HallSchema);
+

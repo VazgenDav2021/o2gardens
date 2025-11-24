@@ -22,6 +22,7 @@ export interface Slide {
   url: string;
   order?: number;
 }
+
 export interface Table {
   _id?: string;
   x: number;
@@ -29,6 +30,7 @@ export interface Table {
   seats: number;
   reserved: boolean;
 }
+
 export interface Scene {
   _id?: string;
   x: number;
@@ -36,12 +38,23 @@ export interface Scene {
   width: number;
   height: number;
 }
+
 export interface HallSchema {
   _id?: string;
-  hallId: string;
   dateRange: DateRange;
   tables: Table[];
   scenes: Scene[];
+}
+
+export interface Hall<T extends Mode = "admin"> {
+  _id?: string;
+  name: Localized<T>;
+  description: Localized<T>;
+  capacity: number;
+  image: string;
+  schemas: HallSchema[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface MenuItem<T extends Mode = "admin"> {
@@ -60,9 +73,9 @@ export interface Event<T extends Mode = "admin"> {
   deposit: number;
   image: string;
   isAdult: boolean;
-  hallId: string;
+  hall: string | Hall;
   capacity: number;
   menu: MenuItem<T>[];
-  schema: HallSchema;
+  schema: HallSchema | string;
   timeStart: number;
 }

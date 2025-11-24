@@ -42,7 +42,7 @@ export default function EventInfoStep({
   nextStep,
   control,
 }: EventInfoStepProps) {
-  const selectedHall = watch("hallId");
+  const selectedHall = watch("hall");
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -115,7 +115,7 @@ export default function EventInfoStep({
           </div>
           <div className="space-y-2">
             <Label>Выбор зала</Label>
-            <Select onValueChange={(v) => setValue("hallId", v)}>
+            <Select onValueChange={(v) => setValue("hall", v)}>
               <SelectTrigger>
                 <SelectValue placeholder="Выберите зал" />
               </SelectTrigger>

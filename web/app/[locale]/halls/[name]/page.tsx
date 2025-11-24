@@ -48,7 +48,7 @@ export default async function EventPage({
         <p className="text-xl text-muted-foreground text-center mb-8 animate-fade-in">
           {t("BOOKING_DESCRIPTION")}
         </p>
-        <EventBooking allEvents={allEvents} hallId={params.name} />
+        <EventBooking allEvents={allEvents} hall={params.name} />
       </div>
     </div>
   );

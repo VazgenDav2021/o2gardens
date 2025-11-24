@@ -11,8 +11,15 @@ import { Button } from "@/ui/button";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { AbstractIntlMessages } from "next-intl";
+import { Hall } from "@/types";
 
-const HallsSection = async ({ messages }: { messages: AbstractIntlMessages }) => {
+const HallsSection = async ({
+  messages,
+  halls: hallData,
+}: {
+  messages: AbstractIntlMessages;
+  halls: Hall<'client'>[];
+}) => {
   const t = await getTranslations(messages);
   const halls = t.raw("common.halls.LIST") as Array<{
     NAME: string;
@@ -21,6 +28,7 @@ const HallsSection = async ({ messages }: { messages: AbstractIntlMessages }) =>
     IMAGE: string;
     ID: string;
   }>;
+
 
   return (
     <section className="py-20 bg-gradient-to-b from-background to-muted/20">
@@ -32,29 +40,29 @@ const HallsSection = async ({ messages }: { messages: AbstractIntlMessages }) =>
           {t("common.halls.DESCRIPTION")}
         </p>
         <div className="grid md:grid-cols-3 gap-8">
-          {halls.map((hall) => (
+          {hallData.map((hall) => (
             <Card
-              key={hall.ID}
+              key={hall._id}
               className="overflow-hidden hover:shadow-xl transition-all border-border hover:border-primary">
               <img
-                src={hall.IMAGE}
-                alt={hall.NAME}
+                src={hall.image}
+                alt={hall.name}
                 className="h-48 w-full object-cover"
               />
               <CardHeader>
-                <CardTitle className="text-2xl">{hall.NAME}</CardTitle>
-                <CardDescription>{hall.DESCRIPTION}</CardDescription>
+                <CardTitle className="text-2xl">{hall.name}</CardTitle>
+                <CardDescription>{hall.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Users size={20} />
                   <span>
-                    {t("common.halls.CAPACITY", { capacity: hall.CAPACITY })}
+                    {t("common.halls.CAPACITY", { capacity: hall.capacity })}
                   </span>
                 </div>
               </CardContent>
               <CardFooter>
-                <Link href={`/halls/${hall.ID}`} className="w-full">
+                <Link href={`/halls/${hall._id}`} className="w-full">
                   <Button className="w-full group">
                     {t("common.halls.BUTTON")}
                     <ArrowRight

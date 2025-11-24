@@ -9,7 +9,7 @@ import {
   createSlide,
   deleteSlide,
   updateSlide,
-} from "@/lib/services/slideService";
+} from "@/services/slideService";
 
 interface HeroContentFormProps {
   slides: Slide[];

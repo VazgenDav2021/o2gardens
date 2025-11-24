@@ -8,15 +8,15 @@ import Event from "../models/Event";
 // @access  Public
 export const getEvents = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const { hallId } = req.query;
+    const { hall } = req.query;
 
     const query: any = {};
 
-    if (hallId) {
-      query.hallId = hallId;
+    if (hall) {
+      query.hall = hall;
     }
 
-    const events = await Event.find(query).populate("schema").sort({ date: 1 });
+    const events = await Event.find(query).populate("schema").populate("hall").sort({ date: 1 });
 
     res.status(200).json({
       success: true,
@@ -31,7 +31,7 @@ export const getEvents = asyncHandler(
 // @access  Public
 export const getEvent = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const event = await Event.findById(req.params.id).populate("schema");
+    const event = await Event.findById(req.params.id).populate("schema").populate("hall");
 
     if (!event) {
       res.status(404).json({

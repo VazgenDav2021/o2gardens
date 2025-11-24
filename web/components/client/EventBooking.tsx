@@ -20,10 +20,10 @@ import { BookingType, Event } from "@/types";
 
 interface EventBookingProps {
   allEvents: Event<'client'>[];
-  hallId: string;
+  hall: string;
 }
 
-export default function EventBooking({ allEvents, hallId }: EventBookingProps) {
+export default function EventBooking({ allEvents, hall }: EventBookingProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [bookingType, setBookingType] = useState<BookingType>("regular");
   const t = useTranslations("common.halls");
@@ -87,7 +87,7 @@ export default function EventBooking({ allEvents, hallId }: EventBookingProps) {
         {bookingType === "event" && selectedEvent ? (
           <EventCard event={selectedEvent} />
         ) : bookingType === "regular" && selectedDate ? (
-          <RegularBookingCard hallId={hallId} selectedDate={selectedDate} />
+          <RegularBookingCard hall={hall} selectedDate={selectedDate} />
         ) : (
           <Card className="animate-fade-in">
             <CardContent className="flex items-center justify-center h-full min-h-[400px]">

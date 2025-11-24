@@ -16,12 +16,12 @@ export default function EventFormStepper() {
       description: { ru: "", en: "", hy: "" },
       artists: { ru: "", en: "", hy: "" },
       isAdult: false,
-      hallId: "",
+      hall: "",
       menu: [],
     },
   });
 
-  const selectedHall = watch("hallId");
+  const selectedHall = watch("hall");
 
   const onSubmit = async () => {};
 

@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import { asyncHandler } from '../middleware/asyncHandler';
 import Reservation from '../models/Reservation';
-import HallSchema from '../models/HallSchema';
+import Hall from '../models/Hall';
 import Event from '../models/Event';
 
 // @desc    Get all reservations
@@ -11,7 +11,7 @@ import Event from '../models/Event';
 export const getReservations = asyncHandler(async (req: AuthRequest, res: Response) => {
   const { eventId, status, date } = req.query;
 
-  let query: any = {};
+  const query: Record<string, any> = {};
 
   if (eventId) {
     query.eventId = eventId;
@@ -27,6 +27,7 @@ export const getReservations = asyncHandler(async (req: AuthRequest, res: Respon
 
   const reservations = await Reservation.find(query)
     .populate('eventId')
+    .populate('hall')
     .sort({ createdAt: -1 });
 
   res.status(200).json({
@@ -40,7 +41,7 @@ export const getReservations = asyncHandler(async (req: AuthRequest, res: Respon
 // @route   GET /api/reservations/:id
 // @access  Private/Admin
 export const getReservation = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const reservation = await Reservation.findById(req.params.id).populate('eventId');
+  const reservation = await Reservation.findById(req.params.id).populate('eventId').populate('hall');
 
   if (!reservation) {
     res.status(404).json({
@@ -60,18 +61,18 @@ export const getReservation = asyncHandler(async (req: AuthRequest, res: Respons
 // @route   POST /api/reservations
 // @access  Public
 export const createReservation = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const { tableId, hallId, eventId, bookingType, contactInfo, menuItems, deposit, totalAmount, date } = req.body;
+  const { tableId, hall, eventId, bookingType, contactInfo, menuItems, deposit, totalAmount, date, schemaId } = req.body;
 
   // If it's an event booking, reserve the table in the hall schema
-  if (bookingType === 'event' && eventId) {
-    const event = await Event.findById(eventId);
-    if (event && event.schema) {
-      const schema = await HallSchema.findById(event.schema);
-      if (schema) {
-        const table = schema.tables.id(tableId);
+  if (bookingType === 'event' && eventId && schemaId) {
+    const hallDoc = await Hall.findById(hall);
+    if (hallDoc) {
+      const schema = hallDoc.schemas.id(schemaId);
+      if (schema && schema.tables) {
+        const table = (schema.tables as any).id(tableId);
         if (table) {
           table.reserved = true;
-          await schema.save();
+          await hallDoc.save();
         }
       }
     }
@@ -80,7 +81,7 @@ export const createReservation = asyncHandler(async (req: AuthRequest, res: Resp
   const reservation = await Reservation.create({
     eventId,
     tableId,
-    hallId,
+    hall,
     bookingType,
     contactInfo,
     menuItems: menuItems || [],
@@ -136,15 +137,18 @@ export const deleteReservation = asyncHandler(async (req: AuthRequest, res: Resp
   }
 
   // If it's an event booking, unreserve the table
-  if (reservation.bookingType === 'event' && reservation.eventId) {
+  if (reservation.bookingType === 'event' && reservation.eventId && reservation.hall) {
     const event = await Event.findById(reservation.eventId);
     if (event && event.schema) {
-      const schema = await HallSchema.findById(event.schema);
-      if (schema) {
-        const table = schema.tables.id(reservation.tableId);
-        if (table) {
-          table.reserved = false;
-          await schema.save();
+      const hallDoc = await Hall.findById(reservation.hall);
+      if (hallDoc) {
+        const schema = hallDoc.schemas.id(event.schema.toString());
+        if (schema && schema.tables) {
+          const table = (schema.tables as any).id(reservation.tableId);
+          if (table) {
+            table.reserved = false;
+            await hallDoc.save();
+          }
         }
       }
     }

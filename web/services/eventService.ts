@@ -1,4 +1,4 @@
-import api from "../axiosConfig";
+import api from "@/lib/axiosConfig";
 
 export interface Event {
   _id?: string;
@@ -14,7 +14,7 @@ export interface Event {
   };
   date: string;
   time: string;
-  hallId: string;
+  hall: string;
   schema?: string;
   image?: string;
   price?: number;
@@ -47,7 +47,7 @@ export interface CreateEventData {
   };
   date: string;
   time: string;
-  hallId: string;
+  hall: string;
   schema?: string;
   image?: string;
   price?: number;
@@ -57,7 +57,7 @@ export interface CreateEventData {
 // Get all events
 export const getEvents = async (params?: {
   locale?: string;
-  hallId?: string;
+  hall?: string;
 }): Promise<EventsResponse> => {
   const response = await api.get<EventsResponse>("/events", { params });
   return response.data;

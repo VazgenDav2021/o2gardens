@@ -9,7 +9,7 @@ export interface IContactInfo {
 export interface IReservation extends Document {
   eventId?: string;
   tableId: string;
-  hallId: string;
+  hall: string;
   bookingType: 'regular' | 'event';
   contactInfo: IContactInfo;
   menuItems: string[];
@@ -46,8 +46,9 @@ const ReservationSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    hallId: {
-      type: String,
+    hall: {
+      type: Schema.Types.ObjectId,
+      ref: 'Hall',
       required: true,
     },
     bookingType: {
