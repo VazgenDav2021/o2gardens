@@ -5,11 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import { Button } from "@/ui/button";
 import { SlideCard } from "./SlideCard";
 import { Slide } from "@/types";
-import {
-  createSlide,
-  deleteSlide,
-  updateSlide,
-} from "@/services/slideService";
+import { createSlide, deleteSlide, updateSlide } from "@/services/slideService";
 
 interface HeroContentFormProps {
   slides: Slide[];
@@ -17,39 +13,40 @@ interface HeroContentFormProps {
 
 interface SlideWithFile extends Slide {
   _file?: File;
+  preview?: string; // local blob preview
 }
 
-const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
+const HeroContentForm = ({ slides: initial }: HeroContentFormProps) => {
   const { toast } = useToast();
-  const [slides, setSlides] = useState<SlideWithFile[]>(initialSlides);
-  const fileMapRef = useRef<Map<string, File>>(new Map());
+
+  const [slides, setSlides] = useState<SlideWithFile[]>(
+    initial.map((s) => ({ ...s, preview: s.url }))
+  );
 
   const addSlide = () => {
-    const newSlide: SlideWithFile = { url: "", order: slides.length };
-    setSlides((prev) => [...prev, newSlide]);
+    setSlides((prev) => [
+      ...prev,
+      {
+        _file: undefined,
+        preview: "",
+        order: prev.length,
+        url: "", // Provide the required property for SlideWithFile type
+      },
+    ]);
   };
 
-  const updateSlideLocal = (id: string, value: string | File) => {
+  const updateSlideLocal = (id: string, file: File) => {
     setSlides((prev) =>
       prev.map((s, index) => {
-        const slideId = s._id || `temp-${index}`;
+        const slideId = s._id ?? `temp-${index}`;
         if (slideId === id) {
-          if (value instanceof File) {
-            fileMapRef.current.set(slideId, value);
-            const previewUrl = URL.createObjectURL(value);
-            return {
-              ...s,
-              url: previewUrl,
-              _file: value,
-            };
-          } else {
-            fileMapRef.current.delete(slideId);
-            return {
-              ...s,
-              url: value,
-              _file: undefined,
-            };
-          }
+          const previewUrl = URL.createObjectURL(file);
+          return {
+            ...s,
+            _file: file,
+            preview: previewUrl,
+            
+          };
         }
         return s;
       })
@@ -58,31 +55,29 @@ const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
 
   const removeSlide = async (id: string) => {
     try {
+      // local slide (not saved yet)
       if (id.startsWith("temp-")) {
-        const index = parseInt(id.replace("temp-", ""));
-        const slideToRemove = slides[index];
-
-        if (slideToRemove?.url.startsWith("blob:")) {
-          URL.revokeObjectURL(slideToRemove.url);
+        const index = Number(id.replace("temp-", ""));
+        const slide = slides[index];
+        if (slide.preview?.startsWith("blob:")) {
+          URL.revokeObjectURL(slide.preview);
         }
-        fileMapRef.current.delete(id);
-
         setSlides((prev) => prev.filter((_, i) => i !== index));
-        toast({ title: "Удалено", description: "Слайд успешно удалён." });
+        toast({ title: "Удалено", description: "Слайд удалён." });
         return;
       }
 
+      // saved slide
       await deleteSlide(id);
 
-      const slideToRemove = slides.find((s) => s._id === id);
-      if (slideToRemove?.url.startsWith("blob:")) {
-        URL.revokeObjectURL(slideToRemove.url);
+      const slide = slides.find((s) => s._id === id);
+      if (slide?.preview?.startsWith("blob:")) {
+        URL.revokeObjectURL(slide.preview);
       }
-      fileMapRef.current.delete(id);
 
       setSlides((prev) => prev.filter((s) => s._id !== id));
-      toast({ title: "Удалено", description: "Слайд успешно удалён." });
-    } catch (e) {
+      toast({ title: "Удалено", description: "Слайд удалён." });
+    } catch {
       toast({
         title: "Ошибка",
         description: "Не удалось удалить слайд.",
@@ -93,61 +88,28 @@ const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
 
   const saveSlide = async (slide: SlideWithFile) => {
     try {
-      const slideIndex = slides.findIndex((s) => {
-        if (slide._id) {
-          return s._id === slide._id;
-        }
-        return s === slide;
-      });
-      const slideId =
-        slide._id ||
-        (slideIndex >= 0 ? `temp-${slideIndex}` : `temp-${slides.length}`);
-      const file = fileMapRef.current.get(slideId) || slide._file;
+      if (!slide._file) throw new Error("Выберите файл!");
 
       let saved: Slide;
 
       if (!slide._id) {
-        if (file instanceof File) {
-          const response = await createSlide(
-            file,
-            slide.order ?? slides.length
-          );
-          saved = response.data;
-        } else if (slide.url && !slide.url.startsWith("blob:")) {
-          const response = await createSlide(
-            slide.url,
-            slide.order ?? slides.length
-          );
-          saved = response.data;
-        } else {
-          throw new Error("Please provide an image file or URL");
-        }
-
-        fileMapRef.current.delete(slideId);
-        if (slide.url.startsWith("blob:")) {
-          URL.revokeObjectURL(slide.url);
-        }
-
-        setSlides((prev) => prev.map((s) => (s === slide ? saved : s)));
+        // create
+        const response = await createSlide(slide._file, slide.order);
+        saved = response.data;
       } else {
-        if (file instanceof File) {
-          const response = await updateSlide(slide._id, file, slide.order);
-          saved = response.data;
-        } else if (slide.url && !slide.url.startsWith("blob:")) {
-          const response = await updateSlide(slide._id, slide.url, slide.order);
-          saved = response.data;
-        } else {
-          const response = await updateSlide(slide._id, undefined, slide.order);
-          saved = response.data;
-        }
-
-        fileMapRef.current.delete(slideId);
-        if (slide.url.startsWith("blob:")) {
-          URL.revokeObjectURL(slide.url);
-        }
-
-        setSlides((prev) => prev.map((s) => (s._id === slide._id ? saved : s)));
+        // update
+        const response = await updateSlide(slide._id, slide._file, slide.order);
+        saved = response.data;
       }
+
+      // cleanup previews
+      if (slide.preview?.startsWith("blob:")) {
+        URL.revokeObjectURL(slide.preview);
+      }
+
+      setSlides((prev) =>
+        prev.map((s) => (s === slide ? { ...saved, preview: saved.url } : s))
+      );
 
       toast({
         title: "Сохранено",
@@ -156,7 +118,7 @@ const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
     } catch (e: any) {
       toast({
         title: "Ошибка",
-        description: e?.message || "Не удалось сохранить слайд.",
+        description: e?.message ?? "Не удалось сохранить слайд.",
         variant: "destructive",
       });
     }
@@ -167,13 +129,13 @@ const HeroContentForm = ({ slides: initialSlides }: HeroContentFormProps) => {
       <h2 className="text-3xl font-bold">Контент главной страницы</h2>
       <p className="text-muted-foreground">Управление изображениями слайдера</p>
 
-      {slides.map((slide, index) => (
+      {slides.map((slide, i) => (
         <SlideCard
-          key={slide._id ?? index}
+          key={slide._id ?? `temp-${i}`}
           slide={slide}
-          index={index}
+          index={i}
           totalSlides={slides.length}
-          onChange={updateSlideLocal}
+          onChange={(id, value) => updateSlideLocal(id, value as File)}
           onRemove={removeSlide}
           onSave={saveSlide}
         />

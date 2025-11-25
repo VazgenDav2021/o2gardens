@@ -28,6 +28,8 @@ interface EventInfoStepProps {
   control: Control<Event>;
   watch: UseFormWatch<Event>;
   nextStep: () => void;
+  onImageFileChange: (file: File | null) => void;
+  imagePreview?: string;
 }
 
 export default function EventInfoStep({
@@ -36,6 +38,8 @@ export default function EventInfoStep({
   watch,
   nextStep,
   control,
+  onImageFileChange,
+  imagePreview,
 }: EventInfoStepProps) {
   const selectedHall = watch("hall");
 
@@ -106,7 +110,9 @@ export default function EventInfoStep({
           </div>
           <div className="space-y-2">
             <Label>Выбор зала</Label>
-            <Select defaultValue={selectedHall} onValueChange={(v) => setValue("hall", v)}>
+            <Select
+              defaultValue={selectedHall}
+              onValueChange={(v) => setValue("hall", v)}>
               <SelectTrigger>
                 <SelectValue placeholder="Выберите зал" />
               </SelectTrigger>
@@ -131,13 +137,40 @@ export default function EventInfoStep({
             <Input min={0} type="number" {...register("deposit")} />
           </div>
           <div>
-            <Label>Ссылка на изображение</Label>
-            <Input type="url" {...register("image")} />
-          </div>
-          <div>
             <Label>Время начала</Label>
             <Input type="time" {...register("timeStart")} />
           </div>
+        </div>
+
+        <div>
+          <Label>Изображение события</Label>
+
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) {
+                onImageFileChange(null);
+                setValue("image", "");
+                return;
+              }
+
+              onImageFileChange(file);
+              const localUrl = URL.createObjectURL(file);
+              setValue("image", localUrl);
+            }}
+          />
+
+          {(imagePreview || watch("image")) && (
+            <div className="mt-3 w-full">
+              <img
+                src={imagePreview || watch("image")}
+                alt="Preview"
+                className="w-full h-32 rounded object-cover border"
+              />
+            </div>
+          )}
         </div>
 
         <div className="space-y-4 flex flex-col mt-4">

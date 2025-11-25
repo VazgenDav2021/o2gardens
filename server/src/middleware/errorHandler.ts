@@ -10,7 +10,6 @@ export const errorHandler = (
   err: AppError,
   req: Request,
   res: Response,
-  next: NextFunction
 ): void => {
   let error = { ...err };
   error.message = err.message;

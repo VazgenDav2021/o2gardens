@@ -55,8 +55,31 @@ export const getEvent = async (id: string): Promise<EventResponse> => {
 };
 
 // Create event (admin only)
-export const createEvent = async (data: Event): Promise<EventResponse> => {
-  const response = await api.post<EventResponse>("/events", data);
+export const createEvent = async (data: Event, imageFile: File): Promise<EventResponse> => {
+  const formData = new FormData();
+  
+  // Append the image file
+  formData.append("image", imageFile);
+  
+  // Append all other fields
+  formData.append("name", JSON.stringify(data.name));
+  formData.append("description", JSON.stringify(data.description));
+  formData.append("artists", JSON.stringify(data.artists));
+  formData.append("date", data.date.toString());
+  formData.append("deposit", data.deposit.toString());
+  formData.append("isAdult", data.isAdult.toString());
+  formData.append("hall", data.hall);
+  formData.append("capacity", data.capacity.toString());
+  formData.append("timeStart", data.timeStart);
+  
+  // Append menu items
+  if (data.menu && data.menu.length > 0) {
+    formData.append("menu", JSON.stringify(data.menu));
+  }
+
+  const response = await api.post<EventResponse>("/events", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return response.data;
 };
 

@@ -6,26 +6,7 @@ import Hall from "../models/Hall";
 import { uploadHallImage } from "../middleware/upload";
 import { getPublicUrl, deleteLocalFile, isLocalFile } from "../utils/fileUtils";
 import { IHall } from "../models/Hall";
-
-// Valid language codes
-const VALID_LANGUAGES = ["en", "ru", "hy"] as const;
-type Language = typeof VALID_LANGUAGES[number];
-
-// Helper function to localize hall data
-const localizeHall = (hall: IHall, lang?: string): any => {
-  if (!lang || !VALID_LANGUAGES.includes(lang as Language)) {
-    return hall;
-  }
-
-  const localizedLang = lang as Language;
-  const hallObj = hall.toObject ? hall.toObject() : (hall as any);
-
-  return {
-    ...hallObj,
-    name: hall.name[localizedLang] || hall.name.en || "",
-    description: hall.description[localizedLang] || hall.description.en || "",
-  };
-};
+import { localizeHall } from "../utils/getLocalized";
 
 // Wrapper for multer to handle errors properly
 const uploadHallImageAsync = (
@@ -49,9 +30,9 @@ const uploadHallImageAsync = (
 export const getHalls = asyncHandler(
   async (req: AuthRequest, res: Response) => {
     const halls = await Hall.find().sort({ createdAt: -1 });
-    const lang = (req.query.locale || req.query.lang) as string;
+    const locale = (req.query.locale || req.query.lang) as string;
 
-    const localizedHalls = halls.map((hall) => localizeHall(hall, lang));
+    const localizedHalls = halls.map((hall) => localizeHall(hall, locale));
 
     res.status(200).json({
       success: true,
@@ -66,7 +47,7 @@ export const getHalls = asyncHandler(
 // @access  Public
 export const getHall = asyncHandler(async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
-  const lang = (req.query.locale || req.query.lang) as string;
+  const locale = (req.query.locale || req.query.lang) as string;
 
   // Check if id is a valid ObjectId, otherwise search by name
   let hall: IHall | null = null;
@@ -92,7 +73,7 @@ export const getHall = asyncHandler(async (req: AuthRequest, res: Response) => {
     return;
   }
 
-  const localizedHall = localizeHall(hall, lang);
+  const localizedHall = localizeHall(hall, locale);
 
   res.status(200).json({
     success: true,

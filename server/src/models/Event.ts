@@ -34,6 +34,7 @@ export interface IEvent {
   date: number;
   deposit: number;
   image: string;
+  isLocalFile?: boolean;
   isAdult: boolean;
   hall: Types.ObjectId | string;
   capacity: number;
@@ -92,6 +93,10 @@ const EventSchema: Schema = new Schema(
     image: {
       type: String,
       default: "",
+    },
+    isLocalFile: {
+      type: Boolean,
+      default: false,
     },
     isAdult: {
       type: Boolean,

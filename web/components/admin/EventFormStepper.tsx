@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import StepperHeader from "./StepperHeader";
 import EventInfoStep from "./EventInfoStep";
@@ -11,6 +11,17 @@ import { createEvent } from "@/services";
 
 export default function EventFormStepper() {
   const [step, setStep] = useState(1);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+
+  // Cleanup blob URL on unmount
+  useEffect(() => {
+    return () => {
+      if (imagePreview.startsWith("blob:")) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   const { register, control, handleSubmit, setValue, watch } = useForm<Event>({
     defaultValues: DEFAULT_EVENT_VALUES,
@@ -20,11 +31,35 @@ export default function EventFormStepper() {
 
   console.log(watch());
 
+  const handleImageFileChange = (file: File | null) => {
+    setImageFile(file);
+    if (file) {
+      const preview = URL.createObjectURL(file);
+      setImagePreview(preview);
+    } else {
+      if (imagePreview.startsWith("blob:")) {
+        URL.revokeObjectURL(imagePreview);
+      }
+      setImagePreview("");
+    }
+  };
+
   const onSubmit = async (data: Event) => {
-    createEvent({
+    if (!imageFile) {
+      // You might want to show an error toast here
+      return;
+    }
+
+    // Convert date to timestamp if it's a string (from date input)
+    const eventData = {
       ...data,
-      date: new Date(data.date).getTime(),
-    });
+      date:
+        typeof data.date === "string"
+          ? new Date(data.date).getTime()
+          : data.date,
+    };
+
+    await createEvent(eventData, imageFile);
   };
 
   return (
@@ -44,6 +79,8 @@ export default function EventFormStepper() {
           watch={watch}
           nextStep={() => setStep(2)}
           control={control}
+          onImageFileChange={handleImageFileChange}
+          imagePreview={imagePreview}
         />
       )}
 

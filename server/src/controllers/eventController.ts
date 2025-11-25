@@ -2,7 +2,8 @@ import { Response } from "express";
 import { AuthRequest } from "../middleware/auth";
 import { asyncHandler } from "../middleware/asyncHandler";
 import Event from "../models/Event";
-import { getLocalized } from "../utils/getLocalized";
+import { localizeEvent } from "../utils/getLocalized";
+import { getPublicUrl, deleteLocalFile, isLocalFile } from "../utils/fileUtils";
 
 // @desc    Get all events
 // @route   GET /api/events
@@ -19,23 +20,9 @@ export const getEvents = asyncHandler(
 
     const events = await Event.find(query).populate("hall").sort({ date: 1 });
 
-    const localized = events.map((event: any) => {
-      const e = event.toObject();
-
-      return {
-        ...e,
-        name: getLocalized(e.name, locale as string),
-        description: getLocalized(e.description, locale as string),
-        artists: getLocalized(e.artists, locale as string),
-
-        menu: e.menu.map((item: any) => ({
-          ...item,
-          name: getLocalized(item.name, locale as string),
-          description: getLocalized(item.description, locale as string),
-        })),
-        hall: getLocalized(e.hall?.name ?? {}, locale as string),
-      };
-    });
+    const localized = events.map((event: any) => 
+      localizeEvent(event, locale as string)
+    );
 
     res.status(200).json({
       success: true,
@@ -62,9 +49,12 @@ export const getEvent = asyncHandler(
       return;
     }
 
+    const locale = (req.query.locale || req.query.lang) as string;
+    const localizedEvent = localizeEvent(event, locale);
+
     res.status(200).json({
       success: true,
-      data: event,
+      data: localizedEvent,
     });
   }
 );
@@ -74,13 +64,53 @@ export const getEvent = asyncHandler(
 // @access  Private/Admin
 export const createEvent = asyncHandler(
   async (req: AuthRequest, res: Response) => {
+    let imageUrl: string = "";
+    let isLocal = false;
+
+    // File upload is handled by multer middleware in the route
+    if (req.file) {
+      // File was uploaded via multipart/form-data
+      imageUrl = getPublicUrl(req.file.filename);
+      isLocal = true;
+    } else {
+      // Only files are allowed, no URLs
+      return res.status(400).json({
+        success: false,
+        message: "Please provide an image file (multipart/form-data with 'image' field)",
+      });
+    }
+
+    // Parse JSON strings from FormData (multer sends them as strings)
+    const parseFormDataField = (field: unknown): unknown => {
+      if (typeof field === "string") {
+        try {
+          return JSON.parse(field);
+        } catch {
+          return field;
+        }
+      }
+      return field;
+    };
+
     const eventData = {
-      ...req.body,
-      date: new Date(req.body.date),
+      name: parseFormDataField(req.body.name),
+      description: parseFormDataField(req.body.description),
+      artists: parseFormDataField(req.body.artists),
+      menu: parseFormDataField(req.body.menu) || [],
+      date: new Date(Number(req.body.date)),
       deposit:
         typeof req.body.deposit === "string"
           ? Number(req.body.deposit)
           : req.body.deposit,
+      isAdult: req.body.isAdult === "true" || req.body.isAdult === true,
+      hall: req.body.hall,
+      capacity:
+        typeof req.body.capacity === "string"
+          ? Number(req.body.capacity)
+          : req.body.capacity,
+      timeStart: req.body.timeStart,
+      image: imageUrl,
+      isLocalFile: isLocal,
     };
 
     const event = await Event.create(eventData);
@@ -107,15 +137,73 @@ export const updateEvent = asyncHandler(
       return;
     }
 
+    // Store old file URL for potential deletion
+    const oldUrl = event.image;
+    const wasLocalFile = isLocalFile(oldUrl);
+
+    let imageUrl: string = event.image;
+    let isLocal = wasLocalFile;
+
+    // File upload is handled by multer middleware in the route
+    if (req.file) {
+      // New file uploaded - delete old local file if it exists
+      if (wasLocalFile && oldUrl) {
+        deleteLocalFile(oldUrl);
+      }
+
+      imageUrl = getPublicUrl(req.file.filename);
+      isLocal = true;
+    }
+    // If no file is provided, keep the existing image
+
+    // Parse JSON strings from FormData if needed (multer sends them as strings)
+    const parseFormDataField = (field: unknown): unknown => {
+      if (typeof field === "string") {
+        try {
+          return JSON.parse(field);
+        } catch {
+          return field;
+        }
+      }
+      return field;
+    };
+
     const updateData: Record<string, unknown> = {
-      ...req.body,
-      ...(req.body.date && { date: new Date(req.body.date) }),
+      ...(req.body.name && { name: parseFormDataField(req.body.name) }),
+      ...(req.body.description && {
+        description: parseFormDataField(req.body.description),
+      }),
+      ...(req.body.artists && { artists: parseFormDataField(req.body.artists) }),
+      ...(req.body.menu && { menu: parseFormDataField(req.body.menu) }),
+      ...(req.body.date && {
+        date: new Date(
+          typeof req.body.date === "string"
+            ? Number(req.body.date)
+            : req.body.date
+        ),
+      }),
       ...(req.body.deposit !== undefined && {
         deposit:
           typeof req.body.deposit === "string"
             ? Number(req.body.deposit)
             : req.body.deposit,
       }),
+      ...(req.body.isAdult !== undefined && {
+        isAdult:
+          req.body.isAdult === "true" ||
+          req.body.isAdult === true ||
+          req.body.isAdult === "1",
+      }),
+      ...(req.body.hall && { hall: req.body.hall }),
+      ...(req.body.capacity !== undefined && {
+        capacity:
+          typeof req.body.capacity === "string"
+            ? Number(req.body.capacity)
+            : req.body.capacity,
+      }),
+      ...(req.body.timeStart && { timeStart: req.body.timeStart }),
+      image: imageUrl,
+      isLocalFile: isLocal,
     };
 
     event = await Event.findByIdAndUpdate(req.params.id, updateData, {
@@ -143,6 +231,11 @@ export const deleteEvent = asyncHandler(
         message: "Event not found",
       });
       return;
+    }
+
+    // Delete local file if it exists
+    if (event.image && isLocalFile(event.image)) {
+      deleteLocalFile(event.image);
     }
 
     await event.deleteOne();

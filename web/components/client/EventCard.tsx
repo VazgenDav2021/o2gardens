@@ -13,8 +13,6 @@ interface EventCardProps {
 }
 
 export const EventCard = ({ event }: EventCardProps) => {
-  event && console.log({ hall123123: event });
-
   const t = useTranslations("events");
   return (
     <Card className="overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">

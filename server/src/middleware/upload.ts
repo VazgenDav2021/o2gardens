@@ -64,6 +64,26 @@ export const uploadHallImage = multer({
   fileFilter,
 }).single('image');
 
+// Single file upload middleware for event images
+export const uploadEventImage = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext);
+      const sanitizedBasename = basename.replace(/[^a-zA-Z0-9]/g, '-');
+      cb(null, `event-${uniqueSuffix}-${sanitizedBasename}${ext}`);
+    },
+  }),
+  limits: {
+    fileSize: config.maxFileSize,
+  },
+  fileFilter,
+}).single('image');
+
 // General upload middleware (can be used for other purposes)
 export const upload = multer({
   storage,

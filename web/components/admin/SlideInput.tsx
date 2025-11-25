@@ -21,16 +21,8 @@ export const SlideInput = ({ image, onChange }: SlideInputProps) => {
 
   return (
     <div className="space-y-2">
-      <Label>Изображение слайда</Label>
-
-      <div className="flex gap-2">
-        <Input
-          type="text"
-          placeholder="URL изображения"
-          value={image}
-          onChange={(e) => onChange(e.target.value)}
-        />
-
+      <div className="flex gap-2 justify-between items-center">
+        <Label>Изображение слайда</Label>
         <Button
           variant="outline"
           className="gap-2"
