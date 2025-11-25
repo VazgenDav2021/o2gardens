@@ -20,12 +20,7 @@ import {
   SelectItem,
 } from "@/ui/select";
 import { Event } from "@/types";
-
-const HALLS = [
-  { value: "hall1", label: "Зал 1" },
-  { value: "hall2", label: "Зал 2" },
-  { value: "hall3", label: "Зал 3" },
-];
+import { HALLS } from "@/constants";
 
 interface EventInfoStepProps {
   register: UseFormRegister<Event>;
@@ -55,7 +50,6 @@ export default function EventInfoStep({
         <CardTitle>Информация о событии</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Название */}
         <div className="grid grid-cols-3 gap-3 items-center">
           <div>
             <Label>Название (рус.)</Label>
@@ -71,7 +65,6 @@ export default function EventInfoStep({
           </div>
         </div>
 
-        {/* Описание */}
         <div className="grid grid-cols-3 gap-3 items-center">
           <div>
             <Label>Описание (рус.)</Label>
@@ -87,7 +80,6 @@ export default function EventInfoStep({
           </div>
         </div>
 
-        {/* Артисты */}
         <div className="grid grid-cols-3 gap-3 items-center">
           <div>
             <Label>Артисты (рус.)</Label>
@@ -103,7 +95,6 @@ export default function EventInfoStep({
           </div>
         </div>
 
-        {/* Дополнительно */}
         <div className="grid grid-cols-2 items-center gap-4">
           <div className="flex items-center gap-3">
             <input
@@ -115,7 +106,7 @@ export default function EventInfoStep({
           </div>
           <div className="space-y-2">
             <Label>Выбор зала</Label>
-            <Select onValueChange={(v) => setValue("hall", v)}>
+            <Select defaultValue={selectedHall} onValueChange={(v) => setValue("hall", v)}>
               <SelectTrigger>
                 <SelectValue placeholder="Выберите зал" />
               </SelectTrigger>
@@ -130,7 +121,6 @@ export default function EventInfoStep({
           </div>
         </div>
 
-        {/* Новые поля: дата, депозит, картинка, время */}
         <div className="grid grid-cols-4 gap-3 items-center mt-4">
           <div>
             <Label>Дата события</Label>
@@ -138,7 +128,7 @@ export default function EventInfoStep({
           </div>
           <div>
             <Label>Депозит</Label>
-            <Input type="number" {...register("deposit")} />
+            <Input min={0} type="number" {...register("deposit")} />
           </div>
           <div>
             <Label>Ссылка на изображение</Label>
@@ -150,7 +140,6 @@ export default function EventInfoStep({
           </div>
         </div>
 
-        {/* Меню */}
         <div className="space-y-4 flex flex-col mt-4">
           <Label className="font-semibold text-lg">Меню</Label>
           <div className="overflow-scroll max-h-[500px] flex flex-col gap-4">

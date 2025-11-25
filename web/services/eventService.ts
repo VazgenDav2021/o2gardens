@@ -1,32 +1,12 @@
 import api from "@/lib/axiosConfig";
+import { Event, Locale, Mode } from "@/types";
 
-export interface Event {
-  _id?: string;
-  title: {
-    en: string;
-    hy: string;
-    ru: string;
-  };
-  description: {
-    en: string;
-    hy: string;
-    ru: string;
-  };
-  date: string;
-  time: string;
-  hall: string;
-  schema?: string;
-  image?: string;
-  price?: number;
-  capacity?: number;
-  createdAt?: string;
-  updatedAt?: string;
-}
 
-export interface EventsResponse {
+
+export interface EventsResponse<R extends Mode> {
   success: boolean;
   count: number;
-  data: Event[];
+  data: Event<R>[];
 }
 
 export interface EventResponse {
@@ -45,21 +25,26 @@ export interface CreateEventData {
     hy: string;
     ru: string;
   };
+  artists: {
+    en: string;
+    hy: string;
+    ru: string;
+  };
   date: string;
   time: string;
   hall: string;
   schema?: string;
   image?: string;
-  price?: number;
   capacity?: number;
+  deposit: number;
 }
 
 // Get all events
-export const getEvents = async (params?: {
-  locale?: string;
+export const getEvents = async <R extends Mode>(params?: {
+  locale?: Locale;
   hall?: string;
-}): Promise<EventsResponse> => {
-  const response = await api.get<EventsResponse>("/events", { params });
+}): Promise<EventsResponse<R>> => {
+  const response = await api.get<EventsResponse<R>>("/events", { params });
   return response.data;
 };
 
@@ -70,7 +55,7 @@ export const getEvent = async (id: string): Promise<EventResponse> => {
 };
 
 // Create event (admin only)
-export const createEvent = async (data: CreateEventData): Promise<EventResponse> => {
+export const createEvent = async (data: Event): Promise<EventResponse> => {
   const response = await api.post<EventResponse>("/events", data);
   return response.data;
 };

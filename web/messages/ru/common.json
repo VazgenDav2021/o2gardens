@@ -51,8 +51,6 @@
           "ID": "silver-hall"
         }
       ],
-      "BOOKING_TITLE": "Бронирование столика",
-      "BOOKING_DESCRIPTION": "Выберите тип бронирования и дату",
       "ERROR_LOADING_EVENTS": "Не удалось загрузить мероприятия. Попробуйте позже.",
       "NO_EVENTS": "Нет доступных мероприятий.",
       "BOOKING_TYPE_TITLE": "Тип бронирования",

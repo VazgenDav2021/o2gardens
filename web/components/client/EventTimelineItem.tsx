@@ -3,7 +3,7 @@ import { formatDate } from "@/lib/formatDate";
 import { Event } from "@/types";
 
 interface EventTimelineItemProps {
-  event: Event<'client'>;
+  event: Event<"client">;
   index: number;
 }
 
@@ -41,7 +41,7 @@ const TimelineDate = ({
   event,
   align,
 }: {
-  event: Event;
+  event: Event<"client">;
   align: "left" | "right";
 }) => (
   <div

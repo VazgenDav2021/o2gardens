@@ -180,7 +180,7 @@ Authorization: Bearer <jwt-token>
   description: { en?: string; ru?: string; hy?: string };
   artists: { en?: string; ru?: string; hy?: string };
   date: Date;
-  deposit: number;
+  deposit: string;
   image: string;
   isAdult: boolean;
   hallId: string;
@@ -227,7 +227,7 @@ Authorization: Bearer <jwt-token>
     email: string;
   };
   menuItems: string[];
-  deposit: number;
+  deposit: string;
   totalAmount: number;
   date: Date;
   status: 'pending' | 'confirmed' | 'cancelled';

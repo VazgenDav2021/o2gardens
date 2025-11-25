@@ -13,7 +13,7 @@ export interface IReservation extends Document {
   bookingType: 'regular' | 'event';
   contactInfo: IContactInfo;
   menuItems: string[];
-  deposit: number;
+  deposit: string;
   totalAmount: number;
   date: Date;
   status: 'pending' | 'confirmed' | 'cancelled';

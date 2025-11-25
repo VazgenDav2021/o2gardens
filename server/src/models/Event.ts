@@ -1,4 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
+import { HallSchemaSchema, IHallSchema } from "./Hall";
 
 export interface IMenuItem {
   name: {
@@ -30,14 +31,14 @@ export interface IEvent {
     ru?: string;
     hy?: string;
   };
-  date: Date;
+  date: number;
   deposit: number;
   image: string;
   isAdult: boolean;
   hall: Types.ObjectId | string;
   capacity: number;
   menu: IMenuItem[];
-  schema: Types.ObjectId | string; // <-- исправлено
+  schemas: IHallSchema
   timeStart: string;
   createdAt: Date;
   updatedAt: Date;
@@ -96,9 +97,10 @@ const EventSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    schemas: HallSchemaSchema,
     hall: {
       type: Schema.Types.ObjectId,
-      ref: 'Hall',
+      ref: "Hall",
       required: true,
     },
     capacity: {
@@ -106,10 +108,6 @@ const EventSchema: Schema = new Schema(
       required: true,
     },
     menu: [MenuItemSchema],
-    schema: {
-      type: Schema.Types.ObjectId,
-      // Schema ID within a Hall's schemas array
-    },
     timeStart: {
       type: String,
       required: true,

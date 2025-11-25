@@ -6,24 +6,26 @@ import StepperHeader from "./StepperHeader";
 import EventInfoStep from "./EventInfoStep";
 import HallStep from "./HallStep";
 import { Event } from "@/types";
+import { DEFAULT_EVENT_VALUES } from "@/constants";
+import { createEvent } from "@/services";
 
 export default function EventFormStepper() {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
 
   const { register, control, handleSubmit, setValue, watch } = useForm<Event>({
-    defaultValues: {
-      name: { ru: "", en: "", hy: "" },
-      description: { ru: "", en: "", hy: "" },
-      artists: { ru: "", en: "", hy: "" },
-      isAdult: false,
-      hall: "",
-      menu: [],
-    },
+    defaultValues: DEFAULT_EVENT_VALUES,
   });
 
   const selectedHall = watch("hall");
 
-  const onSubmit = async () => {};
+  console.log(watch());
+
+  const onSubmit = async (data: Event) => {
+    createEvent({
+      ...data,
+      date: new Date(data.date).getTime(),
+    });
+  };
 
   return (
     <form

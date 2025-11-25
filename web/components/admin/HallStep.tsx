@@ -8,7 +8,7 @@ import type { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { Event } from "@/types";
 
 interface HallStepProps {
-  selectedHall: string | undefined;
+  selectedHall: string;
   prevStep: () => void;
   setValue: UseFormSetValue<Event>;
   watch: UseFormWatch<Event>;
@@ -42,7 +42,6 @@ export default function HallStep({
           onAddScene={addScene}
           onMoveItem={moveItem}
           onDelete={deleteItem}
-          
         />
 
         <div className="flex justify-between mt-6">

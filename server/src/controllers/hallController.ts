@@ -65,7 +65,24 @@ export const getHalls = asyncHandler(
 // @route   GET /api/halls/:id
 // @access  Public
 export const getHall = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const hall = await Hall.findById(req.params.id);
+  const { id } = req.params;
+  const lang = (req.query.locale || req.query.lang) as string;
+
+  // Check if id is a valid ObjectId, otherwise search by name
+  let hall: IHall | null = null;
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    hall = await Hall.findById(id);
+  } else {
+    // Search by name in any language
+    const halls = await Hall.find({
+      $or: [
+        { "name.en": { $regex: id, $options: "i" } },
+        { "name.ru": { $regex: id, $options: "i" } },
+        { "name.hy": { $regex: id, $options: "i" } },
+      ],
+    });
+    hall = halls.length > 0 ? halls[0] : null;
+  }
 
   if (!hall) {
     res.status(404).json({
@@ -75,7 +92,6 @@ export const getHall = asyncHandler(async (req: AuthRequest, res: Response) => {
     return;
   }
 
-  const lang = (req.query.locale || req.query.lang) as string;
   const localizedHall = localizeHall(hall, lang);
 
   res.status(200).json({

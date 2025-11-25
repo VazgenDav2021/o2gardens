@@ -1,7 +1,7 @@
-import { getEventById } from "@/lib/mock/getEvents";
 import ReservationForm from "@/components/client/ReservationForm";
 import { getMessages, getTranslations } from "next-intl/server";
 import { Event, Locale } from "@/types";
+import { getEvent } from "@/services";
 
 interface ReservationPageProps {
   params: { tableId: string; locale: Locale };
@@ -29,7 +29,7 @@ export default async function ReservationPage({
     let eventData: Event | null = null;
 
     if (eventId) {
-      eventData = await getEventById(eventId, params.locale);
+      eventData = await getEvent(eventId, params.locale);
     }
 
     return (

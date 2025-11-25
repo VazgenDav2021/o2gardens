@@ -1,21 +1,6 @@
 import api from "@/lib/axiosConfig";
-import { Hall, Locale, Mode } from "@/types";
+import { Hall, Locale, Mode, Scene, Table } from "@/types";
 
-export interface Table {
-  _id?: string;
-  x: number;
-  y: number;
-  seats: number;
-  reserved?: boolean;
-}
-
-export interface Scene {
-  _id?: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
 
 export interface DateRange {
   startDate: string | Date;
@@ -35,9 +20,9 @@ export interface HallsResponse<R extends Mode> {
   data: Hall<R>[];
 }
 
-export interface HallResponse {
+export interface HallResponse<R extends Mode> {
   success: boolean;
-  data: Hall;
+  data: Hall<R>;
 }
 
 export interface CreateHallData {
@@ -91,24 +76,31 @@ export const getHalls = async <R extends Mode>(
 };
 
 // Get single hall
-export const getHall = async (id: string): Promise<HallResponse> => {
-  const response = await api.get<HallResponse>(`/halls/${id}`);
+export const getHall = async <R extends Mode>(
+  idOrName: string,
+  locale?: Locale
+): Promise<HallResponse<R>> => {
+  const response = await api.get<HallResponse<R>>(`/halls/${idOrName}`, {
+    params: {
+      locale,
+    },
+  });
   return response.data;
 };
 
 // Create hall (admin only)
 // Overload 1: With file upload
-export function createHall(
+export function createHall<R extends Mode>(
   file: File,
   data: Omit<CreateHallData, "image">
-): Promise<HallResponse>;
+): Promise<HallResponse<R>>;
 // Overload 2: With URL string
-export function createHall(data: CreateHallData): Promise<HallResponse>;
+export function createHall<R extends Mode>(data: CreateHallData): Promise<HallResponse<R>>;
 // Implementation
-export async function createHall(
+export async function createHall<R extends Mode>(
   fileOrData: File | CreateHallData,
   data?: Omit<CreateHallData, "image">
-): Promise<HallResponse> {
+): Promise<HallResponse<R>> {
   if (fileOrData instanceof File) {
     // Send as FormData for file upload
     const formData = new FormData();
@@ -122,7 +114,7 @@ export async function createHall(
       }
     }
 
-    const response = await api.post<HallResponse>("/halls", formData, {
+    const response = await api.post<HallResponse<R>>("/halls", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -130,29 +122,29 @@ export async function createHall(
     return response.data;
   } else {
     // Send as JSON with URL string or no image
-    const response = await api.post<HallResponse>("/halls", fileOrData);
+    const response = await api.post<HallResponse<R>>("/halls", fileOrData);
     return response.data;
   }
 }
 
 // Update hall (admin only)
 // Overload 1: With file upload
-export function updateHall(
+export function updateHall<R extends Mode>(
   id: string,
   file: File,
   data: Partial<Omit<CreateHallData, "image">>
-): Promise<HallResponse>;
+): Promise<HallResponse<R>>;
 // Overload 2: With URL string or no image change
-export function updateHall(
+export function updateHall<R extends Mode>(
   id: string,
   data: Partial<CreateHallData>
-): Promise<HallResponse>;
+): Promise<HallResponse<R>>;
 // Implementation
-export async function updateHall(
+export async function updateHall<R extends Mode>(
   id: string,
   fileOrData: File | Partial<CreateHallData>,
   data?: Partial<Omit<CreateHallData, "image">>
-): Promise<HallResponse> {
+): Promise<HallResponse<R>> {
   if (fileOrData instanceof File) {
     // Send as FormData for file upload
     const formData = new FormData();
@@ -167,7 +159,7 @@ export async function updateHall(
         formData.append("schemas", JSON.stringify(data.schemas));
     }
 
-    const response = await api.put<HallResponse>(`/halls/${id}`, formData, {
+    const response = await api.put<HallResponse<R>>(`/halls/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -175,7 +167,7 @@ export async function updateHall(
     return response.data;
   } else {
     // Send as JSON
-    const response = await api.put<HallResponse>(`/halls/${id}`, fileOrData);
+    const response = await api.put<HallResponse<R>>(`/halls/${id}`, fileOrData);
     return response.data;
   }
 }
@@ -191,11 +183,11 @@ export const deleteHall = async (
 };
 
 // Add schema to hall (admin only)
-export const addSchema = async (
+export const addSchema = async <R extends Mode>(
   hallId: string,
   schemaData: { dateRange: DateRange; tables?: Table[]; scenes?: Scene[] }
-): Promise<HallResponse> => {
-  const response = await api.post<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.post<HallResponse<R>>(
     `/halls/${hallId}/schemas`,
     schemaData
   );
@@ -203,12 +195,12 @@ export const addSchema = async (
 };
 
 // Update schema in hall (admin only)
-export const updateSchema = async (
+export const updateSchema = async <R extends Mode>(
   hallId: string,
   schemaId: string,
   schemaData: { dateRange?: DateRange; tables?: Table[]; scenes?: Scene[] }
-): Promise<HallResponse> => {
-  const response = await api.put<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.put<HallResponse<R>>(
     `/halls/${hallId}/schemas/${schemaId}`,
     schemaData
   );
@@ -216,23 +208,23 @@ export const updateSchema = async (
 };
 
 // Delete schema from hall (admin only)
-export const deleteSchema = async (
+export const deleteSchema = async <R extends Mode>(
   hallId: string,
   schemaId: string
-): Promise<HallResponse> => {
-  const response = await api.delete<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.delete<HallResponse<R>>(
     `/halls/${hallId}/schemas/${schemaId}`
   );
   return response.data;
 };
 
 // Add table to hall schema (admin only)
-export const addTable = async (
+export const addTable = async <R extends Mode>(
   hallId: string,
   schemaId: string,
   tableData: { x: number; y: number; seats: number }
-): Promise<HallResponse> => {
-  const response = await api.post<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.post<HallResponse<R>>(
     `/halls/${hallId}/schemas/${schemaId}/tables`,
     tableData
   );
@@ -240,13 +232,13 @@ export const addTable = async (
 };
 
 // Update table in hall schema (admin only)
-export const updateTable = async (
+export const updateTable = async <R extends Mode>(
   hallId: string,
   schemaId: string,
   tableId: string,
   tableData: UpdateTableData
-): Promise<HallResponse> => {
-  const response = await api.put<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.put<HallResponse<R>>(
     `/halls/${hallId}/schemas/${schemaId}/tables/${tableId}`,
     tableData
   );
@@ -254,24 +246,24 @@ export const updateTable = async (
 };
 
 // Delete table from hall schema (admin only)
-export const deleteTable = async (
+export const deleteTable = async <R extends Mode>(
   hallId: string,
   schemaId: string,
   tableId: string
-): Promise<HallResponse> => {
-  const response = await api.delete<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.delete<HallResponse<R>>(
     `/halls/${hallId}/schemas/${schemaId}/tables/${tableId}`
   );
   return response.data;
 };
 
 // Add scene to hall schema (admin only)
-export const addScene = async (
+export const addScene = async <R extends Mode>(
   hallId: string,
   schemaId: string,
   sceneData: AddSceneData
-): Promise<HallResponse> => {
-  const response = await api.post<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.post<HallResponse<R>>(
     `/halls/${hallId}/schemas/${schemaId}/scenes`,
     sceneData
   );
@@ -279,12 +271,12 @@ export const addScene = async (
 };
 
 // Delete scene from hall schema (admin only)
-export const deleteScene = async (
+export const deleteScene = async <R extends Mode>(
   hallId: string,
   schemaId: string,
   sceneId: string
-): Promise<HallResponse> => {
-  const response = await api.delete<HallResponse>(
+): Promise<HallResponse<R>> => {
+  const response = await api.delete<HallResponse<R>>(
     `/halls/${hallId}/schemas/${schemaId}/scenes/${sceneId}`
   );
   return response.data;

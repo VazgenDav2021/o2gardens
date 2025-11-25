@@ -7,6 +7,7 @@ interface HallProps {
   mode: "client" | "admin";
   tables: Table[];
   scenes: Scene[];
+  selectedTableId?: string | null;
   onAddTable?: (seats: number) => void;
   onAddScene?: () => void;
   onMoveItem?: (
@@ -30,6 +31,7 @@ export function HallEditor({
   mode,
   tables,
   scenes,
+  selectedTableId,
   onAddTable,
   onAddScene,
   onMoveItem,
@@ -92,10 +94,22 @@ export function HallEditor({
   const endDrag = () => setDragging(null);
 
   const renderTableShape = (t: Table) => {
+    const isSelected = selectedTableId === t._id;
+    const isReserved = t.reserved;
+    
+    // Determine fill color: selected > reserved > available
+    let fillColor = "#4ade80"; // available (green)
+    if (isReserved) {
+      fillColor = "#ff6b6b"; // reserved (red)
+    }
+    if (isSelected && !isReserved) {
+      fillColor = "#3b82f6"; // selected (blue)
+    }
+    
     const common = {
-      stroke: "#222",
-      strokeWidth: 2,
-      fill: t.reserved ? "#ff6b6b" : "#4ade80",
+      stroke: isSelected ? "#1e40af" : "#222",
+      strokeWidth: isSelected ? 3 : 2,
+      fill: fillColor,
       style: { cursor: mode === "admin" ? "grab" : "pointer" },
       onMouseDown: (e: React.MouseEvent<SVGElement, MouseEvent>) =>
         startDrag(e, t._id!, "table", t.x, t.y),

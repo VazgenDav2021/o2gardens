@@ -73,7 +73,7 @@ const DateRangeSchema = new Schema<IDateRange>(
   { _id: false }
 );
 
-const HallSchemaSchema = new Schema<IHallSchema & Document>(
+export const HallSchemaSchema = new Schema<IHallSchema & Document>(
   {
     dateRange: { type: DateRangeSchema, required: true },
     tables: [TableSchema],
@@ -104,8 +104,14 @@ const HallSchema: Schema<IHall> = new Schema(
     },
     schemas: [HallSchemaSchema],
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+HallSchema.virtual('events', {
+  ref: 'Event',
+  localField: '_id',
+  foreignField: 'hall',
+});
 
 export default mongoose.model<IHall>("Hall", HallSchema);
 

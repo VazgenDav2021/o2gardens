@@ -55,6 +55,7 @@ export interface Hall<T extends Mode = "admin"> {
   schemas: HallSchema[];
   createdAt?: string;
   updatedAt?: string;
+  events: Event<T>[];
 }
 
 export interface MenuItem<T extends Mode = "admin"> {
@@ -70,12 +71,12 @@ export interface Event<T extends Mode = "admin"> {
   description: Localized<T>;
   artists: Localized<T>;
   date: number;
-  deposit: number;
+  deposit: string;
   image: string;
   isAdult: boolean;
-  hall: string | Hall;
+  hall: string;
   capacity: number;
   menu: MenuItem<T>[];
   schema: HallSchema | string;
-  timeStart: number;
+  timeStart: string;
 }

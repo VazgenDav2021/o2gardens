@@ -15,7 +15,7 @@ import z from "zod";
 
 interface ReservationFormProps {
   tableId: string;
-  deposit: number;
+  deposit: string;
   date: number;
   eventTimeStart: number;
 }

@@ -41,7 +41,7 @@ export const RegularBookingCard = ({
       </CardContent>
       <CardFooter>
         <Link
-          href={`/hall-map/${hall}/regular-day?eventDate=${formatDate(selectedDate)}`}
+          href={`/hall-map/${hall}/?eventDate=${formatDate(selectedDate)}`}
           className="w-full">
           <Button className="w-full group">{t("BUTTON")}</Button>
         </Link>

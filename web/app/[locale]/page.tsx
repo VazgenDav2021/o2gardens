@@ -24,6 +24,7 @@ export default async function HomePage({ params }: PageProps) {
   const halls = await getHalls<"client">(params.locale);
 
 
+
   return (
     <>
       {!!heroSlides.data.length && <HeroSection slides={heroSlides.data} />}

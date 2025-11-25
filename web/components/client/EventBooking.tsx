@@ -28,10 +28,12 @@ export default function EventBooking({ allEvents, hall }: EventBookingProps) {
   const [bookingType, setBookingType] = useState<BookingType>("regular");
   const t = useTranslations("common.halls");
 
-  const eventDates = allEvents.map((e) => new Date(e.dateISO));
+  const eventDates = allEvents.map((e) => new Date(e.date));
   const selectedDateStr = selectedDate ? formatDate(selectedDate) : null;
   const selectedEvent = selectedDateStr
-    ? allEvents.find((e) => e.dateISO === selectedDateStr)
+    ? allEvents.find((e) => {
+      return formatDate(new Date(e.date)) === selectedDateStr;
+    })
     : null;
 
   const isEventDate = (date: Date) =>

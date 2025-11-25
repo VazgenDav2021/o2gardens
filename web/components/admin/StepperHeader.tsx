@@ -1,11 +1,12 @@
 "use client";
 
+import { Hall } from "@/types";
 import { Button } from "@/ui/button";
 
 interface StepperHeaderProps {
   step: number;
   setStep: (step: number) => void;
-  selectedHall: string | undefined;
+  selectedHall: string;
 }
 
 export default function StepperHeader({

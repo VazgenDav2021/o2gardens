@@ -40,7 +40,7 @@ const HallsSection = async ({
           {t("common.halls.DESCRIPTION")}
         </p>
         <div className="grid md:grid-cols-3 gap-8">
-          {hallData.map((hall) => (
+          {hallData?.map((hall) => (
             <Card
               key={hall._id}
               className="overflow-hidden hover:shadow-xl transition-all border-border hover:border-primary">

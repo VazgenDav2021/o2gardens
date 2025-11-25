@@ -9,10 +9,12 @@ import { Event } from "@/types";
 import { getImageUrl } from "@/lib/getImageUrl";
 
 interface EventCardProps {
-  event: Event<'client'>;
+  event: Event<"client">;
 }
 
 export const EventCard = ({ event }: EventCardProps) => {
+  event && console.log({ hall123123: event });
+
   const t = useTranslations("events");
   return (
     <Card className="overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
@@ -32,15 +34,14 @@ export const EventCard = ({ event }: EventCardProps) => {
           </p>
 
           <div className="space-y-2 pt-2">
-            <InfoItem icon={<MapPin size={16} />} text={typeof event.hall === 'object' ? (event.hall.name?.ru || event.hall.name?.en || event.hall._id) : event.hall} />
+            {event.hall && (
+              <InfoItem icon={<MapPin size={16} />} text={event.hall} />
+            )}
             <InfoItem
               icon={<Users size={16} />}
               text={`До ${event.capacity} человек`}
             />
-            <InfoItem
-              icon={<Music size={16} />}
-              text={event?.artists}
-            />
+            <InfoItem icon={<Music size={16} />} text={event?.artists} />
           </div>
 
           <div className="pt-4 border-t border-border">
@@ -53,10 +54,7 @@ export const EventCard = ({ event }: EventCardProps) => {
           </div>
 
           <Button asChild className="w-full">
-            <Link
-              href={`/hall-map/${typeof event.hall === 'object' ? event.hall._id : event.hall}/${event._id}`}>
-              {t("BOOK")}
-            </Link>
+            <Link href="/">{t("BOOK")}</Link>
           </Button>
         </CardContent>
       </div>

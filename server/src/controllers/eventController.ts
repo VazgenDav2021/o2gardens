@@ -2,13 +2,14 @@ import { Response } from "express";
 import { AuthRequest } from "../middleware/auth";
 import { asyncHandler } from "../middleware/asyncHandler";
 import Event from "../models/Event";
+import { getLocalized } from "../utils/getLocalized";
 
 // @desc    Get all events
 // @route   GET /api/events
 // @access  Public
 export const getEvents = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const { hall } = req.query;
+    const { hall, locale = "en" } = req.query;
 
     const query: any = {};
 
@@ -16,12 +17,30 @@ export const getEvents = asyncHandler(
       query.hall = hall;
     }
 
-    const events = await Event.find(query).populate("schema").populate("hall").sort({ date: 1 });
+    const events = await Event.find(query).populate("hall").sort({ date: 1 });
+
+    const localized = events.map((event: any) => {
+      const e = event.toObject();
+
+      return {
+        ...e,
+        name: getLocalized(e.name, locale as string),
+        description: getLocalized(e.description, locale as string),
+        artists: getLocalized(e.artists, locale as string),
+
+        menu: e.menu.map((item: any) => ({
+          ...item,
+          name: getLocalized(item.name, locale as string),
+          description: getLocalized(item.description, locale as string),
+        })),
+        hall: getLocalized(e.hall?.name ?? {}, locale as string),
+      };
+    });
 
     res.status(200).json({
       success: true,
-      count: events.length,
-      data: events,
+      count: localized.length,
+      data: localized,
     });
   }
 );
@@ -31,7 +50,9 @@ export const getEvents = asyncHandler(
 // @access  Public
 export const getEvent = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const event = await Event.findById(req.params.id).populate("schema").populate("hall");
+    const event = await Event.findById(req.params.id)
+      .populate("schema")
+      .populate("hall");
 
     if (!event) {
       res.status(404).json({
@@ -53,7 +74,16 @@ export const getEvent = asyncHandler(
 // @access  Private/Admin
 export const createEvent = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const event = await Event.create(req.body);
+    const eventData = {
+      ...req.body,
+      date: new Date(req.body.date),
+      deposit:
+        typeof req.body.deposit === "string"
+          ? Number(req.body.deposit)
+          : req.body.deposit,
+    };
+
+    const event = await Event.create(eventData);
 
     res.status(201).json({
       success: true,
@@ -77,7 +107,18 @@ export const updateEvent = asyncHandler(
       return;
     }
 
-    event = await Event.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData: Record<string, unknown> = {
+      ...req.body,
+      ...(req.body.date && { date: new Date(req.body.date) }),
+      ...(req.body.deposit !== undefined && {
+        deposit:
+          typeof req.body.deposit === "string"
+            ? Number(req.body.deposit)
+            : req.body.deposit,
+      }),
+    };
+
+    event = await Event.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true,
     });

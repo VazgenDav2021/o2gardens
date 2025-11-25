@@ -5,8 +5,8 @@ export const createEventValidator = [
     .isObject()
     .withMessage('Name must be an object with locale keys'),
   body('date')
-    .isISO8601()
-    .withMessage('Date must be a valid ISO 8601 date'),
+    .isNumeric()
+    .withMessage('Date must be a valid timestamp (number)'),
   body('deposit')
     .isNumeric()
     .withMessage('Deposit must be a number'),
@@ -28,8 +28,8 @@ export const updateEventValidator = [
     .withMessage('Name must be an object with locale keys'),
   body('date')
     .optional()
-    .isISO8601()
-    .withMessage('Date must be a valid ISO 8601 date'),
+    .isNumeric()
+    .withMessage('Date must be a valid timestamp (number)'),
   body('deposit')
     .optional()
     .isNumeric()

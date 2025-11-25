@@ -51,8 +51,6 @@
           "ID": "silver-hall"
         }
       ],
-      "BOOKING_TITLE": "Ամրագրում սեղանի",
-      "BOOKING_DESCRIPTION": "Ընտրեք ամրագրման տեսակն ու ամսաթիվը",
       "ERROR_LOADING_EVENTS": "Չհաջողվեց բեռնել միջոցառումները։ Փորձեք ավելի ուշ։",
       "NO_EVENTS": "Առկա միջոցառումներ չկան։",
       "BOOKING_TYPE_TITLE": "Ամրագրման տեսակ",

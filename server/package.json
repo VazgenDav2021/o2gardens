@@ -9,7 +9,8 @@
     "start": "node dist/server.js",
     "lint": "eslint src --ext .ts",
     "test": "jest",
-    "create-admin": "ts-node src/scripts/createAdmin.ts"
+    "create-admin": "ts-node src/scripts/createAdmin.ts",
+    "seed-hall": "ts-node src/scripts/seedHallWithEvents.ts"
   },
   "keywords": [
     "express",
