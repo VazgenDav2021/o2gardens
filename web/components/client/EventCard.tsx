@@ -52,7 +52,8 @@ export const EventCard = ({ event }: EventCardProps) => {
           </div>
 
           <Button asChild className="w-full">
-            <Link href="/">{t("BOOK")}</Link>
+            {/* TODO: Add booking link */}
+            {/* <Link href="/">{t("BOOK")}</Link> */}
           </Button>
         </CardContent>
       </div>

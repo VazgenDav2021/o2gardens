@@ -48,6 +48,7 @@ export default function EventInfoStep({
     name: "menu",
   });
 
+
   return (
     <Card>
       <CardHeader>

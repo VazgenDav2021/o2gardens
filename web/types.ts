@@ -4,8 +4,8 @@ export type MultilingualString = {
   [key in Locale]?: string;
 };
 export type DateRange = {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | number; // Timestamp
+  endDate: Date | number; // Timestamp
 };
 
 export type Mode = "admin" | "client";

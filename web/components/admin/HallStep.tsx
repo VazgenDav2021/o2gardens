@@ -20,10 +20,18 @@ export default function HallStep({
   setValue,
   watch,
 }: HallStepProps) {
+  const schema = watch("schema");
+  const schemaTables = schema && typeof schema === "object" && "tables" in schema 
+    ? (schema.tables || [])
+    : [];
+  const schemaScenes = schema && typeof schema === "object" && "scenes" in schema
+    ? (schema.scenes || [])
+    : [];
+
   const { tables, scenes, addTable, addScene, moveItem, deleteItem } =
     useHallLayout({
-      initialTables: watch("schema.tables") || [],
-      initialScenes: watch("schema.scenes") || [],
+      initialTables: schemaTables,
+      initialScenes: schemaScenes,
       setValue,
     });
 

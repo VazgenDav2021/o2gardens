@@ -3,14 +3,30 @@ import { AuthRequest } from "../middleware/auth";
 import { asyncHandler } from "../middleware/asyncHandler";
 import Event from "../models/Event";
 import { localizeEvent } from "../utils/getLocalized";
-import { getPublicUrl, deleteLocalFile, isLocalFile } from "../utils/fileUtils";
+import {
+  handleRequiredFileUpload,
+  handleFileUpload,
+  cleanupFile,
+} from "../utils/fileUpload";
+import {
+  parseFormDataField,
+  parseNumber,
+  parseBoolean,
+  parseDate,
+} from "../utils/formData";
+import {
+  sendSuccess,
+  sendSuccessWithCount,
+  sendNotFound,
+  sendError,
+} from "../utils/response";
 
 // @desc    Get all events
 // @route   GET /api/events
 // @access  Public
 export const getEvents = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const { hall, locale = "en" } = req.query;
+    const { hall, locale } = req.query;
 
     const query: any = {};
 
@@ -20,15 +36,11 @@ export const getEvents = asyncHandler(
 
     const events = await Event.find(query).populate("hall").sort({ date: 1 });
 
-    const localized = events.map((event: any) => 
+    const localized = events.map((event: any) =>
       localizeEvent(event, locale as string)
     );
 
-    res.status(200).json({
-      success: true,
-      count: localized.length,
-      data: localized,
-    });
+    return sendSuccessWithCount(res, localized);
   }
 );
 
@@ -37,25 +49,16 @@ export const getEvents = asyncHandler(
 // @access  Public
 export const getEvent = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const event = await Event.findById(req.params.id)
-      .populate("schema")
-      .populate("hall");
+    const event = await Event.findById(req.params.id).populate("schemas");
 
     if (!event) {
-      res.status(404).json({
-        success: false,
-        message: "Event not found",
-      });
-      return;
+      return sendNotFound(res, "Event");
     }
 
     const locale = (req.query.locale || req.query.lang) as string;
     const localizedEvent = localizeEvent(event, locale);
 
-    res.status(200).json({
-      success: true,
-      data: localizedEvent,
-    });
+    return sendSuccess(res, localizedEvent);
   }
 );
 
@@ -64,61 +67,31 @@ export const getEvent = asyncHandler(
 // @access  Private/Admin
 export const createEvent = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    let imageUrl: string = "";
-    let isLocal = false;
+    try {
+      const { imageUrl, isLocal } = handleRequiredFileUpload(req);
 
-    // File upload is handled by multer middleware in the route
-    if (req.file) {
-      // File was uploaded via multipart/form-data
-      imageUrl = getPublicUrl(req.file.filename);
-      isLocal = true;
-    } else {
-      // Only files are allowed, no URLs
-      return res.status(400).json({
-        success: false,
-        message: "Please provide an image file (multipart/form-data with 'image' field)",
-      });
+      const eventData = {
+        name: parseFormDataField(req.body.name),
+        description: parseFormDataField(req.body.description),
+        artists: parseFormDataField(req.body.artists),
+        menu: parseFormDataField(req.body.menu) || [],
+        date: parseDate(req.body.date),
+        deposit: parseNumber(req.body.deposit),
+        isAdult: parseBoolean(req.body.isAdult),
+        hall: req.body.hall,
+        capacity: parseNumber(req.body.capacity),
+        timeStart: req.body.timeStart,
+        image: imageUrl,
+        isLocalFile: isLocal,
+      };
+
+      const event = await Event.create(eventData);
+      return sendSuccess(res, event, 201);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to create event";
+      return sendError(res, message, 400);
     }
-
-    // Parse JSON strings from FormData (multer sends them as strings)
-    const parseFormDataField = (field: unknown): unknown => {
-      if (typeof field === "string") {
-        try {
-          return JSON.parse(field);
-        } catch {
-          return field;
-        }
-      }
-      return field;
-    };
-
-    const eventData = {
-      name: parseFormDataField(req.body.name),
-      description: parseFormDataField(req.body.description),
-      artists: parseFormDataField(req.body.artists),
-      menu: parseFormDataField(req.body.menu) || [],
-      date: new Date(Number(req.body.date)),
-      deposit:
-        typeof req.body.deposit === "string"
-          ? Number(req.body.deposit)
-          : req.body.deposit,
-      isAdult: req.body.isAdult === "true" || req.body.isAdult === true,
-      hall: req.body.hall,
-      capacity:
-        typeof req.body.capacity === "string"
-          ? Number(req.body.capacity)
-          : req.body.capacity,
-      timeStart: req.body.timeStart,
-      image: imageUrl,
-      isLocalFile: isLocal,
-    };
-
-    const event = await Event.create(eventData);
-
-    res.status(201).json({
-      success: true,
-      data: event,
-    });
   }
 );
 
@@ -127,94 +100,49 @@ export const createEvent = asyncHandler(
 // @access  Private/Admin
 export const updateEvent = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    let event = await Event.findById(req.params.id);
+    const event = await Event.findById(req.params.id);
 
     if (!event) {
-      res.status(404).json({
-        success: false,
-        message: "Event not found",
-      });
-      return;
+      return sendNotFound(res, "Event");
     }
 
-    // Store old file URL for potential deletion
-    const oldUrl = event.image;
-    const wasLocalFile = isLocalFile(oldUrl);
-
-    let imageUrl: string = event.image;
-    let isLocal = wasLocalFile;
-
-    // File upload is handled by multer middleware in the route
-    if (req.file) {
-      // New file uploaded - delete old local file if it exists
-      if (wasLocalFile && oldUrl) {
-        deleteLocalFile(oldUrl);
-      }
-
-      imageUrl = getPublicUrl(req.file.filename);
-      isLocal = true;
-    }
-    // If no file is provided, keep the existing image
-
-    // Parse JSON strings from FormData if needed (multer sends them as strings)
-    const parseFormDataField = (field: unknown): unknown => {
-      if (typeof field === "string") {
-        try {
-          return JSON.parse(field);
-        } catch {
-          return field;
-        }
-      }
-      return field;
-    };
+    const { imageUrl, isLocal } = handleFileUpload(req, event.image);
 
     const updateData: Record<string, unknown> = {
       ...(req.body.name && { name: parseFormDataField(req.body.name) }),
       ...(req.body.description && {
         description: parseFormDataField(req.body.description),
       }),
-      ...(req.body.artists && { artists: parseFormDataField(req.body.artists) }),
-      ...(req.body.menu && { menu: parseFormDataField(req.body.menu) }),
-      ...(req.body.date && {
-        date: new Date(
-          typeof req.body.date === "string"
-            ? Number(req.body.date)
-            : req.body.date
-        ),
+      ...(req.body.artists && {
+        artists: parseFormDataField(req.body.artists),
       }),
+      ...(req.body.menu && { menu: parseFormDataField(req.body.menu) }),
+      ...(req.body.date && { date: parseDate(req.body.date) }),
       ...(req.body.deposit !== undefined && {
-        deposit:
-          typeof req.body.deposit === "string"
-            ? Number(req.body.deposit)
-            : req.body.deposit,
+        deposit: parseNumber(req.body.deposit),
       }),
       ...(req.body.isAdult !== undefined && {
-        isAdult:
-          req.body.isAdult === "true" ||
-          req.body.isAdult === true ||
-          req.body.isAdult === "1",
+        isAdult: parseBoolean(req.body.isAdult),
       }),
       ...(req.body.hall && { hall: req.body.hall }),
       ...(req.body.capacity !== undefined && {
-        capacity:
-          typeof req.body.capacity === "string"
-            ? Number(req.body.capacity)
-            : req.body.capacity,
+        capacity: parseNumber(req.body.capacity),
       }),
       ...(req.body.timeStart && { timeStart: req.body.timeStart }),
       image: imageUrl,
       isLocalFile: isLocal,
     };
 
-    event = await Event.findByIdAndUpdate(req.params.id, updateData, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedEvent = await Event.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-    res.status(200).json({
-      success: true,
-      data: event,
-    });
+    return sendSuccess(res, updatedEvent);
   }
 );
 
@@ -226,23 +154,13 @@ export const deleteEvent = asyncHandler(
     const event = await Event.findById(req.params.id);
 
     if (!event) {
-      res.status(404).json({
-        success: false,
-        message: "Event not found",
-      });
-      return;
+      return sendNotFound(res, "Event");
     }
 
-    // Delete local file if it exists
-    if (event.image && isLocalFile(event.image)) {
-      deleteLocalFile(event.image);
-    }
+    cleanupFile(event.image);
 
     await event.deleteOne();
 
-    res.status(200).json({
-      success: true,
-      message: "Event deleted successfully",
-    });
+    return sendSuccess(res, null, 200, "Event deleted successfully");
   }
 );

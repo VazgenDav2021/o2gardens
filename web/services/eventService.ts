@@ -9,9 +9,9 @@ export interface EventsResponse<R extends Mode> {
   data: Event<R>[];
 }
 
-export interface EventResponse {
+export interface EventResponse<R extends Mode> {
   success: boolean;
-  data: Event;
+  data: Event<R>;
 }
 
 export interface CreateEventData {
@@ -49,13 +49,13 @@ export const getEvents = async <R extends Mode>(params?: {
 };
 
 // Get single event
-export const getEvent = async (id: string): Promise<EventResponse> => {
-  const response = await api.get<EventResponse>(`/events/${id}`);
+export const getEvent = async <R extends Mode>(id: string): Promise<EventResponse<R>> => {
+  const response = await api.get<EventResponse<R>>(`/events/${id}`);
   return response.data;
 };
 
 // Create event (admin only)
-export const createEvent = async (data: Event, imageFile: File): Promise<EventResponse> => {
+export const createEvent = async <R extends Mode>(data: Event<R>, imageFile: File): Promise<EventResponse<R>> => {
   const formData = new FormData();
   
   // Append the image file
@@ -77,18 +77,44 @@ export const createEvent = async (data: Event, imageFile: File): Promise<EventRe
     formData.append("menu", JSON.stringify(data.menu));
   }
 
-  const response = await api.post<EventResponse>("/events", formData, {
+  const response = await api.post<EventResponse<R>>("/events", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return response.data;
 };
 
 // Update event (admin only)
-export const updateEvent = async (
+export const updateEvent = async <R extends Mode>(
   id: string,
-  data: Partial<CreateEventData>
-): Promise<EventResponse> => {
-  const response = await api.put<EventResponse>(`/events/${id}`, data);
+  data: Event,
+  imageFile?: File
+): Promise<EventResponse<R>> => {
+  const formData = new FormData();
+  
+  // Append the image file if provided
+  if (imageFile) {
+    formData.append("image", imageFile);
+  }
+  
+  // Append all other fields
+  formData.append("name", JSON.stringify(data.name));
+  formData.append("description", JSON.stringify(data.description));
+  formData.append("artists", JSON.stringify(data.artists));
+  formData.append("date", data.date.toString());
+  formData.append("deposit", data.deposit.toString());
+  formData.append("isAdult", data.isAdult.toString());
+  formData.append("hall", data.hall);
+  formData.append("capacity", data.capacity.toString());
+  formData.append("timeStart", data.timeStart);
+  
+  // Append menu items
+  if (data.menu && data.menu.length > 0) {
+    formData.append("menu", JSON.stringify(data.menu));
+  }
+
+  const response = await api.put<EventResponse<R>>(`/events/${id}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return response.data;
 };
 

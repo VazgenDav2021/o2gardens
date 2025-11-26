@@ -44,10 +44,9 @@ import {
   deleteHall,
   addSchema,
   deleteSchema,
-  HallSchema,
 } from "@/services/hallService";
 import { getImageUrl } from "@/lib/getImageUrl";
-import { Hall } from "@/types";
+import { Hall, HallSchema } from "@/types";
 
 const HallSchemas = () => {
   const [halls, setHalls] = useState<Hall<'admin'>[]>([]);
@@ -177,10 +176,14 @@ const HallSchemas = () => {
     const start =
       schema.dateRange.startDate instanceof Date
         ? schema.dateRange.startDate
+        : typeof schema.dateRange.startDate === "number"
+        ? new Date(schema.dateRange.startDate)
         : new Date(schema.dateRange.startDate);
     const end =
       schema.dateRange.endDate instanceof Date
         ? schema.dateRange.endDate
+        : typeof schema.dateRange.endDate === "number"
+        ? new Date(schema.dateRange.endDate)
         : new Date(schema.dateRange.endDate);
     return `${format(start, "dd MMM yyyy", { locale: ru })} - ${format(
       end,

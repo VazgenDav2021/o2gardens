@@ -1,5 +1,5 @@
 import { Scene, Table } from "@/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface UseHallLayoutProps {
   initialTables?: Table[];
@@ -17,6 +17,32 @@ export const useHallLayout = ({
 }: UseHallLayoutProps = {}) => {
   const [tables, setTables] = useState<Table[]>(initialTables);
   const [scenes, setScenes] = useState<Scene[]>(initialScenes);
+  const prevTablesLengthRef = useRef(initialTables?.length || 0);
+  const prevScenesLengthRef = useRef(initialScenes?.length || 0);
+
+  // Update state when initial values change
+  // This handles the case where form data loads asynchronously after component mount
+  useEffect(() => {
+    const currentLength = initialTables?.length || 0;
+    const prevLength = prevTablesLengthRef.current;
+    
+    // Update if length changed (especially from 0 to > 0 when data loads)
+    if (currentLength !== prevLength) {
+      setTables(initialTables || []);
+      prevTablesLengthRef.current = currentLength;
+    }
+  }, [initialTables]);
+
+  useEffect(() => {
+    const currentLength = initialScenes?.length || 0;
+    const prevLength = prevScenesLengthRef.current;
+    
+    // Update if length changed (especially from 0 to > 0 when data loads)
+    if (currentLength !== prevLength) {
+      setScenes(initialScenes || []);
+      prevScenesLengthRef.current = currentLength;
+    }
+  }, [initialScenes]);
 
   useEffect(() => {
     setValue?.("schema.tables", tables);

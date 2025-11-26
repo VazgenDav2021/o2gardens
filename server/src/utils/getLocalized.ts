@@ -67,13 +67,13 @@ export const localizeEvent = (event: any, locale?: string): any => {
 
   const eventObj = event.toObject ? event.toObject() : event;
 
+
   // If no locale, return full object
   if (!locale || !VALID_LANGUAGES.includes(locale as Language)) {
     return eventObj;
   }
 
-  const lang = locale as Language;
-
+  
   return {
     ...eventObj,
     name: localizeField(eventObj.name, locale),
@@ -105,8 +105,6 @@ export const localizeHall = (hall: any, locale?: string): any => {
   if (!locale || !VALID_LANGUAGES.includes(locale as Language)) {
     return hallObj;
   }
-
-  const lang = locale as Language;
 
   return {
     ...hallObj,

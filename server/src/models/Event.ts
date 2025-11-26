@@ -31,7 +31,7 @@ export interface IEvent {
     ru?: string;
     hy?: string;
   };
-  date: number;
+  date: number; // Timestamp
   deposit: number;
   image: string;
   isLocalFile?: boolean;
@@ -83,7 +83,7 @@ const EventSchema: Schema = new Schema(
       hy: String,
     },
     date: {
-      type: Date,
+      type: Number, // Store as timestamp
       required: true,
     },
     deposit: {

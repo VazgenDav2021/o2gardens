@@ -4,9 +4,16 @@ import { AuthRequest } from "../middleware/auth";
 import { asyncHandler } from "../middleware/asyncHandler";
 import Hall from "../models/Hall";
 import { uploadHallImage } from "../middleware/upload";
-import { getPublicUrl, deleteLocalFile, isLocalFile } from "../utils/fileUtils";
+import { handleFileUpload, cleanupFile } from "../utils/fileUpload";
 import { IHall } from "../models/Hall";
 import { localizeHall } from "../utils/getLocalized";
+import {
+  sendSuccess,
+  sendSuccessWithCount,
+  sendNotFound,
+  sendError,
+} from "../utils/response";
+import { toTimestamp } from "../utils/dateUtils";
 
 // Wrapper for multer to handle errors properly
 const uploadHallImageAsync = (
@@ -34,11 +41,7 @@ export const getHalls = asyncHandler(
 
     const localizedHalls = halls.map((hall) => localizeHall(hall, locale));
 
-    res.status(200).json({
-      success: true,
-      count: halls.length,
-      data: localizedHalls,
-    });
+    return sendSuccessWithCount(res, localizedHalls);
   }
 );
 
@@ -66,19 +69,12 @@ export const getHall = asyncHandler(async (req: AuthRequest, res: Response) => {
   }
 
   if (!hall) {
-    res.status(404).json({
-      success: false,
-      message: "Hall not found",
-    });
-    return;
+    return sendNotFound(res, "Hall");
   }
 
   const localizedHall = localizeHall(hall, locale);
 
-  res.status(200).json({
-    success: true,
-    data: localizedHall,
-  });
+  return sendSuccess(res, localizedHall);
 });
 
 // @desc    Create new hall
@@ -86,57 +82,33 @@ export const getHall = asyncHandler(async (req: AuthRequest, res: Response) => {
 // @access  Private/Admin
 export const createHall = asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    let imageUrl: string = "";
-    let isLocal = false;
-
-    // Handle file upload (multer processes multipart/form-data)
+    // Handle file upload
     try {
       await uploadHallImageAsync(req, res);
+      const { imageUrl, isLocal } = handleFileUpload(req);
 
-      if (req.file) {
-        // File was uploaded via multipart/form-data
-        imageUrl = getPublicUrl(req.file.filename);
-        isLocal = true;
-      } else if (req.body.image && typeof req.body.image === "string") {
-        // URL string provided (from JSON body or form-data)
-        imageUrl = req.body.image.trim();
-        isLocal = isLocalFile(imageUrl);
-      }
+      const hallData: {
+        name: Record<string, string>;
+        description: Record<string, string>;
+        capacity: number;
+        schemas: unknown[];
+        image?: string;
+        isLocalFile?: boolean;
+      } = {
+        name: req.body.name || {},
+        description: req.body.description || {},
+        capacity: parseInt(req.body.capacity, 10) || 0,
+        schemas: req.body.schemas || [],
+        ...(imageUrl && { image: imageUrl, isLocalFile: isLocal }),
+      };
+
+      const hall = await Hall.create(hallData);
+      return sendSuccess(res, hall, 201);
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Error uploading image";
-      return res.status(400).json({
-        success: false,
-        message: errorMessage,
-      });
+      return sendError(res, errorMessage, 400);
     }
-
-    // Parse body data
-    const hallData: {
-      name: Record<string, string>;
-      description: Record<string, string>;
-      capacity: number;
-      schemas: unknown[];
-      image?: string;
-      isLocalFile?: boolean;
-    } = {
-      name: req.body.name || {},
-      description: req.body.description || {},
-      capacity: parseInt(req.body.capacity, 10) || 0,
-      schemas: req.body.schemas || [],
-    };
-
-    if (imageUrl) {
-      hallData.image = imageUrl;
-      hallData.isLocalFile = isLocal;
-    }
-
-    const hall = await Hall.create(hallData);
-
-    res.status(201).json({
-      success: true,
-      data: hall,
-    });
   }
 );
 
@@ -148,89 +120,51 @@ export const updateHall = asyncHandler(
     const hall = await Hall.findById(req.params.id);
 
     if (!hall) {
-      res.status(404).json({
-        success: false,
-        message: "Hall not found",
-      });
-      return;
+      return sendNotFound(res, "Hall");
     }
 
-    // Store old file URL for potential deletion
-    const oldUrl = hall.image;
-    const wasLocalFile = isLocalFile(oldUrl);
-
-    let imageUrl: string = hall.image;
-    let isLocal = wasLocalFile;
-
-    // Handle file upload if new file is provided
+    // Handle file upload
     try {
       await uploadHallImageAsync(req, res);
+      const { imageUrl } = handleFileUpload(req, hall.image);
 
-      if (req.file) {
-        // New file uploaded - delete old local file if it exists
-        if (wasLocalFile && oldUrl) {
-          deleteLocalFile(oldUrl);
+      // Update hall
+      const updateData: {
+        name: Record<string, string>;
+        description: Record<string, string>;
+        capacity: number;
+        schemas: unknown[];
+        image: string;
+      } = {
+        name: req.body.name !== undefined ? req.body.name : hall.name,
+        description:
+          req.body.description !== undefined
+            ? req.body.description
+            : hall.description,
+        capacity:
+          req.body.capacity !== undefined
+            ? parseInt(req.body.capacity, 10)
+            : hall.capacity,
+        schemas:
+          req.body.schemas !== undefined ? req.body.schemas : hall.schemas,
+        image: imageUrl,
+      };
+
+      const updatedHall = await Hall.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        {
+          new: true,
+          runValidators: true,
         }
+      );
 
-        imageUrl = getPublicUrl(req.file.filename);
-        isLocal = true;
-      } else if (req.body.image !== undefined && req.body.image !== null) {
-        // URL provided (could be updating to external URL or keeping same)
-        const newUrl =
-          typeof req.body.image === "string"
-            ? req.body.image.trim()
-            : String(req.body.image);
-        imageUrl = newUrl;
-        isLocal = isLocalFile(newUrl);
-
-        // If changing from local file to external URL, delete old file
-        if (wasLocalFile && oldUrl && !isLocal && oldUrl !== newUrl) {
-          deleteLocalFile(oldUrl);
-        }
-      }
+      return sendSuccess(res, updatedHall);
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Error uploading image";
-      return res.status(400).json({
-        success: false,
-        message: errorMessage,
-      });
+      return sendError(res, errorMessage, 400);
     }
-
-    // Update hall
-    const updateData: {
-      name: Record<string, string>;
-      description: Record<string, string>;
-      capacity: number;
-      schemas: unknown[];
-      image: string;
-    } = {
-      name: req.body.name !== undefined ? req.body.name : hall.name,
-      description:
-        req.body.description !== undefined
-          ? req.body.description
-          : hall.description,
-      capacity:
-        req.body.capacity !== undefined
-          ? parseInt(req.body.capacity, 10)
-          : hall.capacity,
-      schemas: req.body.schemas !== undefined ? req.body.schemas : hall.schemas,
-      image: imageUrl,
-    };
-
-    const updatedHall = await Hall.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-
-    res.status(200).json({
-      success: true,
-      data: updatedHall,
-    });
   }
 );
 
@@ -242,24 +176,14 @@ export const deleteHall = asyncHandler(
     const hall = await Hall.findById(req.params.id);
 
     if (!hall) {
-      res.status(404).json({
-        success: false,
-        message: "Hall not found",
-      });
-      return;
+      return sendNotFound(res, "Hall");
     }
 
-    // Delete local file if it exists
-    if (hall.image && isLocalFile(hall.image)) {
-      deleteLocalFile(hall.image);
-    }
+    cleanupFile(hall.image);
 
     await hall.deleteOne();
 
-    res.status(200).json({
-      success: true,
-      message: "Hall deleted successfully",
-    });
+    return sendSuccess(res, null, 200, "Hall deleted successfully");
   }
 );
 
@@ -283,8 +207,14 @@ export const addSchema = asyncHandler(
 
     hall.schemas.push({
       dateRange: {
-        startDate: new Date(dateRange.startDate),
-        endDate: new Date(dateRange.endDate),
+        startDate:
+          typeof dateRange.startDate === "number"
+            ? dateRange.startDate
+            : toTimestamp(new Date(dateRange.startDate)),
+        endDate:
+          typeof dateRange.endDate === "number"
+            ? dateRange.endDate
+            : toTimestamp(new Date(dateRange.endDate)),
       },
       tables: tables || [],
       scenes: scenes || [],
@@ -328,8 +258,14 @@ export const updateSchema = asyncHandler(
 
     if (dateRange) {
       schema.dateRange = {
-        startDate: new Date(dateRange.startDate),
-        endDate: new Date(dateRange.endDate),
+        startDate:
+          typeof dateRange.startDate === "number"
+            ? dateRange.startDate
+            : toTimestamp(new Date(dateRange.startDate)),
+        endDate:
+          typeof dateRange.endDate === "number"
+            ? dateRange.endDate
+            : toTimestamp(new Date(dateRange.endDate)),
       };
     }
     if (tables !== undefined) schema.tables = tables;

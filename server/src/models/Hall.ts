@@ -17,8 +17,8 @@ export interface IScene {
 }
 
 export interface IDateRange {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | number; // Timestamp
+  endDate: Date | number; // Timestamp
 }
 
 export interface IHallSchema {
@@ -67,8 +67,8 @@ const SceneSchema = new Schema<IScene & Document>(
 
 const DateRangeSchema = new Schema<IDateRange>(
   {
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
+    startDate: { type: Number, required: true }, // Store as timestamp
+    endDate: { type: Number, required: true }, // Store as timestamp
   },
   { _id: false }
 );

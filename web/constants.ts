@@ -1,5 +1,5 @@
 export const HALLS = [
-  { value: "6924366d8f287dfaaed93cca", label: "Главный Зал" },
+  { value: "69257f62b3c7804285f98bd8", label: "Главный Зал" },
   { value: "hall2", label: "Зал 2" },
   { value: "hall3", label: "Зал 3" },
 ];

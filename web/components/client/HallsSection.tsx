@@ -63,13 +63,14 @@ const HallsSection = async ({
               </CardContent>
               <CardFooter>
                 <Link href={`/halls/${hall._id}`} className="w-full">
-                  <Button className="w-full group">
+                  {/* TODO: Add booking link */}
+                  {/* <Button className="w-full group">
                     {t("common.halls.BUTTON")}
                     <ArrowRight
                       className="ml-2 group-hover:translate-x-1 transition-transform"
                       size={16}
                     />
-                  </Button>
+                  </Button> */}
                 </Link>
               </CardFooter>
             </Card>
